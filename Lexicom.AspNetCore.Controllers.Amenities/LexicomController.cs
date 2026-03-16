@@ -8,8 +8,6 @@ namespace Lexicom.AspNetCore.Controllers.Amenities;
 [Controller]
 public abstract class LexicomController
 {
-    private ControllerContext? _controllerContext;
-
     public HttpContext HttpContext => ControllerContext.HttpContext;
     public ClaimsPrincipal User => HttpContext?.User!;
 
@@ -17,12 +15,12 @@ public abstract class LexicomController
     /// <exception cref="ArgumentNullException"/>
     public ControllerContext ControllerContext
     {
-        get => _controllerContext ??= new ControllerContext();
+        get => field ??= new ControllerContext();
         set
         {
             ArgumentNullException.ThrowIfNull(value);
 
-            _controllerContext = value;
+            field = value;
         }
     }
 

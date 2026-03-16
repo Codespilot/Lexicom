@@ -15,18 +15,17 @@ public static class Consolex
         initalInput: null
     );
 
-    private static JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings();
     /// <exception cref="ArgumentNullException"/>
     public static JsonSerializerSettings JsonSerializerSettings
     {
-        get => _jsonSerializerSettings;
+        get;
         set
         {
             ArgumentNullException.ThrowIfNull(value);
 
-            _jsonSerializerSettings = value;
+            field = value;
         }
-    }
+    } = new JsonSerializerSettings();
 
     public static void WriteAsJsonWithType(object? obj) => WriteAsJsonWithType(obj, JsonSerializerSettings);
     /// <exception cref="ArgumentNullException"/>

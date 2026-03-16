@@ -6,8 +6,7 @@ using System.Reflection;
 namespace Lexicom.Mvvm.Support;
 public abstract class ViewModelProvider
 {
-    private static MethodInfo? _staticAddToWeakViewModelRefrenceCollectionMethodInfo;
-    private static MethodInfo StaticAddToWeakViewModelRefrenceCollectionMethodInfo => _staticAddToWeakViewModelRefrenceCollectionMethodInfo ??= (typeof(ViewModelProvider).GetMethod(nameof(AddToWeakViewModelRefrenceCollection), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(AddToWeakViewModelRefrenceCollection)}' was not found."));
+    private static MethodInfo StaticAddToWeakViewModelRefrenceCollectionMethodInfo => field ??= (typeof(ViewModelProvider).GetMethod(nameof(AddToWeakViewModelRefrenceCollection), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(AddToWeakViewModelRefrenceCollection)}' was not found."));
     private static void AddToWeakViewModelRefrenceCollection<TViewModelImplementation>(IServiceProvider serviceProvider, TViewModelImplementation viewModel) where TViewModelImplementation : class
     {
         WeakViewModelRefrenceCollection<TViewModelImplementation> weakViewModelRefrenceCollection;

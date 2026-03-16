@@ -1,18 +1,19 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
+using Scalar.AspNetCore;
 
-namespace Lexicom.Swashbuckle.Extensions;
+namespace Lexicom.Scalar.Extensions;
 public static class WebApplicationExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static void UseLexicomSwaggerUI(this WebApplication app)
+    public static void UseLexicomScalar(this WebApplication app)
     {
         ArgumentNullException.ThrowIfNull(app);
 
         if (app.Environment.IsDevelopment())
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
+            app.MapOpenApi();
+            app.MapScalarApiReference();
         }
     }
 }

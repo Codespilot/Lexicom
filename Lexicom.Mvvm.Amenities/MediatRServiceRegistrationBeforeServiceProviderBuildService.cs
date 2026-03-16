@@ -172,8 +172,7 @@ public class MediatRServiceRegistrationBeforeServiceProviderBuildService : IBefo
         return handlersForViewModels;
     }
 
-    private static MethodInfo? _staticSetupNotificationHandlersForViewModelsMethodInfo;
-    private static MethodInfo StaticSetupNotificationHandlersForViewModelsMethodInfo => _staticSetupNotificationHandlersForViewModelsMethodInfo ??= (typeof(MediatRServiceRegistrationBeforeServiceProviderBuildService).GetMethod(nameof(SetupNotificationHandlersForViewModels), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(SetupNotificationHandlersForViewModels)}' was not found."));
+    private static MethodInfo StaticSetupNotificationHandlersForViewModelsMethodInfo => field ??= (typeof(MediatRServiceRegistrationBeforeServiceProviderBuildService).GetMethod(nameof(SetupNotificationHandlersForViewModels), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(SetupNotificationHandlersForViewModels)}' was not found."));
     private static void SetupNotificationHandlersForViewModels<TViewModelImplementation, THandler>(IServiceCollection services) where TViewModelImplementation : class, THandler where THandler : class
     {
         services.AddTransient<IMediatRHandlersProvider<THandler>, MediatRHandlersProvider<THandler, TViewModelImplementation>>();
@@ -183,8 +182,7 @@ public class MediatRServiceRegistrationBeforeServiceProviderBuildService : IBefo
         services.TryAddTransient<IEnumerable<THandler>>(GetHandlers<THandler>);
     }
 
-    private static MethodInfo? _staticSetupRequestHandlersForViewModelsMethodInfo;
-    private static MethodInfo StaticSetupRequestHandlersForViewModelsMethodInfo => _staticSetupRequestHandlersForViewModelsMethodInfo ??= (typeof(MediatRServiceRegistrationBeforeServiceProviderBuildService).GetMethod(nameof(SetupRequestHandlersForViewModels), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(SetupRequestHandlersForViewModels)}' was not found."));
+    private static MethodInfo StaticSetupRequestHandlersForViewModelsMethodInfo => field ??= (typeof(MediatRServiceRegistrationBeforeServiceProviderBuildService).GetMethod(nameof(SetupRequestHandlersForViewModels), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(SetupRequestHandlersForViewModels)}' was not found."));
     private static void SetupRequestHandlersForViewModels<TViewModelImplementation, THandler>(IServiceCollection services) where TViewModelImplementation : class, THandler where THandler : class
     {
         services.AddTransient<IMediatRHandlersProvider<THandler>, MediatRHandlersProvider<THandler, TViewModelImplementation>>();
@@ -221,8 +219,7 @@ public class MediatRServiceRegistrationBeforeServiceProviderBuildService : IBefo
         return handlers;
     }
 
-    private static MethodInfo? _staticSetupHandlersForImplementationsConflictingWithViewModelsMethodInfo;
-    private static MethodInfo StaticSetupHandlersForImplementationsConflictingWithViewModelsMethodInfo => _staticSetupHandlersForImplementationsConflictingWithViewModelsMethodInfo ??= (typeof(MediatRServiceRegistrationBeforeServiceProviderBuildService).GetMethod(nameof(SetupHandlersForImplementationsConflictingWithViewModels), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(SetupHandlersForImplementationsConflictingWithViewModels)}' was not found."));
+    private static MethodInfo StaticSetupHandlersForImplementationsConflictingWithViewModelsMethodInfo => field ??= (typeof(MediatRServiceRegistrationBeforeServiceProviderBuildService).GetMethod(nameof(SetupHandlersForImplementationsConflictingWithViewModels), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(SetupHandlersForImplementationsConflictingWithViewModels)}' was not found."));
     private static void SetupHandlersForImplementationsConflictingWithViewModels<THandler, TImplementation>(IServiceCollection services, ServiceLifetime serviceLifetime) where TImplementation : class, THandler
     {
         services.Add(new ServiceDescriptor(typeof(TImplementation), typeof(TImplementation), serviceLifetime));

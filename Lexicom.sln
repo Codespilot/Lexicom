@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.2.11430.68 d18.0
+VisualStudioVersion = 18.2.11430.68
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.AspNetCore.Controllers.Amenities", "Lexicom.AspNetCore.Controllers.Amenities\Lexicom.AspNetCore.Controllers.Amenities.csproj", "{86CD7B00-727C-4CE1-8EA5-DC947D50BDAB}"
 EndProject
@@ -38,8 +38,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Smtp", "Smtp", "{EF62371D-00E9-4265-97FF-4D849F193C53}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Supports", "Supports", "{D943A243-4872-4A70-B9E4-4E8F25339E47}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Swashbuckle", "Swashbuckle", "{88ED8EE4-32CF-4A13-BB8F-D0AA33AC2DC7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTesting", "UnitTesting", "{FAD40A0F-C9A7-422C-A495-51241D224F62}"
 EndProject
@@ -175,10 +173,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Smtp.For.ConsoleApp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Smtp.For.Wpf", "Lexicom.Smtp.For.Wpf\Lexicom.Smtp.For.Wpf.csproj", "{C8F9A501-DD90-4263-A4EE-74550F563F12}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Swashbuckle", "Lexicom.Swashbuckle\Lexicom.Swashbuckle.csproj", "{74E70BD0-5CED-43BD-93CB-E4037022A686}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Swashbuckle.For.AspNetCore.Controllers", "Lexicom.Swashbuckle.For.AspNetCore.Controllers\Lexicom.Swashbuckle.For.AspNetCore.Controllers.csproj", "{79570783-244B-4622-A1AB-8DCDEC0AF398}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Wpf.Amenities", "Lexicom.Wpf.Amenities\Lexicom.Wpf.Amenities.csproj", "{A5866710-E27E-4FC7-85F4-65B884A04FEE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Wpf.AttachedProperties", "Lexicom.Wpf.AttachedProperties\Lexicom.Wpf.AttachedProperties.csproj", "{59DC3597-EE06-4B39-AE19-A72E5D8506BE}"
@@ -289,6 +283,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicom.Cryptography.For.Maui.Blazor.Hybrid", "Lexicom.Cryptography.For.Maui.Blazor.Hybrid\Lexicom.Cryptography.For.Maui.Blazor.Hybrid.csproj", "{6D0541DC-A687-428D-BBAD-A2057A101D87}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Logging.For.Wpf", "Lexicom.Logging.For.Wpf\Lexicom.Logging.For.Wpf.csproj", "{AF774A8A-6D1E-4385-9283-01B51790BBDB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scalar", "Scalar", "{522671C5-BD88-4D31-B5A2-C8F1CC67DFE1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Scalar", "Lexicom.Scalar\Lexicom.Scalar.csproj", "{32E33330-67CE-4944-8FB8-1FC21E915EEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicom.Scalar.For.AspNetCore.Controllers", "Lexicom.Scalar.For.AspNetCore.Controllers\Lexicom.Scalar.For.AspNetCore.Controllers.csproj", "{924C7812-B234-4D16-9DA6-DFC477D9A2C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -552,14 +552,6 @@ Global
 		{C8F9A501-DD90-4263-A4EE-74550F563F12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8F9A501-DD90-4263-A4EE-74550F563F12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8F9A501-DD90-4263-A4EE-74550F563F12}.Release|Any CPU.Build.0 = Release|Any CPU
-		{74E70BD0-5CED-43BD-93CB-E4037022A686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74E70BD0-5CED-43BD-93CB-E4037022A686}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74E70BD0-5CED-43BD-93CB-E4037022A686}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74E70BD0-5CED-43BD-93CB-E4037022A686}.Release|Any CPU.Build.0 = Release|Any CPU
-		{79570783-244B-4622-A1AB-8DCDEC0AF398}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79570783-244B-4622-A1AB-8DCDEC0AF398}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79570783-244B-4622-A1AB-8DCDEC0AF398}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79570783-244B-4622-A1AB-8DCDEC0AF398}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A5866710-E27E-4FC7-85F4-65B884A04FEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A5866710-E27E-4FC7-85F4-65B884A04FEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5866710-E27E-4FC7-85F4-65B884A04FEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -724,6 +716,14 @@ Global
 		{AF774A8A-6D1E-4385-9283-01B51790BBDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF774A8A-6D1E-4385-9283-01B51790BBDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF774A8A-6D1E-4385-9283-01B51790BBDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32E33330-67CE-4944-8FB8-1FC21E915EEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32E33330-67CE-4944-8FB8-1FC21E915EEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32E33330-67CE-4944-8FB8-1FC21E915EEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32E33330-67CE-4944-8FB8-1FC21E915EEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{924C7812-B234-4D16-9DA6-DFC477D9A2C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{924C7812-B234-4D16-9DA6-DFC477D9A2C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{924C7812-B234-4D16-9DA6-DFC477D9A2C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{924C7812-B234-4D16-9DA6-DFC477D9A2C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -793,8 +793,6 @@ Global
 		{9D9D36BB-84AB-45D7-898C-868AC98DD4A9} = {EF62371D-00E9-4265-97FF-4D849F193C53}
 		{5A502043-C8F4-41AD-B02D-9B6876AE347F} = {EF62371D-00E9-4265-97FF-4D849F193C53}
 		{C8F9A501-DD90-4263-A4EE-74550F563F12} = {EF62371D-00E9-4265-97FF-4D849F193C53}
-		{74E70BD0-5CED-43BD-93CB-E4037022A686} = {88ED8EE4-32CF-4A13-BB8F-D0AA33AC2DC7}
-		{79570783-244B-4622-A1AB-8DCDEC0AF398} = {88ED8EE4-32CF-4A13-BB8F-D0AA33AC2DC7}
 		{A5866710-E27E-4FC7-85F4-65B884A04FEE} = {BCA1C7B5-7C96-4478-80EE-5B12119CA3F7}
 		{59DC3597-EE06-4B39-AE19-A72E5D8506BE} = {BCA1C7B5-7C96-4478-80EE-5B12119CA3F7}
 		{9EA5380D-3BAE-49F0-928A-C2066219C637} = {BCA1C7B5-7C96-4478-80EE-5B12119CA3F7}
@@ -837,6 +835,8 @@ Global
 		{3207B584-3010-41DD-BF33-3BBF3370DCC3} = {EA247DA2-BD82-443C-B2AB-6F851482417C}
 		{6D0541DC-A687-428D-BBAD-A2057A101D87} = {75C7FD2F-FC02-48CB-846C-625A2C5348ED}
 		{AF774A8A-6D1E-4385-9283-01B51790BBDB} = {F6B989B9-2D86-4C26-AE1B-77EA674E0480}
+		{32E33330-67CE-4944-8FB8-1FC21E915EEF} = {522671C5-BD88-4D31-B5A2-C8F1CC67DFE1}
+		{924C7812-B234-4D16-9DA6-DFC477D9A2C2} = {522671C5-BD88-4D31-B5A2-C8F1CC67DFE1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {065A3AC7-C473-43B9-A4CC-BC8EFB53BF19}

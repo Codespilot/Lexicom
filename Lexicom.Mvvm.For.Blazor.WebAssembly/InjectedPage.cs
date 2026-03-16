@@ -11,16 +11,15 @@ public abstract class InjectedPage<TViewModel> : ComponentBase, IMvvmComponent<T
         _componentBehavior = new ComponentBehavior<TViewModel>(this);
     }
 
-    private TViewModel? _viewModel;
     [Inject]
     public TViewModel ViewModel
     {
-        get => _viewModel!; //we just have to trust that the Inject attribute will be before this is ever used
+        get => field!; //we just have to trust that the Inject attribute will be before this is ever used
         set
         {
             _componentBehavior.DisposeViewModel();
 
-            _viewModel = value;
+            field = value;
 
             _componentBehavior.SubmitViewModel();
         }
