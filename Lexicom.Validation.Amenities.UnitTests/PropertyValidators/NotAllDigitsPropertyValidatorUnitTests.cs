@@ -1,10 +1,10 @@
-﻿using FluentAssertions;
-using Lexicom.UnitTesting;
+﻿using Lexicom.UnitTesting;
 using Lexicom.Validation.Amenities.Extensions;
 using Lexicom.Validation.Amenities.UnitTests.ModelsForTests.RuleSets;
 using Lexicom.Validation.Extensions;
 
 namespace Lexicom.Validation.Amenities.UnitTests.PropertyValidators;
+
 public class NotAllDigitsPropertyValidatorUnitTests
 {
     [Theory]
@@ -23,15 +23,15 @@ public class NotAllDigitsPropertyValidatorUnitTests
 
         var validator = uta.Get<IRuleSetValidator<NotAllDigitsRuleSet, string?>>();
 
-        await validator.ValidateAsync(input);
+        await validator.ValidateAsync(input, TestContext.Current.CancellationToken);
 
-        validator.IsValid.Should().BeFalse();
-        validator.ValidationErrors.First().Should().Be("Must not contain only digits.");
+        Assert.False(validator.IsValid);
+        Assert.Equal("Must not contain only digits.", validator.ValidationErrors.First());
 
         validator.Validate(input);
 
-        validator.IsValid.Should().BeFalse();
-        validator.ValidationErrors.First().Should().Be("Must not contain only digits.");
+        Assert.False(validator.IsValid);
+        Assert.Equal("Must not contain only digits.", validator.ValidationErrors.First());
     }
 
     [Theory]
@@ -56,14 +56,14 @@ public class NotAllDigitsPropertyValidatorUnitTests
 
         var validator = uta.Get<IRuleSetValidator<NotAllDigitsRuleSet, string?>>();
 
-        await validator.ValidateAsync(input);
+        await validator.ValidateAsync(input, TestContext.Current.CancellationToken);
 
-        validator.IsValid.Should().BeTrue();
-        validator.ValidationErrors.Should().BeEmpty();
+        Assert.True(validator.IsValid);
+        Assert.Empty(validator.ValidationErrors);
 
         validator.Validate(input);
 
-        validator.IsValid.Should().BeTrue();
-        validator.ValidationErrors.Should().BeEmpty();
+        Assert.True(validator.IsValid);
+        Assert.Empty(validator.ValidationErrors);
     }
 }

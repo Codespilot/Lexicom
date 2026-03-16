@@ -1,10 +1,10 @@
-﻿using FluentAssertions;
-using Lexicom.UnitTesting;
+﻿using Lexicom.UnitTesting;
 using Lexicom.Validation.Amenities.Extensions;
 using Lexicom.Validation.Amenities.UnitTests.ModelsForTests.RuleSets;
 using Lexicom.Validation.Extensions;
 
 namespace Lexicom.Validation.Amenities.UnitTests.PropertyValidators;
+
 public class GreaterThanOrEqualUnitTests
 {
     [Fact]
@@ -21,10 +21,10 @@ public class GreaterThanOrEqualUnitTests
 
         var validator = uta.Get<IRuleSetValidator<NumberStringRuleSet, string?>>();
 
-        await validator.ValidateAsync("abc");
+        await validator.ValidateAsync("abc", TestContext.Current.CancellationToken);
 
-        validator.ValidationErrors.Should().HaveCount(1);
-        validator.ValidationErrors.First().Should().Be("Must contain only digits.");
+        Assert.Single(validator.ValidationErrors);
+        Assert.Equal("Must contain only digits.", validator.ValidationErrors.First());
     }
 
     [Theory]
@@ -43,10 +43,10 @@ public class GreaterThanOrEqualUnitTests
 
         var validator = uta.Get<IRuleSetValidator<NumberStringRuleSet, string?>>();
 
-        await validator.ValidateAsync(value);
+        await validator.ValidateAsync(value, TestContext.Current.CancellationToken);
 
-        validator.ValidationErrors.Should().HaveCount(1);
-        validator.ValidationErrors.First().Should().Be("Must be greater than or equal to 3.");
+        Assert.Single(validator.ValidationErrors);
+        Assert.Equal("Must be greater than or equal to 3.", validator.ValidationErrors.First());
     }
 
     [Theory]
@@ -66,8 +66,8 @@ public class GreaterThanOrEqualUnitTests
 
         var validator = uta.Get<IRuleSetValidator<NumberStringRuleSet, string?>>();
 
-        await validator.ValidateAsync(value);
+        await validator.ValidateAsync(value, TestContext.Current.CancellationToken);
 
-        validator.ValidationErrors.Should().BeEmpty();
+        Assert.Empty(validator.ValidationErrors);
     }
 }

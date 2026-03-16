@@ -1,11 +1,11 @@
-﻿using FluentAssertions;
-using Lexicom.UnitTesting;
+﻿using Lexicom.UnitTesting;
 using Lexicom.Validation.Extensions;
 using Lexicom.Validation.UnitTests.ModelsForTests.RuleSets;
 using Lexicom.Validation.UnitTests.ModelsForTests.Transformers;
 using System.Diagnostics;
 
 namespace Lexicom.Validation.UnitTests;
+
 public class TransformationTests
 {
     [Theory]
@@ -35,7 +35,7 @@ public class TransformationTests
             }
             else if (i is 1)
             {
-                await validator.ValidateAsync(input);
+                await validator.ValidateAsync(input, TestContext.Current.CancellationToken);
             }
             else if (i is 2)
             {
@@ -48,12 +48,12 @@ public class TransformationTests
 
             if (expectedErrorMessage is not null)
             {
-                validator.ValidationErrors.Should().HaveCount(1);
-                validator.ValidationErrors.First().Should().Be(expectedErrorMessage);
+                Assert.Single(validator.ValidationErrors);
+                Assert.Equal(expectedErrorMessage, validator.ValidationErrors.First());
             }
             else
             {
-                validator.ValidationErrors.Should().HaveCount(0);
+                Assert.Empty(validator.ValidationErrors);
             }
         }
     }
@@ -85,7 +85,7 @@ public class TransformationTests
             }
             else if (i is 1)
             {
-                await validator.ValidateAsync(input);
+                await validator.ValidateAsync(input, TestContext.Current.CancellationToken);
             }
             else if (i is 2)
             {
@@ -98,12 +98,12 @@ public class TransformationTests
 
             if (expectedErrorMessage is not null)
             {
-                validator.ValidationErrors.Should().HaveCount(1);
-                validator.ValidationErrors.First().Should().Be(expectedErrorMessage);
+                Assert.Single(validator.ValidationErrors);
+                Assert.Equal(expectedErrorMessage, validator.ValidationErrors.First());
             }
             else
             {
-                validator.ValidationErrors.Should().HaveCount(0);
+                Assert.Empty(validator.ValidationErrors);
             }
         }
     }

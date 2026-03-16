@@ -1,10 +1,10 @@
-﻿using FluentAssertions;
-using Lexicom.Cryptography.Extensions;
+﻿using Lexicom.Cryptography.Extensions;
 using Lexicom.Cryptography.Options;
 using Lexicom.DependencyInjection.Amenities.Extensions;
 using Lexicom.UnitTesting;
 
 namespace Lexicom.Cryptography.UnitTests;
+
 public class CryptographyServiceTests
 {
     [Fact]
@@ -30,11 +30,11 @@ public class CryptographyServiceTests
 
         string plainText = await cryptographyService.DecryptAsync(encryptedbase64);
 
-        encryptedbase64.Should().NotBeNullOrWhiteSpace();
-        encryptedbase64.Should().NotBe(originalPlainText);
-        encryptedbase64.Should().NotBe(plainText);
+        Assert.False(string.IsNullOrWhiteSpace(encryptedbase64));
+        Assert.NotEqual(originalPlainText, encryptedbase64);
+        Assert.NotEqual(plainText, encryptedbase64);
 
-        plainText.Should().NotBeNullOrWhiteSpace();
-        plainText.Should().Be(originalPlainText);
+        Assert.False(string.IsNullOrWhiteSpace(plainText));
+        Assert.Equal(originalPlainText, plainText);
     }
 }

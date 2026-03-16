@@ -1,5 +1,3 @@
-using FluentAssertions;
-
 namespace Lexicom.Maths.UnitTests;
 public class MathxTests
 {
@@ -48,7 +46,7 @@ public class MathxTests
     {
         long result = Mathx.CreateNumberOfOnlyDigitRepeatedNTimes(digit, n);
 
-        result.Should().Be(expected);
+        Assert.Equal(expected, result);
     }
 
     [Theory]
@@ -63,8 +61,8 @@ public class MathxTests
             Mathx.CreateNumberOfOnlyDigitRepeatedNTimes(digit, 5);
         });
 
-        exception.ActualValue.Should().Be(digit);
-        exception.ParamName.Should().Be("digit");
+        Assert.Equal(digit, exception.ActualValue);
+        Assert.Equal("digit", exception.ParamName);
     }
 
     [Theory]
@@ -80,7 +78,7 @@ public class MathxTests
             Mathx.CreateNumberOfOnlyDigitRepeatedNTimes(5, n);
         });
 
-        exception.ActualValue.Should().Be(n);
-        exception.ParamName.Should().Be("n");
+        Assert.Equal(n, exception.ActualValue);
+        Assert.Equal("n", exception.ParamName);
     }
 }

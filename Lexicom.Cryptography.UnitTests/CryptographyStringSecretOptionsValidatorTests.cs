@@ -54,5 +54,7 @@ public class CryptographyStringSecretOptionsValidatorTests
         var cryptographyStringSecretOptions = uta.Get<IOptions<CryptographyStringSecretOptions>>();
 
         _ = cryptographyStringSecretOptions.Value.Base64StringSecretKey;
+
+        Assert.True(true);
     }
 }
