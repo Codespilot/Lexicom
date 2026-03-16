@@ -1,7 +1,7 @@
 ﻿using Lexicom.Supports.AspNetCore.Controllers;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Scalar.Extensions;
+
 public static class AspNetCoreControllersServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
@@ -9,17 +9,16 @@ public static class AspNetCoreControllersServiceBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        return AddScalar(builder, settings: null);
+        builder.Services.AddLexicomScalar();
+
+        return builder;
     }
     /// <exception cref="ArgumentNullException"/>
-    public static IAspNetCoreControllersServiceBuilder AddScalar(this IAspNetCoreControllersServiceBuilder builder, ScalarSettings? settings)
+    public static IAspNetCoreControllersServiceBuilder AddScalar(this IAspNetCoreControllersServiceBuilder builder, Dictionary<string, object?>? defaultParameters)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.Services.AddOpenApi(options =>
-        {
-
-        });
+        builder.Services.AddLexicomScalar(defaultParameters);
 
         return builder;
     }
