@@ -67,7 +67,7 @@ public class DefaultParameterOperationTransformer : IOpenApiOperationTransformer
                 if (exampleString is not null)
                 {
                     parameter.Example = JsonNode.Parse(exampleString);
-                    parameter.Required = false;
+                    parameter.Required = defaultParameterAttribute?.IsRequired ?? false;
                 }
             }
         }
