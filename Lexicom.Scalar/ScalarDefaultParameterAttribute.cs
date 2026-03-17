@@ -1,5 +1,6 @@
 ﻿namespace Lexicom.Scalar;
 
+[AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
 public class ScalarDefaultParameterAttribute : Attribute
 {
     /// <exception cref="ArgumentNullException"/>
