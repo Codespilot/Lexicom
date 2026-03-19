@@ -50,8 +50,7 @@ public class RequestBodyValidationActionFilter : IAsyncActionFilter
         ControllerParameterDescriptor? requestBodyParamter = context.ActionDescriptor.Parameters
             .Where(p => p is ControllerParameterDescriptor)
             .Cast<ControllerParameterDescriptor>()
-            .Where(d => d.ParameterInfo.GetCustomAttribute<FromBodyAttribute>() is not null)
-            .FirstOrDefault();
+            .FirstOrDefault(d => d.ParameterInfo.GetCustomAttribute<FromBodyAttribute>() is not null);
 
         if (requestBodyParamter is not null)
         {
