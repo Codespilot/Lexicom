@@ -8,7 +8,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <SingleProject>true</SingleProject>
     <Nullable>enable</Nullable>
-    <UseMaui>true</UseMaui>
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReadmeFile>README.md</PackageReadmeFile>
