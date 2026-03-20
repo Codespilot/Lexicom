@@ -6,7 +6,7 @@ public interface ITuiConsoleApp
     bool IsClosing { get; }
     void Close();
     /// <exception cref="ArgumentNullException"/>
-    Task StartAsync(IServiceProvider provider);
+    Task StartAsync(IServiceProvider provider, string? title = null);
 }
 public class TuiConsoleApp : ITuiConsoleApp
 {
@@ -25,7 +25,7 @@ public class TuiConsoleApp : ITuiConsoleApp
     public void Close() => IsClosing = true;
 
     /// <exception cref="ArgumentNullException"/>
-    public async Task StartAsync(IServiceProvider provider)
+    public async Task StartAsync(IServiceProvider provider, string? title = null)
     {
         ArgumentNullException.ThrowIfNull(provider);
 
@@ -45,6 +45,12 @@ public class TuiConsoleApp : ITuiConsoleApp
         while (currentPage is not null && !IsClosing)
         {
             Console.Clear();
+
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                Console.WriteLine(title);
+                Console.WriteLine();
+            }
 
             string zerothOperation = currentPage.Parent is null ? "quit" : "back";
             Console.WriteLine($"[0]: {zerothOperation}");

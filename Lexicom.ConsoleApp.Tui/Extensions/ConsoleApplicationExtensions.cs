@@ -5,12 +5,12 @@ namespace Lexicom.ConsoleApp.Tui.Extensions;
 public static class ConsoleApplicationExtensions
 {    
     /// <exception cref="ArgumentNullException"/>
-    public static async Task RunLexicomTuiAsync(this ConsoleApplication app)
+    public static async Task RunLexicomTuiAsync(this ConsoleApplication app, string? title = null)
     {
         ArgumentNullException.ThrowIfNull(app);
 
         var tuiConsoleApp = app.Services.GetRequiredService<ITuiConsoleApp>();
 
-        await tuiConsoleApp.StartAsync(app.Services);
+        await tuiConsoleApp.StartAsync(app.Services, title);
     }
 }
