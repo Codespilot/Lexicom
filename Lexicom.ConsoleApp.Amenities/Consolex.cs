@@ -2,6 +2,7 @@
 using Lexicom.ConsoleApp.Amenities.ReadLines;
 using Lexicom.ConsoleApp.Amenities.ReadLines.Abstractions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Lexicom.ConsoleApp.Amenities;
 public static class Consolex
@@ -304,6 +305,55 @@ public static class Consolex
     public static Guid ReadLineGuid(ReadLineSettings settings) => ReadLineParse<Guid>(Guid.TryParse, settings);
     public static Guid ReadLineGuid(string? description, Guid initalInput) => ReadLineParse(Guid.TryParse, description, initalInput);
     public static Guid ReadLineGuid(string? description, ReadLineSettings settings) => ReadLineParse<Guid>(Guid.TryParse, description, settings);
+
+    public static void WriteLine() => Console.WriteLine();
+    public static void WriteLine(bool value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
+    public static void WriteLine(char value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
+    public static void WriteLine(char[]? buffer, ConsoleColor? color = null) => WriteColoredLine(buffer, Console.WriteLine, color);
+    public static void WriteLine(decimal value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
+    public static void WriteLine(double value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
+    public static void WriteLine(float value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
+    public static void WriteLine(int value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
+    public static void WriteLine(long value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
+    public static void WriteLine(object? value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
+    public static void WriteLine(string? value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
+    public static void WriteLine(uint value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
+    public static void WriteLine(ulong value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
+    public static void WriteLine(ReadOnlySpan<char> value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);
+    public static void WriteLine(char[] buffer, int index, int count, ConsoleColor? color = null) => WriteColoredLine(buffer, _ => Console.WriteLine(buffer, index, count), color);
+    public static void WriteLine(params IEnumerable<WriteLineSegment> segments)
+    {
+        foreach (WriteLineSegment segment in segments)
+        {
+            if (segment.Color.HasValue)
+            {
+                Console.ForegroundColor = segment.Color.Value;
+            }
+
+            Console.Write(segment.Text);
+
+            if (segment.Color.HasValue)
+            {
+                Console.ResetColor();
+            }
+        }
+
+        Console.WriteLine();
+    }
+    private static void WriteColoredLine<T>(T value, Action<T> writeLineDelegate, ConsoleColor? color) where T : allows ref struct
+    {
+        if (color.HasValue)
+        {
+            Console.ForegroundColor = color.Value;
+        }
+
+        writeLineDelegate.Invoke(value);
+
+        if (color.HasValue)
+        {
+            Console.ResetColor();
+        }
+    }
 
     internal static ReadLineSettings CopyDefaultReadLineSettings()
     {
