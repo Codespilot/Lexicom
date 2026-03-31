@@ -2,18 +2,28 @@
 using Lexicom.ConsoleApp.Amenities.ReadLines;
 using Lexicom.ConsoleApp.Amenities.ReadLines.Abstractions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Lexicom.ConsoleApp.Amenities;
+
 public static class Consolex
 {
     public delegate bool TryParseDelegate<T>(string? input, out T result);
 
-    public static ReadLineSettings DefaultReadLineSettings { get; } = new ReadLineSettings(
+    /// <exception cref="ArgumentNullException"/>
+    public static ReadLineSettings DefaultReadLineSettings
+    {
+        get;
+        set
+        {
+            ArgumentNullException.ThrowIfNull(value);
+            field = value;
+        }
+    } = new ReadLineSettings(
         cancelKey: ConsoleKey.Escape,
         defaultKey: ConsoleKey.F1,
         defaultInput: null,
-        initalInput: null
+        initalInput: null,
+        inputColor: ConsoleColor.Green
     );
 
     /// <exception cref="ArgumentNullException"/>
@@ -23,7 +33,6 @@ public static class Consolex
         set
         {
             ArgumentNullException.ThrowIfNull(value);
-
             field = value;
         }
     } = new JsonSerializerSettings();
@@ -167,6 +176,11 @@ public static class Consolex
                 Console.WriteLine($"{descriptionPart}{keysPart}");
             }
 
+            if (settings.InputColor.HasValue)
+            {
+                Console.ForegroundColor = settings.InputColor.Value;
+            }
+
             bool isCancelled = false;
             if (!isCancellable && !isDefaultable && !isInitalable)
             {
@@ -199,6 +213,11 @@ public static class Consolex
                 {
                     isCancelled = readLineCancel.IsInterrupted;
                 }
+            }
+
+            if (settings.InputColor.HasValue)
+            {
+                Console.ResetColor();
             }
 
             if (isCancelled)
@@ -361,7 +380,8 @@ public static class Consolex
             cancelKey: DefaultReadLineSettings.CancelKey,
             defaultKey: DefaultReadLineSettings.DefaultKey,
             defaultInput: DefaultReadLineSettings.DefaultInput,
-            initalInput: DefaultReadLineSettings.InitalInput
+            initalInput: DefaultReadLineSettings.InitalInput,
+            inputColor: DefaultReadLineSettings.InputColor
         );
     }
 
