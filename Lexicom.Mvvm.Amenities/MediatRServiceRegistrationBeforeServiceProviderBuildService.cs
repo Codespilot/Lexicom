@@ -177,7 +177,7 @@ public class MediatRServiceRegistrationBeforeServiceProviderBuildService : IBefo
     {
         services.AddTransient<IMediatRHandlersProvider<THandler>, MediatRHandlersProvider<THandler, TViewModelImplementation>>();
 
-        services.TryAddSingleton<WeakViewModelRefrenceCollection<TViewModelImplementation>>();
+        services.TryAddSingleton<WeakViewModelReferenceCollection<TViewModelImplementation>>();
 
         services.TryAddTransient<IEnumerable<THandler>>(GetHandlers<THandler>);
     }
@@ -187,7 +187,7 @@ public class MediatRServiceRegistrationBeforeServiceProviderBuildService : IBefo
     {
         services.AddTransient<IMediatRHandlersProvider<THandler>, MediatRHandlersProvider<THandler, TViewModelImplementation>>();
 
-        services.TryAddSingleton<WeakViewModelRefrenceCollection<TViewModelImplementation>>();
+        services.TryAddSingleton<WeakViewModelReferenceCollection<TViewModelImplementation>>();
 
         services.TryAddTransient(sp =>
         {

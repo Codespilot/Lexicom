@@ -120,6 +120,7 @@
     <Project Path="Lexicom.Mvvm.For.Blazor.WebAssembly/Lexicom.Mvvm.For.Blazor.WebAssembly.csproj" />
     <Project Path="Lexicom.Mvvm.For.Maui.Blazor.Hybrid/Lexicom.Mvvm.For.Maui.Blazor.Hybrid.csproj" />
     <Project Path="Lexicom.Mvvm.For.Wpf/Lexicom.Mvvm.For.Wpf.csproj" />
+    <Project Path="Lexicom.Mvvm.UnitTests/Lexicom.Mvvm.UnitTests.csproj" Id="174289c4-20f8-4898-bb3b-ea3c69461be9" />
     <Project Path="Lexicom.Mvvm/Lexicom.Mvvm.csproj" />
   </Folder>
   <Folder Name="/Scalar/">

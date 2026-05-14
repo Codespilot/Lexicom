@@ -6,12 +6,12 @@ public interface IMediatRHandlersProvider<THandler>
 }
 public class MediatRHandlersProvider<THandler, TViewModelImplementation> : IMediatRHandlersProvider<THandler> where TViewModelImplementation : class, THandler
 {
-    private readonly WeakViewModelRefrenceCollection<TViewModelImplementation> _weakViewModelRefrenceCollection;
+    private readonly WeakViewModelReferenceCollection<TViewModelImplementation> _weakViewModelRefrenceCollection;
     private readonly IEnumerable<MediatRHandlerImplementationConflictingWithViewModels<THandler>> _handlerImplementations;
 
     /// <exception cref="ArgumentNullException"/>
     public MediatRHandlersProvider(
-        WeakViewModelRefrenceCollection<TViewModelImplementation> weakViewModelRefrenceCollection,
+        WeakViewModelReferenceCollection<TViewModelImplementation> weakViewModelRefrenceCollection,
         IEnumerable<MediatRHandlerImplementationConflictingWithViewModels<THandler>> handlerImplementations)
     {
         ArgumentNullException.ThrowIfNull(weakViewModelRefrenceCollection);

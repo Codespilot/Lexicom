@@ -102,12 +102,15 @@ public static class MvvmServiceBuilderExtensions
             ServiceLifetime = ServiceLifetime.Singleton
         };
 
+        //1. configure this view model
         configure?.Invoke(vmbuilder);
 
+        //2. add the view model factory if it hasnt been added already
         builder.Services.TryAddSingleton<IViewModelFactory, ViewModelFactory>();
 
         Type implementationType = typeof(TViewModelImplementation);
 
+        //3. register the view model IMPLEMENTATION as a factory pattern that simply calls the IViewModelFactory to create the view model.
         builder.Services.Add(new ServiceDescriptor(implementationType, sp =>
         {
             var viewModelFactory = sp.GetRequiredService<IViewModelFactory>();
@@ -115,6 +118,7 @@ public static class MvvmServiceBuilderExtensions
             return viewModelFactory.Create<TViewModelImplementation>();
         }, vmbuilder.ServiceLifetime));
 
+        //4. if the view model IMPLEMENTATION and SERVICE types are not the same we need to register the SERVICE type.
         Type serviceType = typeof(TViewModelService);
         if (implementationType != serviceType)
         {
@@ -122,13 +126,17 @@ public static class MvvmServiceBuilderExtensions
             {
                 ViewModelImplementationType = implementationType,
             });
+
+            //6. register the view model SERVICE type as a factory pattern that simply calls to get the IMPLEMENTATION (see #3).
             builder.Services.Add(new ServiceDescriptor(serviceType, sp =>
             {
                 return sp.GetRequiredService<TViewModelImplementation>();
             }, vmbuilder.ServiceLifetime));
         }
 
-        builder.Services.AddSingleton<WeakViewModelRefrenceCollection<TViewModelImplementation>>();
+        //7. register a weak view model reference collection of this view model IMPLEMENTATION type.
+        //this weak reference
+        builder.Services.AddSingleton<WeakViewModelReferenceCollection<TViewModelImplementation>>();
 
         builder.Services.AddSingleton(new ViewModelRegistration
         {

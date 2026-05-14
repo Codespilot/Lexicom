@@ -14,6 +14,8 @@ public static class WpfServiceBuilderExtensions
 
         builder.Services.AddLexicomMvvm(configure);
 
+        builder.Services.AddSingleton<IMessengerScheduler, WpfMessengerScheduler>();
+
         builder.Services.Replace(new ServiceDescriptor(typeof(IViewModelFactory), typeof(WpfViewModelFactory), ServiceLifetime.Singleton));
 
         builder.Services.AugmentViewModelRegistrations(new WpfViewModelRegistrationAugmenter());

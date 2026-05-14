@@ -6,25 +6,20 @@ using System.Reflection;
 namespace Lexicom.Mvvm.Support;
 public abstract class ViewModelProvider
 {
-    private static MethodInfo StaticAddToWeakViewModelRefrenceCollectionMethodInfo => field ??= (typeof(ViewModelProvider).GetMethod(nameof(AddToWeakViewModelRefrenceCollection), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(AddToWeakViewModelRefrenceCollection)}' was not found."));
-    private static void AddToWeakViewModelRefrenceCollection<TViewModelImplementation>(IServiceProvider serviceProvider, TViewModelImplementation viewModel) where TViewModelImplementation : class
+    private static MethodInfo StaticAddToWeakViewModelReferenceCollectionMethodInfo => field ??= (typeof(ViewModelProvider).GetMethod(nameof(AddToWeakViewModelReferenceCollection), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(AddToWeakViewModelReferenceCollection)}' was not found."));
+    private static void AddToWeakViewModelReferenceCollection<TViewModelImplementation>(IServiceProvider serviceProvider, TViewModelImplementation viewModel) where TViewModelImplementation : class
     {
-        WeakViewModelRefrenceCollection<TViewModelImplementation> weakViewModelRefrenceCollection;
+        WeakViewModelReferenceCollection<TViewModelImplementation> weakViewModelReferenceCollection;
         try
         {
-            weakViewModelRefrenceCollection = serviceProvider.GetRequiredService<WeakViewModelRefrenceCollection<TViewModelImplementation>>();
+            weakViewModelReferenceCollection = serviceProvider.GetRequiredService<WeakViewModelReferenceCollection<TViewModelImplementation>>();
         }
         catch (InvalidOperationException e)
         {
             throw new ViewModelNotRegisteredException(typeof(TViewModelImplementation), e);
         }
 
-        //we need to hold a weak refrence for the way
-        //i want my mediatR implenmentation to allow
-        //transient view models to still act as handlers
-        //but be cleaned up when the view model is no
-        //longer needed and not stay around as those handlers
-        weakViewModelRefrenceCollection.Add(viewModel);
+        weakViewModelReferenceCollection.Add(viewModel);
     }
 
     private static Dictionary<Type, object> ViewModelTypeToSingletonInstance { get; } = [];
@@ -139,7 +134,7 @@ public abstract class ViewModelProvider
         {
             viewModel = activateImplementationTypeDelegate.Invoke(implementationType);
 
-            StaticAddToWeakViewModelRefrenceCollectionMethodInfo
+            StaticAddToWeakViewModelReferenceCollectionMethodInfo
                 .MakeGenericMethod(implementationType)
                 .Invoke(null, [_serviceProvider, viewModel]);
 

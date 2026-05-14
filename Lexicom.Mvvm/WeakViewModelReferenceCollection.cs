@@ -1,9 +1,9 @@
 ﻿namespace Lexicom.Mvvm;
-public class WeakViewModelRefrenceCollection<TViewModelImplementation> where TViewModelImplementation : class
+public class WeakViewModelReferenceCollection<TViewModelImplementation> where TViewModelImplementation : class
 {
     private readonly List<WeakReference<TViewModelImplementation>> _weakViewModelRefrences;
 
-    public WeakViewModelRefrenceCollection()
+    public WeakViewModelReferenceCollection()
     {
         _weakViewModelRefrences = [];
     }
