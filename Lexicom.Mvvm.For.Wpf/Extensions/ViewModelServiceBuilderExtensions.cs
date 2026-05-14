@@ -41,13 +41,18 @@ public static class ViewModelServiceBuilderExtensions
 
         builder.Services.Add(new ServiceDescriptor(windowType, sp =>
         {
-            var wpfViewModelFactory = new WpfViewModelFactory(sp);
+            var viewModelFactory = sp.GetRequiredService<IViewModelFactory>();
+
+            if (viewModelFactory is not WpfViewModelFactory wpfViewModelFactory)
+            {
+                throw new NotSupportedException($"The '{nameof(IViewModelFactory)}' ('{viewModelFactory?.GetType()?.Name ?? "null"}') must be of the type '{nameof(WpfViewModelFactory)}' in order to couple a window to a view model.");
+            }
 
             wpfViewModelFactory.CreateViewModelAndTryCoupleWindow<TViewModelImplementation>(out Window? window);
 
             if (window is null)
             {
-                throw new CoupledWindowNullException().ToUnreachableException($"The window was null but that shouldnt be possible because the {nameof(IViewModelWindowCoupler<TViewModelImplementation>)} was registered.");
+                throw new CoupledWindowNullException().ToUnreachableException($"The window was null but that shouldn't be possible because the {nameof(IViewModelWindowCoupler<TViewModelImplementation>)} was registered.");
             }
 
             return window;

@@ -6,7 +6,7 @@ namespace Lexicom.Mvvm.Extensions;
 
 public static class MessengerExtensions
 {
-    private static MethodInfo RegisterMethodInfo => field ??= typeof(MessengerExtensions).GetMethod(nameof(AsyncRegister), BindingFlags.Public | BindingFlags.Static) ?? throw new UnreachableException($"The method '{nameof(AsyncRegister)}' was not found."));
+    private static MethodInfo RegisterMethodInfo => field ??= typeof(MessengerExtensions).GetMethod(nameof(AsyncRegister), BindingFlags.Public | BindingFlags.Static) ?? throw new UnreachableException($"The method '{nameof(AsyncRegister)}' was not found.");
 
     /// <exception cref="ArgumentNullException"></exception>
     public static void AsyncRegister<TMessage>(this IMessenger messenger, IAsyncRecipient<TMessage> recipient) where TMessage : AsyncMessage

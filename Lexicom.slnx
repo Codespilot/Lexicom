@@ -149,6 +149,9 @@
     <Project Path="Lexicom.UnitTesting.DependencyInjection.As.Blazor.WebAssembly/Lexicom.UnitTesting.DependencyInjection.As.Blazor.WebAssembly.csproj" />
     <Project Path="Lexicom.UnitTesting.DependencyInjection.As.ConsoleApp/Lexicom.UnitTesting.DependencyInjection.As.ConsoleApp.csproj" />
     <Project Path="Lexicom.UnitTesting.DependencyInjection.As.Wpf/Lexicom.UnitTesting.DependencyInjection.As.Wpf.csproj" />
+    <Project Path="Lexicom.UnitTesting.DependencyInjection.EntityFramework.UnitTests/Lexicom.UnitTesting.DependencyInjection.EntityFramework.UnitTests.csproj" Id="f5f99651-ca3a-474e-b5d4-3806537c0bc1" />
+    <Project Path="Lexicom.UnitTesting.DependencyInjection.EntityFramework/Lexicom.UnitTesting.DependencyInjection.EntityFramework.csproj" Id="2a00d6d5-899b-41c2-8129-1bda35138d76" />
+    <Project Path="Lexicom.UnitTesting.DependencyInjection.UnitTests/Lexicom.UnitTesting.DependencyInjection.UnitTests.csproj" Id="8bbe7525-9cd9-490d-821a-536ef1c90613" />
     <Project Path="Lexicom.UnitTesting.DependencyInjection/Lexicom.UnitTesting.DependencyInjection.csproj" />
   </Folder>
   <Folder Name="/Validation/">
