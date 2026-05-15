@@ -12,13 +12,13 @@ public static class MessengerExtensions
     private static MethodInfo RegisterMethodInfo => field ??= typeof(MessengerExtensions).GetMethod(nameof(AsyncRegister), BindingFlags.Public | BindingFlags.Static) ?? throw new UnreachableException($"The method '{nameof(AsyncRegister)}' was not found.");
 
     /// <exception cref="ArgumentNullException"></exception>
-    public static async Task SendAsync<TMessage>(this IMessenger messenger, TMessage message, CancellationToken cancellationToken = default) where TMessage : AsyncMessage
+    public static async Task SendAsync<TMessage>(this IMessenger messenger, TMessage message, CancellationToken cancellationToken = default) where TMessage : class
     {
         await SendAsync(messenger, message, DEFAULT_AWAITSTRATEGY, cancellationToken);
     }
 
     /// <exception cref="ArgumentNullException"></exception>
-    public static async Task SendAsync<TMessage>(this IMessenger messenger, TMessage message, AsyncMessageAwaitStrategy asyncMessageAwaitStrategy, CancellationToken cancellationToken = default) where TMessage : AsyncMessage
+    public static async Task SendAsync<TMessage>(this IMessenger messenger, TMessage message, AsyncMessageAwaitStrategy asyncMessageAwaitStrategy, CancellationToken cancellationToken = default) where TMessage : class
     {
         ArgumentNullException.ThrowIfNull(messenger);
         ArgumentNullException.ThrowIfNull(message);
@@ -34,22 +34,22 @@ public static class MessengerExtensions
     }
 
     /// <exception cref="ArgumentNullException"></exception>
-    public static async Task ScheduleAsync<TMessage>(this IMessenger messenger, TMessage message, CancellationToken cancellationToken = default) where TMessage : AsyncMessage
+    public static async Task ScheduleAsync<TMessage>(this IMessenger messenger, TMessage message, CancellationToken cancellationToken = default) where TMessage : class
     {
         await ScheduleAsync(messenger, message, DEFAULT_PRIORITY, DEFAULT_AWAITSTRATEGY, cancellationToken);
     }
     /// <exception cref="ArgumentNullException"></exception>
-    public static async Task ScheduleAsync<TMessage>(this IMessenger messenger, TMessage message, ScheduleMessagePriority scheduleMessagePriority, CancellationToken cancellationToken = default) where TMessage : AsyncMessage
+    public static async Task ScheduleAsync<TMessage>(this IMessenger messenger, TMessage message, ScheduleMessagePriority scheduleMessagePriority, CancellationToken cancellationToken = default) where TMessage : class
     {
         await ScheduleAsync(messenger, message, scheduleMessagePriority, DEFAULT_AWAITSTRATEGY, cancellationToken);
     }
     /// <exception cref="ArgumentNullException"></exception>
-    public static async Task ScheduleAsync<TMessage>(this IMessenger messenger, TMessage message, AsyncMessageAwaitStrategy asyncMessageAwaitStrategy, CancellationToken cancellationToken = default) where TMessage : AsyncMessage
+    public static async Task ScheduleAsync<TMessage>(this IMessenger messenger, TMessage message, AsyncMessageAwaitStrategy asyncMessageAwaitStrategy, CancellationToken cancellationToken = default) where TMessage : class
     {
         await ScheduleAsync(messenger, message, DEFAULT_PRIORITY, asyncMessageAwaitStrategy, cancellationToken);
     }
     /// <exception cref="ArgumentNullException"></exception>
-    public static async Task ScheduleAsync<TMessage>(this IMessenger messenger, TMessage message, ScheduleMessagePriority scheduleMessagePriority, AsyncMessageAwaitStrategy asyncMessageAwaitStrategy, CancellationToken cancellationToken = default) where TMessage : AsyncMessage
+    public static async Task ScheduleAsync<TMessage>(this IMessenger messenger, TMessage message, ScheduleMessagePriority scheduleMessagePriority, AsyncMessageAwaitStrategy asyncMessageAwaitStrategy, CancellationToken cancellationToken = default) where TMessage : class
     {
         ArgumentNullException.ThrowIfNull(messenger);
         ArgumentNullException.ThrowIfNull(message);
@@ -65,7 +65,7 @@ public static class MessengerExtensions
     }
 
     /// <exception cref="ArgumentNullException"></exception>
-    public static void AsyncRegister<TMessage>(this IMessenger messenger, IAsyncRecipient<TMessage> recipient) where TMessage : AsyncMessage
+    public static void AsyncRegister<TMessage>(this IMessenger messenger, IAsyncRecipient<TMessage> recipient) where TMessage : class
     {
         ArgumentNullException.ThrowIfNull(messenger);
         ArgumentNullException.ThrowIfNull(recipient);

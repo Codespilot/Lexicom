@@ -56,9 +56,9 @@ public class AsyncMessenger : IMessenger
         });
     }
 
-    public void AsyncRegister<TMessage>(IAsyncRecipient<TMessage> recipient) where TMessage : AsyncMessage
+    public void AsyncRegister<TMessage>(IAsyncRecipient<TMessage> recipient) where TMessage : class
     {
-        IMessengerExtensions.Register<TMessage>(this, recipient, (r, message) =>
+        IMessengerExtensions.Register<AsyncMessageEnvelope<TMessage>>(this, recipient, (r, envelope) =>
         {
             if (r is IAsyncRecipient<TMessage> asyncRecipient)
             {
@@ -68,14 +68,14 @@ public class AsyncMessenger : IMessenger
                 }
 
                 //normally you would execute a send here in the register handler function
-                //however since we want to handle a async call we need to be able to await
+                //however since we want to handle an async call we need to be able to await
                 //it which we cant do here since this is a sync method. so we use a reply
                 //to simply bundle the recipient and message together for sending later in
                 //the calling SendAsync method which is async itself.
 
-                var reply = new AsyncMessageReply<TMessage>(message, asyncRecipient);
+                var reply = new AsyncMessageReply<TMessage>(envelope.Message, asyncRecipient);
 
-                message.Reply(reply);
+                envelope.Reply(reply);
             }
         });
     }
@@ -90,17 +90,21 @@ public class AsyncMessenger : IMessenger
     }
 
     /// <exception cref="ArgumentNullException"></exception>
-    public async Task SendAsync<TMessage>(TMessage message, AsyncMessageAwaitStrategy asyncMessageAwaitStrategy, CancellationToken cancellationToken = default) where TMessage : AsyncMessage
+    public async Task SendAsync<TMessage>(TMessage message, AsyncMessageAwaitStrategy asyncMessageAwaitStrategy, CancellationToken cancellationToken = default) where TMessage : class
     {
         ArgumentNullException.ThrowIfNull(message);
 
-        //this will not actually send anything but instead bundle the
-        //recipient and message together so we can do the actual send below
+        //send the sync message
         IMessengerExtensions.Send(this, message);
+
+        //send the async message
+        var envelope = new AsyncMessageEnvelope<TMessage>(message);
+
+        IMessengerExtensions.Send(this, envelope);
 
         if (asyncMessageAwaitStrategy == AsyncMessageAwaitStrategy.ForeachAwait)
         {
-            foreach (IAsyncMessageReply reply in message.Responses)
+            foreach (IAsyncMessageReply reply in envelope.Responses)
             {
                 await reply.SendAsync(cancellationToken);
             }
@@ -108,7 +112,7 @@ public class AsyncMessenger : IMessenger
         else
         {
             var tasks = new HashSet<Task>();
-            foreach (IAsyncMessageReply reply in message.Responses)
+            foreach (IAsyncMessageReply reply in envelope.Responses)
             {
                 Task sendTask = reply.SendAsync(cancellationToken);
 
@@ -119,7 +123,7 @@ public class AsyncMessenger : IMessenger
         }
     }
 
-    public async Task ScheduleAsync<TMessage>(TMessage message, ScheduleMessagePriority scheduleMessagePriority, AsyncMessageAwaitStrategy asyncMessageAwaitStrategy, CancellationToken cancellationToken = default) where TMessage : AsyncMessage
+    public async Task ScheduleAsync<TMessage>(TMessage message, ScheduleMessagePriority scheduleMessagePriority, AsyncMessageAwaitStrategy asyncMessageAwaitStrategy, CancellationToken cancellationToken = default) where TMessage : class
     {
         ArgumentNullException.ThrowIfNull(message);
 

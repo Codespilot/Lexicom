@@ -1,5 +1,5 @@
-﻿namespace Lexicom.Mvvm.UnitTests.Constructs.Messages;
+namespace Lexicom.Mvvm.UnitTests.Constructs.Messages;
 
-public class NewNotificationMessage : AsyncMessage
+public class NewNotificationMessage
 {
 }
