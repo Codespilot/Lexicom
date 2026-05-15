@@ -6,8 +6,15 @@ public interface INotificationService
 }
 public class NotificationService : INotificationService
 {
+    public NotificationService()
+    {
+        Count = 5;
+    }
+
+    public int Count { get; set; }
+
     public Task<int> GetNotificationsCountAsync(Guid profileId)
     {
-        return Task.FromResult(55);
+        return Task.FromResult(Count);
     }
 }
