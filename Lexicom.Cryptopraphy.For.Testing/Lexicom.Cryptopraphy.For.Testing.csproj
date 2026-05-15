@@ -11,12 +11,12 @@
 
     <Authors>Alex Stroot</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Derives the Lexicom.DependencyInjection.Primitives package to provide an implementation specific for a test project.</Description>
+    <Description>Derives the Lexicom.Cryptography package to provide an implementation specific for a Console application project.</Description>
     <Copyright>2024</Copyright>
-    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.DependencyInjection.Primitives.For.Testing</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Cryptography.For.ConsoleApp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
-    <PackageTags>dependencyinjection</PackageTags>
+    <PackageTags>console;dependencyinjection</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lexicom.DependencyInjection.Primitives\Lexicom.DependencyInjection.Primitives.csproj" />
+    <ProjectReference Include="..\Lexicom.Cryptography\Lexicom.Cryptography.csproj" />
     <ProjectReference Include="..\Lexicom.Supports.Testing\Lexicom.Supports.Testing.csproj" />
   </ItemGroup>
 

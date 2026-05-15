@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using Lexicom.Mvvm.Extensions;
+using Lexicom.Mvvm.For.Testing.Extensions;
 using Lexicom.Mvvm.UnitTests.Constructs.Messages;
 using Lexicom.Mvvm.UnitTests.Constructs.Services;
 using Lexicom.Mvvm.UnitTests.Constructs.ViewModels;
+using Lexicom.Supports.Testing.Extensions;
 using Lexicom.Testing.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,11 +18,14 @@ public class AsyncMessengerTests
         //arrange
         var ita = new IntegrationTestAssistant();
 
-        ita.AddLexicomMvvm(mvvm =>
+        ita.Lexicom(l =>
         {
-            mvvm.AddViewModel<HeaderViewModel>();
-            mvvm.AddViewModel<MainViewModel>();
-            mvvm.AddViewModel<ProfileViewModel>();
+            l.AddMvvm(mvvm =>
+            {
+                mvvm.AddViewModel<HeaderViewModel>();
+                mvvm.AddViewModel<MainViewModel>();
+                mvvm.AddViewModel<ProfileViewModel>();
+            });
         });
 
         var notificationService = new NotificationService();
@@ -38,7 +43,7 @@ public class AsyncMessengerTests
 
         notificationService.Count += 3;
 
-        await messenger.SendAsync(new NewNotificationMessage());
+        await messenger.SendAsync(new NewNotificationMessage(), TestContext.Current.CancellationToken);
 
         int? laterNotificationCount = vm.HeaderViewModel?.ProfileViewModel?.NotificationsCount;
 

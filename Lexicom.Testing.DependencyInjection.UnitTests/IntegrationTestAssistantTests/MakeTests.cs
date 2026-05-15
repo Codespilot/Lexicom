@@ -4,7 +4,6 @@ using Lexicom.Testing.DependencyInjection.UnitTests.Constructs.Models;
 using Lexicom.Testing.DependencyInjection.UnitTests.Constructs.Services;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Lexicom.Testing.DependencyInjection.UnitTests.IntegrationTestAssistantTests;
 

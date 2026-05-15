@@ -1,9 +1,6 @@
 ﻿using Lexicom.Cryptography.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Lexicom.Cryptography.For.Blazor.WebAssembly.Extensions;
 

@@ -11,12 +11,12 @@
 
     <Authors>Alex Stroot</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Derives the Lexicom.DependencyInjection.Primitives package to provide an implementation specific for a test project.</Description>
-    <Copyright>2024</Copyright>
-    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.DependencyInjection.Primitives.For.Testing</PackageProjectUrl>
+    <Description>Derives the Lexicom.Mvvm package to provide an implementation specific for a testing application project.</Description>
+    <Copyright>2026</Copyright>
+    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Mvvm.For.Testing</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
-    <PackageTags>dependencyinjection</PackageTags>
+    <PackageTags>dependencyinjection;mvvm</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lexicom.DependencyInjection.Primitives\Lexicom.DependencyInjection.Primitives.csproj" />
+    <ProjectReference Include="..\Lexicom.Mvvm\Lexicom.Mvvm.csproj" />
     <ProjectReference Include="..\Lexicom.Supports.Testing\Lexicom.Supports.Testing.csproj" />
   </ItemGroup>
 

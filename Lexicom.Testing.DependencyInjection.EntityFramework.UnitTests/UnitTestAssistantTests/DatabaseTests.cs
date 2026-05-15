@@ -79,7 +79,7 @@ public class DatabaseTests
         uta.Database.People.Add(alice);
         uta.Database.People.Add(alex);
 
-        await uta.Database.SaveChangesAsync();
+        await uta.Database.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         var uot = uta.Make<PeopleService>();
 

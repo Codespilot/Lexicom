@@ -1,5 +1,7 @@
-﻿using Lexicom.Testing.DependencyInjection;
+﻿using Lexicom.Supports.Testing.Extensions;
+using Lexicom.Testing.DependencyInjection;
 using Lexicom.Validation.Extensions;
+using Lexicom.Validation.For.Testing.Extensions;
 using Lexicom.Validation.UnitTests.Constructs;
 using Lexicom.Validation.UnitTests.Constructs.RuleSets;
 using Lexicom.Validation.UnitTests.Constructs.Transformers;
@@ -20,11 +22,14 @@ public class TransformationTests
         //arrange
         var ita = new IntegrationTestAssistant();
 
-        ita.AddLexicomValidation(options =>
+        ita.Lexicom(l =>
         {
-            options.AddRuleSets<AssemblyScanMarker>();
-            options.AddValidators<AssemblyScanMarker>();
-            options.AddTransformers<AssemblyScanMarker>();
+            l.AddValidation(v =>
+            {
+                v.AddRuleSets<AssemblyScanMarker>();
+                v.AddValidators<AssemblyScanMarker>();
+                v.AddTransformers<AssemblyScanMarker>();
+            });
         });
 
         //act
@@ -73,11 +78,14 @@ public class TransformationTests
         //arrange
         var ita = new IntegrationTestAssistant();
 
-        ita.AddLexicomValidation(options =>
+        ita.Lexicom(l =>
         {
-            options.AddRuleSets<AssemblyScanMarker>();
-            options.AddValidators<AssemblyScanMarker>();
-            options.AddTransformers<AssemblyScanMarker>();
+            l.AddValidation(v =>
+            {
+                v.AddRuleSets<AssemblyScanMarker>();
+                v.AddValidators<AssemblyScanMarker>();
+                v.AddTransformers<AssemblyScanMarker>();
+            });
         });
 
         //act

@@ -1,8 +1,10 @@
-﻿using Lexicom.Testing.DependencyInjection;
+﻿using Lexicom.Supports.Testing.Extensions;
+using Lexicom.Testing.DependencyInjection;
 using Lexicom.Validation.Amenities.Extensions;
 using Lexicom.Validation.Amenities.UnitTests.Constructs;
 using Lexicom.Validation.Amenities.UnitTests.Constructs.RuleSets;
 using Lexicom.Validation.Extensions;
+using Lexicom.Validation.For.Testing.Extensions;
 
 namespace Lexicom.Validation.Amenities.UnitTests.Tests.PropertyValidatorTests;
 
@@ -16,11 +18,14 @@ public class NotAllDigitsPropertyValidatorUnitTests
         //arrage
         var ita = new IntegrationTestAssistant();
 
-        ita.AddLexicomValidation(options =>
+        ita.Lexicom(l =>
         {
-            options.AddAmenities();
-            options.AddRuleSets<AssemblyScanMarker>();
-            options.AddValidators<AssemblyScanMarker>();
+            l.AddValidation(v =>
+            {
+                v.AddAmenities();
+                v.AddRuleSets<AssemblyScanMarker>();
+                v.AddValidators<AssemblyScanMarker>();
+            });
         });
 
         //act
@@ -56,11 +61,14 @@ public class NotAllDigitsPropertyValidatorUnitTests
         //arrange
         var ita = new IntegrationTestAssistant();
 
-        ita.AddLexicomValidation(options =>
+        ita.Lexicom(l =>
         {
-            options.AddAmenities();
-            options.AddRuleSets<AssemblyScanMarker>();
-            options.AddValidators<AssemblyScanMarker>();
+            l.AddValidation(v =>
+            {
+                v.AddAmenities();
+                v.AddRuleSets<AssemblyScanMarker>();
+                v.AddValidators<AssemblyScanMarker>();
+            });
         });
 
         //act

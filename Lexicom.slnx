@@ -57,6 +57,7 @@
     <Project Path="Lexicom.Cryptography.For.Maui.Blazor.Hybrid/Lexicom.Cryptography.For.Maui.Blazor.Hybrid.csproj" />
     <Project Path="Lexicom.Cryptography.For.Wpf/Lexicom.Cryptography.For.Wpf.csproj" />
     <Project Path="Lexicom.Cryptography/Lexicom.Cryptography.csproj" />
+    <Project Path="Lexicom.Cryptopraphy.For.Testing/Lexicom.Cryptopraphy.For.Testing.csproj" Id="b99552d9-2380-4dec-9e7d-1df536621033" />
   </Folder>
   <Folder Name="/Cryptography/UnitTests/">
     <Project Path="Lexicom.Cryptography.For.Blazor.WebAssembly.UnitTests/Lexicom.Cryptography.For.Blazor.WebAssembly.UnitTests.csproj" />
@@ -121,6 +122,7 @@
   <Folder Name="/Mvvm/">
     <Project Path="Lexicom.Mvvm.For.Blazor.WebAssembly/Lexicom.Mvvm.For.Blazor.WebAssembly.csproj" />
     <Project Path="Lexicom.Mvvm.For.Maui.Blazor.Hybrid/Lexicom.Mvvm.For.Maui.Blazor.Hybrid.csproj" />
+    <Project Path="Lexicom.Mvvm.For.Testing/Lexicom.Mvvm.For.Testing.csproj" Id="86cdb25d-c223-49c7-ad42-cb9cf4bfae45" />
     <Project Path="Lexicom.Mvvm.For.Wpf/Lexicom.Mvvm.For.Wpf.csproj" />
     <Project Path="Lexicom.Mvvm/Lexicom.Mvvm.csproj" />
   </Folder>
@@ -145,6 +147,7 @@
     <Project Path="Lexicom.Supports.Blazor.WebAssembly/Lexicom.Supports.Blazor.WebAssembly.csproj" />
     <Project Path="Lexicom.Supports.ConsoleApp/Lexicom.Supports.ConsoleApp.csproj" />
     <Project Path="Lexicom.Supports.Maui.Blazor.Hybrid/Lexicom.Supports.Maui.Blazor.Hybrid.csproj" />
+    <Project Path="Lexicom.Supports.Testing/Lexicom.Supports.Testing.csproj" Id="2decdf37-bce7-48f8-9ea3-aee5f65a227c" />
     <Project Path="Lexicom.Supports.Wpf/Lexicom.Supports.Wpf.csproj" />
   </Folder>
   <Folder Name="/Testing/">
@@ -161,6 +164,7 @@
     <Project Path="Lexicom.Validation.For.Blazor.WebAssembly/Lexicom.Validation.For.Blazor.WebAssembly.csproj" />
     <Project Path="Lexicom.Validation.For.ConsoleApp/Lexicom.Validation.For.ConsoleApp.csproj" />
     <Project Path="Lexicom.Validation.For.Maui.Blazor.Hybrid/Lexicom.Validation.For.Maui.Blazor.Hybrid.csproj" />
+    <Project Path="Lexicom.Validation.For.Testing/Lexicom.Validation.For.Testing.csproj" Id="94cf0e14-116c-4d81-ba69-61c18b275b4c" />
     <Project Path="Lexicom.Validation.For.Wpf/Lexicom.Validation.For.Wpf.csproj" />
     <Project Path="Lexicom.Validation.Options/Lexicom.Validation.Options.csproj" />
     <Project Path="Lexicom.Validation/Lexicom.Validation.csproj" />

@@ -1,6 +1,8 @@
 using Lexicom.Cryptography.Extensions;
 using Lexicom.Cryptography.Options;
+using Lexicom.Cryptopraphy.For.Testing.Extensions;
 using Lexicom.DependencyInjection.Amenities.Extensions;
+using Lexicom.Supports.Testing.Extensions;
 using Lexicom.Testing.DependencyInjection;
 using Microsoft.Extensions.Options;
 
@@ -23,9 +25,12 @@ public class CryptographyStringSecretOptionsValidatorTests
             Base64StringSecretKey = base64StringSecretKey,
         });
 
-        ita.AddLexicomCryptography(c =>
+        ita.Lexicom(l =>
         {
-            c.AddStringSecretOptions();
+            l.AddCryptography(c =>
+            {
+                c.AddStringSecretOptions();
+            });
         });
 
         //act
@@ -51,9 +56,12 @@ public class CryptographyStringSecretOptionsValidatorTests
             Base64StringSecretKey = base64StringSecretKey,
         });
 
-        ita.AddLexicomCryptography(c =>
+        ita.Lexicom(l =>
         {
-            c.AddStringSecretOptions();
+            l.AddCryptography(c =>
+            {
+                c.AddStringSecretOptions();
+            });
         });
 
         //act
