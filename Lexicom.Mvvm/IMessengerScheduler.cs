@@ -2,5 +2,5 @@
 
 public interface IMessengerScheduler
 {
-    Task DispatchAsync(ScheduleMessagePriority priority, Func<Task> dispatchedDelegate);
+    Task DispatchAsync(ScheduleMessagePriority priority, Func<Task>? dispatchedDelegate);
 }

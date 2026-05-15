@@ -5,9 +5,13 @@ namespace Lexicom.Testing.DependencyInjection.Mocking;
 
 public class MockHooksManager
 {
-    public delegate bool TryMockDbContextFactoryDelegate(MockManager manager, Type type);
-    private static bool CheckedMockDbContextFactoryDelegateHook { get; set; }
-    private static TryMockDbContextFactoryDelegate? TryMockDbContextFactoryDelegateHook { get; set; }
+    public delegate bool HookDelegate(MockManager manager, Type type);
+
+    private static List<Hook> AvaliableHooks { get; } =
+    [
+        new Hook("Lexicom.Testing.DependencyInjection.EntityFramework", "Lexicom.Testing.DependencyInjection.EntityFramework.Mocking.MockHook"),
+        new Hook("Lexicom.Mvvm.For.Testing", "Lexicom.Mvvm.For.Testing.Mocking.MockHook"),
+    ];
 
     public static bool TryToMockFromHooks(MockManager manager, Type type, TestAssistantConfiguration unitTestAssistantConfiguration)
     {
@@ -15,21 +19,50 @@ public class MockHooksManager
         ArgumentNullException.ThrowIfNull(type);
         ArgumentNullException.ThrowIfNull(unitTestAssistantConfiguration);
 
+        bool isMocked = false;
         if (unitTestAssistantConfiguration.IsAutomaticallyUsingMockHooks)
         {
-            if (TryMockDbContextFactoryDelegateHook is not null)
+            foreach (Hook hook in AvaliableHooks)
             {
-                return TryMockDbContextFactoryDelegateHook.Invoke(manager, type);
+                isMocked = hook.TryToMockFromHook(manager, type);
+
+                if (isMocked)
+                {
+                    break;
+                }
+            }
+        }
+
+        return isMocked;
+    }
+
+
+    private class Hook
+    {
+        public Hook(string projectName, string fullyQualifiedTypeName)
+        {
+            TypeName = $"{fullyQualifiedTypeName}, {projectName}";
+        }
+
+        private string TypeName { get; }
+        private bool CheckedForHook { get; set; }
+        private HookDelegate? ConnectedHookDelegate { get; set; }
+
+        public bool TryToMockFromHook(MockManager manager, Type type)
+        {
+            if (ConnectedHookDelegate is not null)
+            {
+                return ConnectedHookDelegate.Invoke(manager, type);
             }
 
-            if (!CheckedMockDbContextFactoryDelegateHook)
+            if (!CheckedForHook)
             {
-                CheckedMockDbContextFactoryDelegateHook = true;
+                CheckedForHook = true;
 
-                Type? hookType = Type.GetType("Lexicom.Testing.DependencyInjection.EntityFramework.Mocking.MockHook, Lexicom.Testing.DependencyInjection.EntityFramework");
+                Type? hookType = Type.GetType(TypeName);
                 if (hookType is not null)
                 {
-                    const string DELEGATE_PROPERTY_NAME = "TryMockDbContextFactoryDelegate";
+                    const string DELEGATE_PROPERTY_NAME = nameof(HookDelegate);
 
                     PropertyInfo? delegateProperty = hookType.GetProperty(DELEGATE_PROPERTY_NAME, BindingFlags.Public | BindingFlags.Static);
                     if (delegateProperty is null)
@@ -38,18 +71,18 @@ public class MockHooksManager
                     }
 
                     object? delegateValue = delegateProperty.GetValue(null);
-                    if (delegateValue is not TryMockDbContextFactoryDelegate tryMockDbContextFactoryDelegateHook)
+                    if (delegateValue is not HookDelegate hookDelegate)
                     {
-                        throw new UnreachableException($"The hooked delegate value '{delegateValue?.GetType()?.Name ?? "null"}' was not of the type '{nameof(TryMockDbContextFactoryDelegate)}'.");
+                        throw new UnreachableException($"The hooked delegate '{delegateValue?.GetType()?.Name ?? "null"}' was not of the type '{nameof(HookDelegate)}'.");
                     }
 
-                    TryMockDbContextFactoryDelegateHook = tryMockDbContextFactoryDelegateHook;
+                    ConnectedHookDelegate = hookDelegate;
 
-                    return TryToMockFromHooks(manager, type, unitTestAssistantConfiguration);
+                    return TryToMockFromHook(manager, type);
                 }
             }
-        }
 
-        return false;
+            return false;
+        }
     }
 }

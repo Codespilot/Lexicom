@@ -33,8 +33,6 @@ public class ViewModelFactory : IViewModelFactory
         weakViewModelReferenceCollection.Add(viewModel);
     }
 
-    private static Dictionary<Type, object> ViewModelTypeToSingletonInstance { get; } = [];
-
     protected readonly IServiceProvider _serviceProvider;
     protected readonly IEnumerable<IMessenger> _messengers;
 
@@ -46,7 +44,11 @@ public class ViewModelFactory : IViewModelFactory
 
         _serviceProvider = serviceProvider;
         _messengers = messengers;
+
+        ViewModelTypeToSingletonInstance = [];
     }
+
+    private Dictionary<Type, object> ViewModelTypeToSingletonInstance { get; }
 
     public virtual TViewModel Create<TViewModel>() where TViewModel : notnull
     {

@@ -4,7 +4,7 @@ namespace Lexicom.Mvvm.For.Wpf;
 
 public class WpfMessengerScheduler : IMessengerScheduler
 {
-    public Task DispatchAsync(ScheduleMessagePriority priority, Func<Task> dispatchedDelegate)
+    public Task DispatchAsync(ScheduleMessagePriority priority, Func<Task>? dispatchedDelegate)
     {
         DispatcherPriority dispatcherPriority;
         if (priority == ScheduleMessagePriority.ApplicationIdle)

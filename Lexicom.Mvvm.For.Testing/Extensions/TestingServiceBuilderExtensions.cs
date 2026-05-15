@@ -1,5 +1,6 @@
 ﻿using Lexicom.Mvvm.Extensions;
 using Lexicom.Supports.Testing;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Mvvm.For.Testing.Extensions;
 
@@ -11,6 +12,7 @@ public static class TestingServiceBuilderExtensions
         ArgumentNullException.ThrowIfNull(builder);
 
         builder.Services.AddLexicomMvvm(configure);
+        builder.Services.AddSingleton<IMessengerScheduler, TestMessengerScheduler>();
 
         return builder;
     }

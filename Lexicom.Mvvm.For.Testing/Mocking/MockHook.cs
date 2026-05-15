@@ -1,7 +1,7 @@
-﻿using Lexicom.Testing.DependencyInjection.Mocking;
-using Microsoft.EntityFrameworkCore;
+﻿using Lexicom.Testing.DependencyInjection;
+using Lexicom.Testing.DependencyInjection.Mocking;
 
-namespace Lexicom.Testing.DependencyInjection.EntityFramework.Mocking;
+namespace Lexicom.Mvvm.For.Testing.Mocking;
 
 public static class MockHook
 {

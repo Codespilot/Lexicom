@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexicom.Mvvm.Extensions;
+
 public static class ServiceCollectionExtensions
 {
     /// <exception cref="ArgumentNullException"/>
@@ -11,6 +12,7 @@ public static class ServiceCollectionExtensions
 
         var builder = new MvvmServiceBuilder(services);
 
+        builder.Services.AddSingleton<IViewModelFactory, ViewModelFactory>();
         builder.Services.AddSingleton<WeakReferenceMessenger>(WeakReferenceMessenger.Default);
         builder.Services.AddSingleton<IMessenger, AsyncMessenger>();
 
