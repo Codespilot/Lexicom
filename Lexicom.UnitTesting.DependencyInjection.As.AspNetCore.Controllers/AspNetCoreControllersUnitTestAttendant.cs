@@ -1,10 +1,10 @@
-﻿namespace Lexicom.UnitTesting.DependencyInjection.As.AspNetCore.Controllers;
-public class AspNetCoreControllersUnitTestAttendant : UnitTestAttendant
-{
-    public AspNetCoreControllersUnitTestAttendant()
-    {
-        AspNetCoreBuilder = new TestAspNetCoreControllersServiceBuilder(this);
-    }
+﻿//namespace Lexicom.UnitTesting.DependencyInjection.As.AspNetCore.Controllers;
+//public class AspNetCoreControllersUnitTestAttendant : UnitTestAttendant
+//{
+//    public AspNetCoreControllersUnitTestAttendant()
+//    {
+//        AspNetCoreBuilder = new TestAspNetCoreControllersServiceBuilder(this);
+//    }
 
-    public TestAspNetCoreControllersServiceBuilder AspNetCoreBuilder { get; }
-}
+//    public TestAspNetCoreControllersServiceBuilder AspNetCoreBuilder { get; }
+//}

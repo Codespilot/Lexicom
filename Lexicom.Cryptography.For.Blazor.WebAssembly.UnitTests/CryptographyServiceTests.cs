@@ -18,10 +18,10 @@ public class CryptographyServiceTests
             Base64StringSecretKey = "MTIzNDU2Nzg5MTIzNDU2Nzg5MTIzNDU2Nzg5MTIzNDU=",
         });
 
-        //ita.BlazorBuilder.AddCryptography(c =>
-        //{
-        //    c.AddStringSecretOptions();
-        //});
+        ita.AddLexicomCryptographyForBlazor(c =>
+        {
+            c.AddStringSecretOptions();
+        });
 
         string originalPlainText = "my plain text";
 
