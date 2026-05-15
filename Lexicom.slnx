@@ -119,7 +119,6 @@
     <Project Path="Lexicom.Maths.UnitTests/Lexicom.Maths.UnitTests.csproj" />
   </Folder>
   <Folder Name="/Mvvm/">
-    <Project Path="Lexicom.Mvvm.Amenities/Lexicom.Mvvm.Amenities.csproj" />
     <Project Path="Lexicom.Mvvm.For.Blazor.WebAssembly/Lexicom.Mvvm.For.Blazor.WebAssembly.csproj" />
     <Project Path="Lexicom.Mvvm.For.Maui.Blazor.Hybrid/Lexicom.Mvvm.For.Maui.Blazor.Hybrid.csproj" />
     <Project Path="Lexicom.Mvvm.For.Wpf/Lexicom.Mvvm.For.Wpf.csproj" />
