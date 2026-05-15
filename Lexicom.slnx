@@ -52,13 +52,15 @@
   </Folder>
   <Folder Name="/Cryptography/">
     <Project Path="Lexicom.Cryptography.For.AspNetCore.Controllers/Lexicom.Cryptography.For.AspNetCore.Controllers.csproj" />
-    <Project Path="Lexicom.Cryptography.For.Blazor.WebAssembly.UnitTests/Lexicom.Cryptography.For.Blazor.WebAssembly.UnitTests.csproj" />
     <Project Path="Lexicom.Cryptography.For.Blazor.WebAssembly/Lexicom.Cryptography.For.Blazor.WebAssembly.csproj" />
     <Project Path="Lexicom.Cryptography.For.ConsoleApp/Lexicom.Cryptography.For.ConsoleApp.csproj" />
     <Project Path="Lexicom.Cryptography.For.Maui.Blazor.Hybrid/Lexicom.Cryptography.For.Maui.Blazor.Hybrid.csproj" />
     <Project Path="Lexicom.Cryptography.For.Wpf/Lexicom.Cryptography.For.Wpf.csproj" />
-    <Project Path="Lexicom.Cryptography.UnitTests/Lexicom.Cryptography.UnitTests.csproj" />
     <Project Path="Lexicom.Cryptography/Lexicom.Cryptography.csproj" />
+  </Folder>
+  <Folder Name="/Cryptography/UnitTests/">
+    <Project Path="Lexicom.Cryptography.For.Blazor.WebAssembly.UnitTests/Lexicom.Cryptography.For.Blazor.WebAssembly.UnitTests.csproj" />
+    <Project Path="Lexicom.Cryptography.UnitTests/Lexicom.Cryptography.UnitTests.csproj" />
   </Folder>
   <Folder Name="/DependencyInjection.Primitives/">
     <Project Path="Lexicom.DependencyInjection.Primitives.Abstractions/Lexicom.DependencyInjection.Primitives.Abstractions.csproj" />
@@ -84,7 +86,6 @@
   </Folder>
   <Folder Name="/EntityFramework/">
     <Project Path="Lexicom.EntityFramework.Amenities/Lexicom.EntityFramework.Amenities.csproj" />
-    <Project Path="Lexicom.EntityFramework.For.UnitTesting/Lexicom.EntityFramework.For.UnitTesting.csproj" />
   </Folder>
   <Folder Name="/Extensions/">
     <Project Path="Lexicom.Extensions.CompilerServices/Lexicom.Extensions.CompilerServices.csproj" />
@@ -112,16 +113,20 @@
     <Project Path="Lexicom.Logging/Lexicom.Logging.csproj" />
   </Folder>
   <Folder Name="/Maths/">
-    <Project Path="Lexicom.Maths.UnitTests/Lexicom.Maths.UnitTests.csproj" />
     <Project Path="Lexicom.Maths/Lexicom.Maths.csproj" />
+  </Folder>
+  <Folder Name="/Maths/UnitTests/">
+    <Project Path="Lexicom.Maths.UnitTests/Lexicom.Maths.UnitTests.csproj" />
   </Folder>
   <Folder Name="/Mvvm/">
     <Project Path="Lexicom.Mvvm.Amenities/Lexicom.Mvvm.Amenities.csproj" />
     <Project Path="Lexicom.Mvvm.For.Blazor.WebAssembly/Lexicom.Mvvm.For.Blazor.WebAssembly.csproj" />
     <Project Path="Lexicom.Mvvm.For.Maui.Blazor.Hybrid/Lexicom.Mvvm.For.Maui.Blazor.Hybrid.csproj" />
     <Project Path="Lexicom.Mvvm.For.Wpf/Lexicom.Mvvm.For.Wpf.csproj" />
-    <Project Path="Lexicom.Mvvm.UnitTests/Lexicom.Mvvm.UnitTests.csproj" Id="174289c4-20f8-4898-bb3b-ea3c69461be9" />
     <Project Path="Lexicom.Mvvm/Lexicom.Mvvm.csproj" />
+  </Folder>
+  <Folder Name="/Mvvm/UnitTests/">
+    <Project Path="Lexicom.Mvvm.UnitTests/Lexicom.Mvvm.UnitTests.csproj" Id="174289c4-20f8-4898-bb3b-ea3c69461be9" />
   </Folder>
   <Folder Name="/Scalar/">
     <Project Path="Lexicom.Scalar.For.AspNetCore.Controllers/Lexicom.Scalar.For.AspNetCore.Controllers.csproj" />
@@ -141,21 +146,17 @@
     <Project Path="Lexicom.Supports.Blazor.WebAssembly/Lexicom.Supports.Blazor.WebAssembly.csproj" />
     <Project Path="Lexicom.Supports.ConsoleApp/Lexicom.Supports.ConsoleApp.csproj" />
     <Project Path="Lexicom.Supports.Maui.Blazor.Hybrid/Lexicom.Supports.Maui.Blazor.Hybrid.csproj" />
-    <Project Path="Lexicom.Supports.UnitTesting/Lexicom.Supports.UnitTesting.csproj" />
     <Project Path="Lexicom.Supports.Wpf/Lexicom.Supports.Wpf.csproj" />
   </Folder>
-  <Folder Name="/UnitTesting/">
-    <Project Path="Lexicom.UnitTesting.DependencyInjection.As.AspNetCore.Controllers/Lexicom.UnitTesting.DependencyInjection.As.AspNetCore.Controllers.csproj" />
-    <Project Path="Lexicom.UnitTesting.DependencyInjection.As.Blazor.WebAssembly/Lexicom.UnitTesting.DependencyInjection.As.Blazor.WebAssembly.csproj" />
-    <Project Path="Lexicom.UnitTesting.DependencyInjection.As.ConsoleApp/Lexicom.UnitTesting.DependencyInjection.As.ConsoleApp.csproj" />
-    <Project Path="Lexicom.UnitTesting.DependencyInjection.As.Wpf/Lexicom.UnitTesting.DependencyInjection.As.Wpf.csproj" />
-    <Project Path="Lexicom.UnitTesting.DependencyInjection.EntityFramework.UnitTests/Lexicom.UnitTesting.DependencyInjection.EntityFramework.UnitTests.csproj" Id="f5f99651-ca3a-474e-b5d4-3806537c0bc1" />
-    <Project Path="Lexicom.UnitTesting.DependencyInjection.EntityFramework/Lexicom.UnitTesting.DependencyInjection.EntityFramework.csproj" Id="2a00d6d5-899b-41c2-8129-1bda35138d76" />
-    <Project Path="Lexicom.UnitTesting.DependencyInjection.UnitTests/Lexicom.UnitTesting.DependencyInjection.UnitTests.csproj" Id="8bbe7525-9cd9-490d-821a-536ef1c90613" />
-    <Project Path="Lexicom.UnitTesting.DependencyInjection/Lexicom.UnitTesting.DependencyInjection.csproj" />
+  <Folder Name="/Testing/">
+    <Project Path="Lexicom.Testing.DependencyInjection.EntityFramework/Lexicom.Testing.DependencyInjection.EntityFramework.csproj" />
+    <Project Path="Lexicom.Testing.DependencyInjection/Lexicom.Testing.DependencyInjection.csproj" />
+  </Folder>
+  <Folder Name="/Testing/UnitTests/">
+    <Project Path="Lexicom.Testing.DependencyInjection.EntityFramework.UnitTests/Lexicom.Testing.DependencyInjection.EntityFramework.UnitTests.csproj" />
+    <Project Path="Lexicom.Testing.DependencyInjection.UnitTests/Lexicom.Testing.DependencyInjection.UnitTests.csproj" />
   </Folder>
   <Folder Name="/Validation/">
-    <Project Path="Lexicom.Validation.Amenities.UnitTests/Lexicom.Validation.Amenities.UnitTests.csproj" />
     <Project Path="Lexicom.Validation.Amenities/Lexicom.Validation.Amenities.csproj" />
     <Project Path="Lexicom.Validation.For.AspNetCore.Controllers/Lexicom.Validation.For.AspNetCore.Controllers.csproj" />
     <Project Path="Lexicom.Validation.For.Blazor.WebAssembly/Lexicom.Validation.For.Blazor.WebAssembly.csproj" />
@@ -163,8 +164,11 @@
     <Project Path="Lexicom.Validation.For.Maui.Blazor.Hybrid/Lexicom.Validation.For.Maui.Blazor.Hybrid.csproj" />
     <Project Path="Lexicom.Validation.For.Wpf/Lexicom.Validation.For.Wpf.csproj" />
     <Project Path="Lexicom.Validation.Options/Lexicom.Validation.Options.csproj" />
-    <Project Path="Lexicom.Validation.UnitTests/Lexicom.Validation.UnitTests.csproj" />
     <Project Path="Lexicom.Validation/Lexicom.Validation.csproj" />
+  </Folder>
+  <Folder Name="/Validation/UnitTests/">
+    <Project Path="Lexicom.Validation.Amenities.UnitTests/Lexicom.Validation.Amenities.UnitTests.csproj" />
+    <Project Path="Lexicom.Validation.UnitTests/Lexicom.Validation.UnitTests.csproj" />
   </Folder>
   <Folder Name="/Wpf/">
     <Project Path="Lexicom.Wpf.Amenities.Abstractions/Lexicom.Wpf.Amenities.Abstractions.csproj" />

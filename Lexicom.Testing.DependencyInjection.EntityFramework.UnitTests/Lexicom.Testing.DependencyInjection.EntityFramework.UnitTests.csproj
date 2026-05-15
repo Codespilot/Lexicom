@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lexicom.UnitTesting.DependencyInjection.EntityFramework\Lexicom.UnitTesting.DependencyInjection.EntityFramework.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 

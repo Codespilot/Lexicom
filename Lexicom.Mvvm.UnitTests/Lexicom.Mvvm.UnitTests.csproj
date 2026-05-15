@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Lexicom.Mvvm\Lexicom.Mvvm.csproj" />
+    <ProjectReference Include="..\Lexicom.Testing.DependencyInjection\Lexicom.Testing.DependencyInjection.csproj" />
   </ItemGroup>
 
 </Project>

@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lexicom.UnitTesting.DependencyInjection\Lexicom.UnitTesting.DependencyInjection.csproj" />
     <ProjectReference Include="..\Lexicom.Cryptography\Lexicom.Cryptography.csproj" />
   </ItemGroup>
 

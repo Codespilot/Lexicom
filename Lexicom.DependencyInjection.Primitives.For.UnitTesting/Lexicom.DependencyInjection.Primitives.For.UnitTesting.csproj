@@ -20,13 +20,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\"/>
+    <None Include="README.md" Pack="true" PackagePath="\" />
     <None Include="..\lexicom.nuget.icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Lexicom.DependencyInjection.Primitives\Lexicom.DependencyInjection.Primitives.csproj" />
-    <ProjectReference Include="..\Lexicom.Supports.UnitTesting\Lexicom.Supports.UnitTesting.csproj" />
+    <ProjectReference Include="..\Lexicom.Testing.DependencyInjection\Lexicom.Testing.DependencyInjection.csproj" />
   </ItemGroup>
 
 </Project>
