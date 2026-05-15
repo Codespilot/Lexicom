@@ -8,4 +8,6 @@ public class UnitTestAssistant : TestAssistant
     public UnitTestAssistant(TestAssistantConfiguration configuration) : base(configuration)
     {
     }
+
+    public override TestingCategory Category => TestingCategory.UnitTest;
 }

@@ -5,9 +5,9 @@ namespace Lexicom.Testing.DependencyInjection.EntityFramework.Mocking;
 
 public static class MockHook
 {
-    public static MockHooksManager.HookDelegate HookDelegate { get; } = TryMockDbContextFactory;
+    public static MockHooksManager.HookDelegate HookDelegate { get; } = TryMock;
 
-    private static bool TryMockDbContextFactory(MockManager manager, Type type)
+    private static bool TryMock(MockManager manager, Type type)
     {
         ArgumentNullException.ThrowIfNull(manager);
         ArgumentNullException.ThrowIfNull(type);

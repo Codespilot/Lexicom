@@ -9,15 +9,16 @@ namespace Lexicom.Testing.DependencyInjection.Mocking;
 
 public class MockManager : IDisposable, IReadOnlyDictionary<Type, MockContainer>
 {
-    public MockManager(TestAssistantConfiguration configuration)
+    public MockManager(ITestAssistant testAssistant)
     {
-        AssistantConfiguration = configuration;
+        TestAssistant = testAssistant;
+
         MockTypeToContainer = [];
     }
 
-    private TestAssistantConfiguration AssistantConfiguration { get; }
     private Dictionary<Type, MockContainer> MockTypeToContainer { get; }
 
+    public ITestAssistant TestAssistant { get; }
     public IEnumerable<Type> Keys => MockTypeToContainer.Keys;
     public IEnumerable<MockContainer> Values => MockTypeToContainer.Values;
     public int Count => MockTypeToContainer.Count;
@@ -34,7 +35,7 @@ public class MockManager : IDisposable, IReadOnlyDictionary<Type, MockContainer>
 
     public UnitTestAssistantMockFluentBuilder<TService> Mock<TService>() where TService : class
     {
-        return Mock<TService>(AssistantConfiguration.DefaultMockLifetime);
+        return Mock<TService>(TestAssistant.AssistantConfiguration.DefaultMockLifetime);
     }
     public UnitTestAssistantMockFluentBuilder<TService> Mock<TService>(MockLifetime lifetime) where TService : class
     {
@@ -57,7 +58,7 @@ public class MockManager : IDisposable, IReadOnlyDictionary<Type, MockContainer>
     /// <exception cref="PullNotMockedException"></exception>
     public object Pull(Type type)
     {
-        if (AssistantConfiguration.IsAutomaticallyMocking)
+        if (TestAssistant.AssistantConfiguration.IsAutomaticallyMocking)
         {
             if (!MockTypeToContainer.ContainsKey(type))
             {
@@ -66,9 +67,9 @@ public class MockManager : IDisposable, IReadOnlyDictionary<Type, MockContainer>
                     throw new PullValueTypeException(type);
                 }
 
-                if (!MockHooksManager.TryToMockFromHooks(this, type, AssistantConfiguration))
+                if (!MockHooksManager.TryToMockFromHooks(this, type))
                 {
-                    Mock(type, AssistantConfiguration.DefaultMockLifetime);
+                    Mock(type, TestAssistant.AssistantConfiguration.DefaultMockLifetime);
                 }
             }
         }

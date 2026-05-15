@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using Lexicom.Mvvm.Exceptions;
 using Lexicom.Mvvm.Extensions;
 using Lexicom.Mvvm.Support;
@@ -7,6 +8,7 @@ using System.Diagnostics;
 using System.Reflection;
 
 namespace Lexicom.Mvvm;
+
 public interface IViewModelFactory
 {
     TViewModel Create<TViewModel>() where TViewModel : notnull;
@@ -17,20 +19,17 @@ public interface IViewModelFactory
 /// <exception cref="ArgumentNullException"/>
 public class ViewModelFactory : IViewModelFactory
 {
-    private static MethodInfo StaticAddToWeakViewModelReferenceCollectionMethodInfo => field ??= (typeof(ViewModelFactory).GetMethod(nameof(AddToWeakViewModelReferenceCollection), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(AddToWeakViewModelReferenceCollection)}' was not found."));
-    private static void AddToWeakViewModelReferenceCollection<TViewModelImplementation>(IServiceProvider serviceProvider, TViewModelImplementation viewModel) where TViewModelImplementation : class
+    private static MethodInfo StaticGetWeakViewModelReferenceCollectionMethodInfo => field ??= (typeof(ViewModelFactory).GetMethod(nameof(GetViewModelReferenceCollection), BindingFlags.Static | BindingFlags.NonPublic) ?? throw new UnreachableException($"The method '{nameof(GetViewModelReferenceCollection)}' was not found."));
+    private static IWeakViewModelReferenceCollection GetViewModelReferenceCollection<TViewModelImplementation>(IServiceProvider serviceProvider) where TViewModelImplementation : class
     {
-        WeakViewModelReferenceCollection<TViewModelImplementation> weakViewModelReferenceCollection;
         try
         {
-            weakViewModelReferenceCollection = serviceProvider.GetRequiredService<WeakViewModelReferenceCollection<TViewModelImplementation>>();
+            return serviceProvider.GetRequiredService<WeakViewModelReferenceCollection<TViewModelImplementation>>();
         }
         catch (InvalidOperationException e)
         {
             throw new ViewModelNotRegisteredException(typeof(TViewModelImplementation), e);
         }
-
-        weakViewModelReferenceCollection.Add(viewModel);
     }
 
     protected readonly IServiceProvider _serviceProvider;
@@ -52,10 +51,7 @@ public class ViewModelFactory : IViewModelFactory
 
     public virtual TViewModel Create<TViewModel>() where TViewModel : notnull
     {
-        return InitializeViewModel(isWithModels: false, implementationType =>
-        {
-            return (TViewModel)ActivatorUtilities.CreateInstance(_serviceProvider, implementationType);
-        });
+        return InitializeViewModel(isWithModels: false, CreateInstance<TViewModel>);
     }
     /// <exception cref="ArgumentNullException"/>
     /// <exception cref="SingletonViewModelAlreadyExistsException"/>
@@ -65,7 +61,7 @@ public class ViewModelFactory : IViewModelFactory
 
         return InitializeViewModel(isWithModels: true, implementationType =>
         {
-            return (TViewModel)ActivatorUtilities.CreateInstance(_serviceProvider, implementationType, model);
+            return CreateInstance<TViewModel, TModel>(implementationType, model);
         });
     }
     /// <exception cref="ArgumentNullException"/>
@@ -77,7 +73,7 @@ public class ViewModelFactory : IViewModelFactory
 
         return InitializeViewModel(isWithModels: true, implementationType =>
         {
-            return (TViewModel)ActivatorUtilities.CreateInstance(_serviceProvider, implementationType, model1, model2);
+            return CreateInstance<TViewModel, TModel1, TModel2>(implementationType, model1, model2);
         });
     }
     /// <exception cref="ArgumentNullException"/>
@@ -90,8 +86,34 @@ public class ViewModelFactory : IViewModelFactory
 
         return InitializeViewModel(isWithModels: true, implementationType =>
         {
-            return (TViewModel)ActivatorUtilities.CreateInstance(_serviceProvider, implementationType, model1, model2, model3);
+            return CreateInstance<TViewModel, TModel1, TModel2, TModel3>(implementationType, model1, model2, model3);
         });
+    }
+
+    protected virtual TViewModel CreateInstance<TViewModel>(Type implementationType)
+    {
+        return (TViewModel)ActivatorUtilities.CreateInstance(_serviceProvider, implementationType);
+    }
+    protected virtual TViewModel CreateInstance<TViewModel, TModel>(Type implementationType, TModel model)
+    {
+        ArgumentNullException.ThrowIfNull(model);
+
+        return (TViewModel)ActivatorUtilities.CreateInstance(_serviceProvider, implementationType, model);
+    }
+    protected virtual TViewModel CreateInstance<TViewModel, TModel1, TModel2>(Type implementationType, TModel1 model1, TModel2 model2)
+    {
+        ArgumentNullException.ThrowIfNull(model1);
+        ArgumentNullException.ThrowIfNull(model2);
+
+        return (TViewModel)ActivatorUtilities.CreateInstance(_serviceProvider, implementationType, model1, model2);
+    }
+    protected virtual TViewModel CreateInstance<TViewModel, TModel1, TModel2, TModel3>(Type implementationType, TModel1 model1, TModel2 model2, TModel3 model3)
+    {
+        ArgumentNullException.ThrowIfNull(model1);
+        ArgumentNullException.ThrowIfNull(model2);
+        ArgumentNullException.ThrowIfNull(model3);
+
+        return (TViewModel)ActivatorUtilities.CreateInstance(_serviceProvider, implementationType, model1, model2, model3);
     }
 
     protected virtual Type GetViewModelImplementationType<TViewModel>() where TViewModel : notnull
@@ -129,7 +151,7 @@ public class ViewModelFactory : IViewModelFactory
         return serviceLifetime;
     }
 
-    private TViewModel InitializeViewModel<TViewModel>(bool isWithModels, Func<Type, TViewModel> activateImplementationTypeDelegate) where TViewModel : notnull
+    protected virtual TViewModel InitializeViewModel<TViewModel>(bool isWithModels, Func<Type, TViewModel> activateImplementationTypeDelegate) where TViewModel : notnull
     {
         Type viewModelType = typeof(TViewModel);
         Type implementationType = GetViewModelImplementationType<TViewModel>();
@@ -148,11 +170,56 @@ public class ViewModelFactory : IViewModelFactory
 
         if (viewModel is null)
         {
-            viewModel = activateImplementationTypeDelegate.Invoke(implementationType);
+            IWeakViewModelReferenceCollection? weakViewModelReferenceCollection;
+            try
+            {
+                weakViewModelReferenceCollection = (IWeakViewModelReferenceCollection?)StaticGetWeakViewModelReferenceCollectionMethodInfo
+                    .MakeGenericMethod(implementationType)
+                    .Invoke(null, [_serviceProvider]);
+            }
+            catch (TargetInvocationException e) when (e.InnerException is ViewModelNotRegisteredException viewModelNotRegisteredException)
+            {
+                //unwrap the TargetInvocationException into the actual ViewModelNotRegisteredException.
+                throw viewModelNotRegisteredException;
+            }
 
-            StaticAddToWeakViewModelReferenceCollectionMethodInfo
-                .MakeGenericMethod(implementationType)
-                .Invoke(null, [_serviceProvider, viewModel]);
+            if (weakViewModelReferenceCollection is null)
+            {
+                throw new ViewModelNotRegisteredException(implementationType, innerException: null);
+            }
+
+            try
+            {
+                viewModel = activateImplementationTypeDelegate.Invoke(implementationType);
+            }
+            catch (InvalidOperationException e)
+            {
+                if (!string.IsNullOrWhiteSpace(e.Message) && e.Message.StartsWith("Unable to resolve service for type "))
+                {
+                    int start = e.Message.IndexOf('\'') + 1;
+                    int end = e.Message.IndexOf('\'', start);
+                    string unresolvedTypeName = e.Message[start..end];
+
+                    Type? unresolvedType = Type.GetType(unresolvedTypeName);
+
+                    if (unresolvedType is null)
+                    {
+                        unresolvedType = AppDomain.CurrentDomain
+                            .GetAssemblies()
+                            .Select(a => a.GetType(unresolvedTypeName))
+                            .FirstOrDefault(t => t is not null);
+                    }
+
+                    if (unresolvedType is not null && typeof(ObservableObject).IsAssignableFrom(unresolvedType))
+                    {
+                        throw new ViewModelNotRegisteredException(unresolvedType, e);
+                    }
+                }
+
+                throw;
+            }
+
+            weakViewModelReferenceCollection.Add(viewModel);
 
             if (serviceLifetime is ServiceLifetime.Singleton)
             {

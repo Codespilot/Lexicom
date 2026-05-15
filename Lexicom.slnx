@@ -127,6 +127,7 @@
     <Project Path="Lexicom.Mvvm/Lexicom.Mvvm.csproj" />
   </Folder>
   <Folder Name="/Mvvm/UnitTests/">
+    <Project Path="Lexicom.Mvvm.For.Testing.UnitTests/Lexicom.Mvvm.For.Testing.UnitTests.csproj" Id="97442a8f-1bad-4b1e-9020-fa8fc60ee0dd" />
     <Project Path="Lexicom.Mvvm.UnitTests/Lexicom.Mvvm.UnitTests.csproj" Id="174289c4-20f8-4898-bb3b-ea3c69461be9" />
   </Folder>
   <Folder Name="/Scalar/">

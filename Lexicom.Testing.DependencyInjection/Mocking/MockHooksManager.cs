@@ -13,14 +13,13 @@ public class MockHooksManager
         new Hook("Lexicom.Mvvm.For.Testing", "Lexicom.Mvvm.For.Testing.Mocking.MockHook"),
     ];
 
-    public static bool TryToMockFromHooks(MockManager manager, Type type, TestAssistantConfiguration unitTestAssistantConfiguration)
+    public static bool TryToMockFromHooks(MockManager manager, Type type)
     {
         ArgumentNullException.ThrowIfNull(manager);
         ArgumentNullException.ThrowIfNull(type);
-        ArgumentNullException.ThrowIfNull(unitTestAssistantConfiguration);
 
         bool isMocked = false;
-        if (unitTestAssistantConfiguration.IsAutomaticallyUsingMockHooks)
+        if (manager.TestAssistant.AssistantConfiguration.IsAutomaticallyUsingMockHooks)
         {
             foreach (Hook hook in AvaliableHooks)
             {

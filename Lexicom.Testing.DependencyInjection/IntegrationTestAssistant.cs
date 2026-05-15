@@ -7,7 +7,12 @@ using System.Reflection;
 
 namespace Lexicom.Testing.DependencyInjection;
 
-public class IntegrationTestAssistant : TestAssistant, IServiceCollection
+public interface IIntegrationTestAssistant : ITestAssistant, IServiceCollection
+{
+    ConfigurationManager Configuration { get; }
+    bool IsMakingInstance { get; }
+}
+public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
 {
     private readonly IServiceCollection _services;
 
@@ -21,8 +26,10 @@ public class IntegrationTestAssistant : TestAssistant, IServiceCollection
         Configuration = new ConfigurationManager();
     }
 
+    public override TestingCategory Category => TestingCategory.IntegrationTest;
     public int Count => _services.Count;
     public bool IsReadOnly => _services.IsReadOnly;
+    public bool IsMakingInstance { get; private set; }
     public ConfigurationManager Configuration { get; }
     private IServiceProvider? Provider { get; set; }
 
@@ -89,6 +96,15 @@ public class IntegrationTestAssistant : TestAssistant, IServiceCollection
     {
         if (Provider is null)
         {
+            _services.TryAddSingleton<IntegrationTestAssistant>(this);
+            _services.TryAddSingleton<IIntegrationTestAssistant>(sp =>
+            {
+                return sp.GetRequiredService<IntegrationTestAssistant>();
+            });
+            _services.TryAddSingleton<ITestAssistant>(sp =>
+            {
+                return sp.GetRequiredService<IIntegrationTestAssistant>();
+            });
             _services.TryAddSingleton<IConfiguration>(Configuration);
 
             Provider = _services.BuildServiceProvider();
@@ -99,12 +115,18 @@ public class IntegrationTestAssistant : TestAssistant, IServiceCollection
             .Where(rp => rp is not null)
             .ToArray();
 
+        IsMakingInstance = true;
+
         if (manualParameters.Length > 0)
         {
             return ActivatorUtilities.CreateInstance(Provider, makeType, manualParameters);
         }
 
-        return Provider.GetRequiredService(type);
+        object instance = Provider.GetRequiredService(type);
+
+        IsMakingInstance = false;
+
+        return instance;
     }
 
     public int IndexOf(ServiceDescriptor item) => _services.IndexOf(item);

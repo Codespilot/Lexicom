@@ -45,7 +45,15 @@ public class AsyncMessenger : IMessenger
         ArgumentNullException.ThrowIfNull(token);
         ArgumentNullException.ThrowIfNull(handler);
 
-        _messenger.Register(recipient, token, handler);
+        _messenger.Register<TRecipient, TMessage, TToken>(recipient, token, (r, message) =>
+        {
+            if (recipient is DisposableObservableObject disposable && disposable.IsDisposed)
+            {
+                return;
+            }
+
+            handler.Invoke(recipient, message);
+        });
     }
 
     public void AsyncRegister<TMessage>(IAsyncRecipient<TMessage> recipient) where TMessage : AsyncMessage

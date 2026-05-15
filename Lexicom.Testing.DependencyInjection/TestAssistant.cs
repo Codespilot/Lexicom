@@ -10,16 +10,25 @@ using System.Reflection;
 
 namespace Lexicom.Testing.DependencyInjection;
 
-public abstract class TestAssistant : IDisposable
+public interface ITestAssistant : IDisposable
+{
+    TestingCategory Category { get; }
+    TestAssistantConfiguration AssistantConfiguration { get; }
+
+    T Make<T>(params object[] manualParameters) where T : class;
+    object Make(Type type, params object[] manualParameters);
+}
+public abstract class TestAssistant : ITestAssistant
 {
     public TestAssistant(TestAssistantConfiguration configuration)
     {
         AssistantConfiguration = configuration;
 
-        MockManager = new MockManager(AssistantConfiguration);
+        MockManager = new MockManager(this);
     }
 
-    protected TestAssistantConfiguration AssistantConfiguration { get; }
+    public abstract TestingCategory Category { get; }
+    public TestAssistantConfiguration AssistantConfiguration { get; }
     internal MockManager MockManager { get; }
 
     public virtual void Dispose()
@@ -40,7 +49,7 @@ public abstract class TestAssistant : IDisposable
     {
         return (T)Make(typeof(T), manualParameters);
     }
-    protected virtual object Make(Type type, object[] manualParameters)
+    public virtual object Make(Type type, params object[] manualParameters)
     {
         ArgumentNullException.ThrowIfNull(type);
         ArgumentNullException.ThrowIfNull(manualParameters);

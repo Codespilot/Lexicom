@@ -25,10 +25,17 @@ public partial class NotificationTrayViewModel : DisposableObservableObject, IAs
     public partial int NotificationsCount { get; set; }
 
     [ObservableProperty]
-    public partial bool IsReceivedNotification { get; set; }
+    public partial int ReceivedNotificationCount { get; set; }
 
     [ObservableProperty]
     public partial NotificationDialogViewModel NotificationDialogViewModel { get; set; }
+
+    public override void Dispose()
+    {
+        base.Dispose();
+
+        NotificationDialogViewModel.Dispose();
+    }
 
     public async Task LoadAsync()
     {
@@ -37,7 +44,7 @@ public partial class NotificationTrayViewModel : DisposableObservableObject, IAs
 
     public async Task ReceiveAsync(NewNotificationMessage message, CancellationToken cancellationToken)
     {
-        IsReceivedNotification = true;
+        ReceivedNotificationCount++;
 
         await UpdateNotificationsCountAsync();
     }
