@@ -9,7 +9,7 @@ public class MockHooksManager
     private static bool CheckedMockDbContextFactoryDelegateHook { get; set; }
     private static TryMockDbContextFactoryDelegate? TryMockDbContextFactoryDelegateHook { get; set; }
 
-    public static bool TryToMockFromHooks(MockManager manager, Type type, UnitTestAssistantConfiguration unitTestAssistantConfiguration)
+    public static bool TryToMockFromHooks(MockManager manager, Type type, TestAssistantConfiguration unitTestAssistantConfiguration)
     {
         ArgumentNullException.ThrowIfNull(manager);
         ArgumentNullException.ThrowIfNull(type);

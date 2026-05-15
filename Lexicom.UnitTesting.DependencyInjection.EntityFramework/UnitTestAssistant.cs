@@ -4,10 +4,10 @@ namespace Lexicom.UnitTesting.DependencyInjection;
 
 public class UnitTestAssistant<TDbContext> : UnitTestAssistant where TDbContext : DbContext
 {
-    public UnitTestAssistant() : this(new UnitTestAssistantConfiguration())
+    public UnitTestAssistant() : this(new TestAssistantConfiguration())
     {
     }
-    public UnitTestAssistant(UnitTestAssistantConfiguration configuration) : base(configuration)
+    public UnitTestAssistant(TestAssistantConfiguration configuration) : base(configuration)
     {
         Database = this.Database<TDbContext>();
     }

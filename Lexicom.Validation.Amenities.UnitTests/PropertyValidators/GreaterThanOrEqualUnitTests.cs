@@ -1,6 +1,6 @@
-﻿using Lexicom.UnitTesting;
+﻿using Lexicom.UnitTesting.DependencyInjection;
 using Lexicom.Validation.Amenities.Extensions;
-using Lexicom.Validation.Amenities.UnitTests.ModelsForTests.RuleSets;
+using Lexicom.Validation.Amenities.UnitTests.Constructs.RuleSets;
 using Lexicom.Validation.Extensions;
 
 namespace Lexicom.Validation.Amenities.UnitTests.PropertyValidators;
@@ -10,16 +10,16 @@ public class GreaterThanOrEqualUnitTests
     [Fact]
     public async Task Has_Error_Message()
     {
-        var uta = new UnitTestAttendant();
+        var ita = new IntegrationTestAssistant();
 
-        uta.AddLexicomValidation(options =>
+        ita.AddLexicomValidation(options =>
         {
             options.AddAmenities();
             options.AddRuleSets<AssemblyScanMarker>();
             options.AddValidators<AssemblyScanMarker>();
         });
 
-        var validator = uta.Get<IRuleSetValidator<NumberStringRuleSet, string?>>();
+        var validator = ita.Make<IRuleSetValidator<NumberStringRuleSet, string?>>();
 
         await validator.ValidateAsync("abc", TestContext.Current.CancellationToken);
 
@@ -32,16 +32,16 @@ public class GreaterThanOrEqualUnitTests
     [InlineData("2")]
     public async Task Has_Error_Message_Greater_Than(string value)
     {
-        var uta = new UnitTestAttendant();
+        var ita = new IntegrationTestAssistant();
 
-        uta.AddLexicomValidation(options =>
+        ita.AddLexicomValidation(options =>
         {
             options.AddAmenities();
             options.AddRuleSets<AssemblyScanMarker>();
             options.AddValidators<AssemblyScanMarker>();
         });
 
-        var validator = uta.Get<IRuleSetValidator<NumberStringRuleSet, string?>>();
+        var validator = ita.Make<IRuleSetValidator<NumberStringRuleSet, string?>>();
 
         await validator.ValidateAsync(value, TestContext.Current.CancellationToken);
 
@@ -55,16 +55,16 @@ public class GreaterThanOrEqualUnitTests
     [InlineData("1000")]
     public async Task Has_No_Error_Message(string value)
     {
-        var uta = new UnitTestAttendant();
+        var ita = new IntegrationTestAssistant();
 
-        uta.AddLexicomValidation(options =>
+        ita.AddLexicomValidation(options =>
         {
             options.AddAmenities();
             options.AddRuleSets<AssemblyScanMarker>();
             options.AddValidators<AssemblyScanMarker>();
         });
 
-        var validator = uta.Get<IRuleSetValidator<NumberStringRuleSet, string?>>();
+        var validator = ita.Make<IRuleSetValidator<NumberStringRuleSet, string?>>();
 
         await validator.ValidateAsync(value, TestContext.Current.CancellationToken);
 

@@ -1,7 +1,7 @@
-﻿using Lexicom.UnitTesting;
+﻿using Lexicom.UnitTesting.DependencyInjection;
 using Lexicom.Validation.Extensions;
-using Lexicom.Validation.UnitTests.ModelsForTests.RuleSets;
-using Lexicom.Validation.UnitTests.ModelsForTests.Transformers;
+using Lexicom.Validation.UnitTests.Constructs.RuleSets;
+using Lexicom.Validation.UnitTests.Constructs.Transformers;
 using System.Diagnostics;
 
 namespace Lexicom.Validation.UnitTests;
@@ -16,16 +16,16 @@ public class TransformationTests
     [InlineData("3", null)]
     public async Task Transform_From_String_To_Integer(string input, string? expectedErrorMessage)
     {
-        var uta = new UnitTestAttendant();
+        var ita = new IntegrationTestAssistant();
 
-        uta.AddLexicomValidation(options =>
+        ita.AddLexicomValidation(options =>
         {
             options.AddRuleSets<AssemblyScanMarker>();
             options.AddValidators<AssemblyScanMarker>();
             options.AddTransformers<AssemblyScanMarker>();
         });
 
-        var validator = uta.Get<IRuleSetValidator<String123abcRuleSet, string?, TransformerForIntegerGreaterThan1RuleSet, int>>();
+        var validator = ita.Make<IRuleSetValidator<String123abcRuleSet, string?, TransformerForIntegerGreaterThan1RuleSet, int>>();
 
         for (int i = 0; i < 3; i++)
         {
@@ -66,16 +66,16 @@ public class TransformationTests
     [InlineData("3", null)]
     public async Task Transform_From_String_To_Integer_With_Mutliple_RuleSetValidators(string input, string? expectedErrorMessage)
     {
-        var uta = new UnitTestAttendant();
+        var ita = new IntegrationTestAssistant();
 
-        uta.AddLexicomValidation(options =>
+        ita.AddLexicomValidation(options =>
         {
             options.AddRuleSets<AssemblyScanMarker>();
             options.AddValidators<AssemblyScanMarker>();
             options.AddTransformers<AssemblyScanMarker>();
         });
 
-        var validator = uta.Get<IRuleSetValidator<String123abcRuleSet, string?, TransformerForIntegerGreaterThan1RuleSetAndString123abcRuleSet, int>>();
+        var validator = ita.Make<IRuleSetValidator<String123abcRuleSet, string?, TransformerForIntegerGreaterThan1RuleSetAndString123abcRuleSet, int>>();
 
         for (int i = 0; i < 3; i++)
         {

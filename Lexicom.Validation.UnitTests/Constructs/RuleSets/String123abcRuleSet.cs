@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Lexicom.Validation.UnitTests.ModelsForTests.RuleSets;
+namespace Lexicom.Validation.UnitTests.Constructs.RuleSets;
 public class String123abcRuleSet : AbstractRuleSet<string?>
 {
     public const string MESSAGE = "Must contain only the following characters: 1, 2, 3, a, b, c.";

@@ -9,13 +9,13 @@ namespace Lexicom.UnitTesting.DependencyInjection.Mocking;
 
 public class MockManager : IDisposable, IReadOnlyDictionary<Type, MockContainer>
 {
-    public MockManager(UnitTestAssistantConfiguration configuration)
+    public MockManager(TestAssistantConfiguration configuration)
     {
-        Configuration = configuration;
+        AssistantConfiguration = configuration;
         MockTypeToContainer = [];
     }
 
-    private UnitTestAssistantConfiguration Configuration { get; }
+    private TestAssistantConfiguration AssistantConfiguration { get; }
     private Dictionary<Type, MockContainer> MockTypeToContainer { get; }
 
     public IEnumerable<Type> Keys => MockTypeToContainer.Keys;
@@ -34,7 +34,7 @@ public class MockManager : IDisposable, IReadOnlyDictionary<Type, MockContainer>
 
     public UnitTestAssistantMockFluentBuilder<TService> Mock<TService>() where TService : class
     {
-        return Mock<TService>(Configuration.DefaultMockLifetime);
+        return Mock<TService>(AssistantConfiguration.DefaultMockLifetime);
     }
     public UnitTestAssistantMockFluentBuilder<TService> Mock<TService>(MockLifetime lifetime) where TService : class
     {
@@ -57,7 +57,7 @@ public class MockManager : IDisposable, IReadOnlyDictionary<Type, MockContainer>
     /// <exception cref="PullNotMockedException"></exception>
     public object Pull(Type type)
     {
-        if (Configuration.IsAutomaticallyMocking)
+        if (AssistantConfiguration.IsAutomaticallyMocking)
         {
             if (!MockTypeToContainer.ContainsKey(type))
             {
@@ -66,9 +66,9 @@ public class MockManager : IDisposable, IReadOnlyDictionary<Type, MockContainer>
                     throw new PullValueTypeException(type);
                 }
 
-                if (!MockHooksManager.TryToMockFromHooks(this, type, Configuration))
+                if (!MockHooksManager.TryToMockFromHooks(this, type, AssistantConfiguration))
                 {
-                    Mock(type, Configuration.DefaultMockLifetime);
+                    Mock(type, AssistantConfiguration.DefaultMockLifetime);
                 }
             }
         }

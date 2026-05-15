@@ -1,6 +1,5 @@
 ﻿using Lexicom.UnitTesting.DependencyInjection.EntityFramework.UnitTests.Constructs.Databases;
 using Lexicom.UnitTesting.DependencyInjection.EntityFramework.UnitTests.Constructs.Services;
-using Lexicom.UnitTesting.DependencyInjection.Exceptions;
 using Lexicom.UnitTesting.DependencyInjection.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,15 +11,15 @@ public class IsAutomaticallyUsingMockHooksTests
     public void Successfully_Make_When_Not_Automatically_Mocking_Using_Hooks_But_DbContextFactory_Is_Mocked_Using_Databaes()
     {
         //arrange
-        using var ta = new UnitTestAssistant(new UnitTestAssistantConfiguration
+        using var uta = new UnitTestAssistant(new TestAssistantConfiguration
         {
             IsAutomaticallyUsingMockHooks = false,
         });
 
-        ta.Database<PeopleDbContext>();
+        uta.Database<PeopleDbContext>();
 
         //act
-        var uot = ta.Make<PeopleService>();
+        var uot = uta.Make<PeopleService>();
 
         //assert
         Assert.NotNull(uot);
@@ -35,15 +34,15 @@ public class IsAutomaticallyUsingMockHooksTests
     public void Successfully_Make_When_Not_Automatically_Mocking_Using_Hooks_But_DbContextFactory_Is_Mocked_Using_Mock()
     {
         //arrange
-        using var ta = new UnitTestAssistant(new UnitTestAssistantConfiguration
+        using var uta = new UnitTestAssistant(new TestAssistantConfiguration
         {
             IsAutomaticallyUsingMockHooks = false,
         });
 
-        ta.Mock<IDbContextFactory<PeopleDbContext>>();
+        uta.Mock<IDbContextFactory<PeopleDbContext>>();
 
         //act
-        var uot = ta.Make<PeopleService>();
+        var uot = uta.Make<PeopleService>();
 
         //assert
         Assert.NotNull(uot);
@@ -57,13 +56,13 @@ public class IsAutomaticallyUsingMockHooksTests
     public void Successfully_Make_When_Not_Automatically_Mocking_Using_Hooks_And_DbContextFactory_Is_Not_Mocked_Or_Manually_Provided()
     {
         //arrange
-        using var ta = new UnitTestAssistant(new UnitTestAssistantConfiguration
+        using var uta = new UnitTestAssistant(new TestAssistantConfiguration
         {
             IsAutomaticallyUsingMockHooks = false,
         });
 
         //act
-        var uot = ta.Make<PeopleService>();
+        var uot = uta.Make<PeopleService>();
 
         //assert
         Assert.NotNull(uot);

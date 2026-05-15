@@ -3,12 +3,12 @@
 namespace Lexicom.DependencyInjection.Primitives.For.UnitTesting.Extensions;
 public static class UnitTestAttendantExtensions
 {
-    public static UnitTestAttendant AddTestPrimitives(this UnitTestAttendant attendant, Action<ITestDependencyInjectionPrimitivesServiceBuilder>? configure = null)
-    {
-        ArgumentNullException.ThrowIfNull(attendant);
+    //public static UnitTestAttendant AddTestPrimitives(this UnitTestAttendant attendant, Action<ITestDependencyInjectionPrimitivesServiceBuilder>? configure = null)
+    //{
+    //    ArgumentNullException.ThrowIfNull(attendant);
 
-        configure?.Invoke(new TestDependencyInjectionPrimitivesServiceBuilder(attendant));
+    //    configure?.Invoke(new TestDependencyInjectionPrimitivesServiceBuilder(attendant));
 
-        return attendant;
-    }
+    //    return attendant;
+    //}
 }

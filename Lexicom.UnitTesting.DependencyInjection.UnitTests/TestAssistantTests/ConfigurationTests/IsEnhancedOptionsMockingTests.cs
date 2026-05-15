@@ -2,7 +2,7 @@
 using Lexicom.UnitTesting.DependencyInjection.UnitTests.Constructs.Models;
 using Lexicom.UnitTesting.DependencyInjection.UnitTests.Constructs.Services;
 
-namespace Lexicom.UnitTesting.DependencyInjection.UnitTests.UnitTestAssistantTests.ConfigurationTests;
+namespace Lexicom.UnitTesting.DependencyInjection.UnitTests.TestAssistantTests.ConfigurationTests;
 
 public class IsEnhancedOptionsMockingTests
 {
@@ -10,13 +10,13 @@ public class IsEnhancedOptionsMockingTests
     public void MicrosoftExtensionsOptions_Substitutes_Are_Enhanced_While_IsEnhancedOptionsMocking_Is_True()
     {
         //arrange
-        using var ta = new UnitTestAssistant(new UnitTestAssistantConfiguration
+        using var uta = new UnitTestAssistant(new TestAssistantConfiguration
         {
             IsEnhancedOptionsMocking = true,
         });
 
         //act
-        var uot = ta.Make<ServiceWithOptionsDependencies>();
+        var uot = uta.Make<ServiceWithOptionsDependencies>();
 
         //assert
         Assert.NotNull(uot._modelOptions);
@@ -46,18 +46,18 @@ public class IsEnhancedOptionsMockingTests
     public void MicrosoftExtensionsOptions_Enhanced_Substitutes_Use_Mocked_Generic_Type_While_IsEnhancedOptionsMocking_Is_True()
     {
         //arrange
-        using var ta = new UnitTestAssistant(new UnitTestAssistantConfiguration
+        using var uta = new UnitTestAssistant(new TestAssistantConfiguration
         {
             IsEnhancedOptionsMocking = true,
         });
 
-        ta.Mock<OptionsModel>().So(om =>
+        uta.Mock<OptionsModel>().So(om =>
         {
             om.StringValue = "test";
         });
 
         //act
-        var uot = ta.Make<ServiceWithOptionsDependencies>();
+        var uot = uta.Make<ServiceWithOptionsDependencies>();
 
         //assert
         Assert.NotNull(uot._modelOptions);
@@ -82,13 +82,13 @@ public class IsEnhancedOptionsMockingTests
     public void MicrosoftExtensionsOptions_Substitutes_Are_Not_Enhanced_While_IsEnhancedOptionsMocking_Is_False()
     {
         //arrange
-        using var ta = new UnitTestAssistant(new UnitTestAssistantConfiguration
+        using var uta = new UnitTestAssistant(new TestAssistantConfiguration
         {
             IsEnhancedOptionsMocking = false,
         });
 
         //act
-        var uot = ta.Make<ServiceWithOptionsDependencies>();
+        var uot = uta.Make<ServiceWithOptionsDependencies>();
 
         //assert
         Assert.NotNull(uot._modelOptions);

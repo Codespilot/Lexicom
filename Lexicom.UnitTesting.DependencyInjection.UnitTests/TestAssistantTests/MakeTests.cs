@@ -3,7 +3,7 @@ using Lexicom.UnitTesting.DependencyInjection.Extensions;
 using Lexicom.UnitTesting.DependencyInjection.UnitTests.Constructs.Models;
 using Lexicom.UnitTesting.DependencyInjection.UnitTests.Constructs.Services;
 
-namespace Lexicom.UnitTesting.DependencyInjection.UnitTests.UnitTestAssistantTests;
+namespace Lexicom.UnitTesting.DependencyInjection.UnitTests.TestAssistantTests;
 
 public class MakeTests
 {
@@ -11,10 +11,10 @@ public class MakeTests
     public void Automatically_Inject_Substitute_Dependencies()
     {
         //arrange
-        using var ta = new UnitTestAssistant();
+        using var uta = new UnitTestAssistant();
 
         //act
-        var uot = ta.Make<ServiceWithInterfaceDependencies>();
+        var uot = uta.Make<ServiceWithInterfaceDependencies>();
 
         //assert
         Assert.NotNull(uot);
@@ -34,10 +34,10 @@ public class MakeTests
     public void Automatically_Inject_Substitute_ReferenceType_Model_Dependency()
     {
         //arrange
-        using var ta = new UnitTestAssistant();
+        using var uta = new UnitTestAssistant();
 
         //act
-        var uot = ta.Make<ServiceWithReferenceTypeModelDependency>();
+        var uot = uta.Make<ServiceWithReferenceTypeModelDependency>();
 
         //assert
         Assert.NotNull(uot);
@@ -51,12 +51,12 @@ public class MakeTests
     public void Manually_Inject_ReferenceType_Model_Dependency()
     {
         //arrange
-        using var ta = new UnitTestAssistant();
+        using var uta = new UnitTestAssistant();
 
         var referenceTypeModel = new ReferenceTypeModel();
 
         //act
-        var uot = ta.Make<ServiceWithReferenceTypeModelDependency>(referenceTypeModel);
+        var uot = uta.Make<ServiceWithReferenceTypeModelDependency>(referenceTypeModel);
 
         //assert
         Assert.NotNull(uot);
@@ -72,12 +72,12 @@ public class MakeTests
     public void Manually_Inject_ValueType_Dependency()
     {
         //arrange
-        using var ta = new UnitTestAssistant();
+        using var uta = new UnitTestAssistant();
 
         int intValueType = 123;
 
         //act
-        var uot = ta.Make<ServiceWithValueTypeDependency>(intValueType);
+        var uot = uta.Make<ServiceWithValueTypeDependency>(intValueType);
 
         //assert
         Assert.NotNull(uot);
@@ -91,9 +91,9 @@ public class MakeTests
     public async Task Manually_Inject_Some_Dependencies()
     {
         //arrange
-        using var ta = new UnitTestAssistant();
+        using var uta = new UnitTestAssistant();
 
-        ta.Mock<IServiceDependencyIntReturnMethod>().With(new ServiceDependencyIntReturnMethod());
+        uta.Mock<IServiceDependencyIntReturnMethod>().With(new ServiceDependencyIntReturnMethod());
 
         int intValueType = 123;
         var referenceTypeModel = new ReferenceTypeModel();
@@ -103,7 +103,7 @@ public class MakeTests
         };
 
         //act
-        var uot = ta.Make<ServiceWithMixedDependencies>(intValueType, referenceTypeModel, valueTypeModel);
+        var uot = uta.Make<ServiceWithMixedDependencies>(intValueType, referenceTypeModel, valueTypeModel);
 
         //assert
         Assert.NotNull(uot);
@@ -134,7 +134,7 @@ public class MakeTests
     public void Fail_To_Make_When_Unused_Manual_Dependency()
     {
         //arrange
-        using var ta = new UnitTestAssistant();
+        using var uta = new UnitTestAssistant();
 
         var unusedManualParameter = new ReferenceTypeModel();
 
@@ -142,7 +142,7 @@ public class MakeTests
         Assert.Throws<MakeUnusedManualParametersException>(() =>
         {
             //act
-            var uot = ta.Make<ServiceWithInterfaceDependencies>(unusedManualParameter);
+            var uot = uta.Make<ServiceWithInterfaceDependencies>(unusedManualParameter);
         });
     }
 
@@ -150,10 +150,10 @@ public class MakeTests
     public void Successfully_Make_Type_With_No_Dependencies()
     {
         //arrange
-        using var ta = new UnitTestAssistant();
+        using var uta = new UnitTestAssistant();
 
         //act
-        var uot = ta.Make<ServiceWithNoDependencies>();
+        var uot = uta.Make<ServiceWithNoDependencies>();
 
         //assert
         Assert.NotNull(uot);
@@ -165,10 +165,10 @@ public class MakeTests
     public void Automatically_Inject_Substitute_To_Substitute_With_Constructor_Parameters()
     {
         //arrange
-        using var ta = new UnitTestAssistant();
+        using var uta = new UnitTestAssistant();
 
         //act
-        var uot = ta.Make<ServiceWithConcreteDependency>();
+        var uot = uta.Make<ServiceWithConcreteDependency>();
 
         //assert
         Assert.NotNull(uot);
@@ -184,17 +184,17 @@ public class MakeTests
     public void Successfully_Make_With_Chained_Make_Calls()
     {
         //arrange
-        using var ta = new UnitTestAssistant();
+        using var uta = new UnitTestAssistant();
 
-        ta.Mock<ServiceChainB>().With(() =>
+        uta.Mock<ServiceChainB>().With(() =>
         {
-            var serviceChainC = ta.Make<ServiceChainC>();
+            var serviceChainC = uta.Make<ServiceChainC>();
 
             return new ServiceChainB(serviceChainC);
         });
 
         //act
-        var uot = ta.Make<ServiceChain>();
+        var uot = uta.Make<ServiceChain>();
 
         string text = uot._serviceChainA.GetAText();
 
@@ -206,13 +206,13 @@ public class MakeTests
     public void Fail_To_Inject_ValueType_Dependency()
     {
         //arrange
-        using var ta = new UnitTestAssistant();
+        using var uta = new UnitTestAssistant();
 
         //assert
         Assert.Throws<PullValueTypeException>(() =>
         {
             //act
-            var uot = ta.Make<ServiceWithValueTypeDependency>();
+            var uot = uta.Make<ServiceWithValueTypeDependency>();
         });
     }
 
@@ -220,13 +220,13 @@ public class MakeTests
     public void Fail_To_Inject_ValueType_Dependencies()
     {
         //arrange
-        using var ta = new UnitTestAssistant();
+        using var uta = new UnitTestAssistant();
 
         //assert
         Assert.Throws<PullValueTypeException>(() =>
         {
             //act
-            var uot = ta.Make<ServiceWithValueTypeDependencies>();
+            var uot = uta.Make<ServiceWithValueTypeDependencies>();
         });
     }
 
@@ -234,13 +234,13 @@ public class MakeTests
     public void Fail_To_Inject_Nullable_ValueType_Dependency()
     {
         //arrange
-        using var ta = new UnitTestAssistant();
+        using var uta = new UnitTestAssistant();
 
         //assert
         Assert.Throws<PullValueTypeException>(() =>
         {
             //act
-            var uot = ta.Make<ServiceWithNullableValueTypeDependency>();
+            var uot = uta.Make<ServiceWithNullableValueTypeDependency>();
         });
     }
 
@@ -248,13 +248,13 @@ public class MakeTests
     public void Fail_To_Inject_ValueType_Model_Dependency()
     {
         //arrange
-        using var ta = new UnitTestAssistant();
+        using var uta = new UnitTestAssistant();
 
         //assert
         Assert.Throws<PullValueTypeException>(() =>
         {
             //act
-            var uot = ta.Make<ServiceWithValueTypeModelDependency>();
+            var uot = uta.Make<ServiceWithValueTypeModelDependency>();
         });
     }
 }

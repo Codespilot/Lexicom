@@ -1,7 +1,7 @@
 ﻿using Lexicom.UnitTesting.DependencyInjection.UnitTests.Constructs.Models;
 using Lexicom.UnitTesting.DependencyInjection.UnitTests.Constructs.Services;
 
-namespace Lexicom.UnitTesting.DependencyInjection.UnitTests.UnitTestAssistantTests.ConfigurationTests;
+namespace Lexicom.UnitTesting.DependencyInjection.UnitTests.TestAssistantTests.ConfigurationTests;
 
 public class DefaultMockLifetimeTests
 {
@@ -9,13 +9,13 @@ public class DefaultMockLifetimeTests
     public void Singleton_DefaultMockLifetime_Makes_Unspecified_Mocks_Singleton()
     {
         //arrange
-        using var ta = new UnitTestAssistant(new UnitTestAssistantConfiguration
+        using var uta = new UnitTestAssistant(new TestAssistantConfiguration
         {
             DefaultMockLifetime = MockLifetime.Singleton,
         });
 
         int factoryCallCount = 0;
-        ta.Mock<ReferenceTypeModel>().With(() =>
+        uta.Mock<ReferenceTypeModel>().With(() =>
         {
             factoryCallCount++;
 
@@ -26,8 +26,8 @@ public class DefaultMockLifetimeTests
         });
 
         //act
-        var uot1 = ta.Make<ServiceWithReferenceTypeModelDependency>();
-        var uot2 = ta.Make<ServiceWithReferenceTypeModelDependency>();
+        var uot1 = uta.Make<ServiceWithReferenceTypeModelDependency>();
+        var uot2 = uta.Make<ServiceWithReferenceTypeModelDependency>();
 
         //assert
         Guid uot1ModelId = uot1.ReferenceTypeModel.Id;
@@ -41,13 +41,13 @@ public class DefaultMockLifetimeTests
     public void Transient_DefaultMockLifetime_Makes_Unspecified_Mocks_Transient()
     {
         //arrange
-        using var ta = new UnitTestAssistant(new UnitTestAssistantConfiguration
+        using var uta = new UnitTestAssistant(new TestAssistantConfiguration
         {
             DefaultMockLifetime = MockLifetime.Transient,
         });
 
         int factoryCallCount = 0;
-        ta.Mock<ReferenceTypeModel>().With(() =>
+        uta.Mock<ReferenceTypeModel>().With(() =>
         {
             factoryCallCount++;
 
@@ -58,8 +58,8 @@ public class DefaultMockLifetimeTests
         });
 
         //act
-        var uot1 = ta.Make<ServiceWithReferenceTypeModelDependency>();
-        var uot2 = ta.Make<ServiceWithReferenceTypeModelDependency>();
+        var uot1 = uta.Make<ServiceWithReferenceTypeModelDependency>();
+        var uot2 = uta.Make<ServiceWithReferenceTypeModelDependency>();
 
         //assert
         Guid uot1ModelId = uot1.ReferenceTypeModel.Id;
@@ -75,13 +75,13 @@ public class DefaultMockLifetimeTests
     public void Specified_Mocks_Override_DefaultMockLifetime_Configuration(MockLifetime defaultMockLifetime, MockLifetime actualMockLifetime, bool isEqual, int expectedFactoryCallCount)
     {
         //arrange
-        using var ta = new UnitTestAssistant(new UnitTestAssistantConfiguration
+        using var uta = new UnitTestAssistant(new TestAssistantConfiguration
         {
             DefaultMockLifetime = defaultMockLifetime,
         });
 
         int factoryCallCount = 0;
-        ta.Mock<ReferenceTypeModel>(actualMockLifetime).With(() =>
+        uta.Mock<ReferenceTypeModel>(actualMockLifetime).With(() =>
         {
             factoryCallCount++;
 
@@ -92,8 +92,8 @@ public class DefaultMockLifetimeTests
         });
 
         //act
-        var uot1 = ta.Make<ServiceWithReferenceTypeModelDependency>();
-        var uot2 = ta.Make<ServiceWithReferenceTypeModelDependency>();
+        var uot1 = uta.Make<ServiceWithReferenceTypeModelDependency>();
+        var uot2 = uta.Make<ServiceWithReferenceTypeModelDependency>();
 
         //assert
         Guid uot1ModelId = uot1.ReferenceTypeModel.Id;

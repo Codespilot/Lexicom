@@ -1,6 +1,6 @@
 ﻿namespace Lexicom.UnitTesting.DependencyInjection;
 
-public class UnitTestAssistantConfiguration
+public class TestAssistantConfiguration
 {
     /// <summary>
     /// While true all instances created with the Make<TImplementation>() call will be created with <see cref="NSubstitute"/> substitutions used for all non value type constructor parameters that do not already have a mock configured with the <see cref="UnitTestAssistant"/> Mock<TImplementation>() call.

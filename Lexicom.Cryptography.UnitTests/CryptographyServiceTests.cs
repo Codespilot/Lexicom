@@ -1,7 +1,7 @@
 ﻿using Lexicom.Cryptography.Extensions;
 using Lexicom.Cryptography.Options;
 using Lexicom.DependencyInjection.Amenities.Extensions;
-using Lexicom.UnitTesting;
+using Lexicom.UnitTesting.DependencyInjection;
 
 namespace Lexicom.Cryptography.UnitTests;
 
@@ -10,21 +10,21 @@ public class CryptographyServiceTests
     [Fact]
     public async Task Encryption_And_Decryption()
     {
-        var uta = new UnitTestAttendant();
+        var ita = new IntegrationTestAssistant();
 
-        uta.Configuration.AddInMemoryCollection(new CryptographyStringSecretOptions
+        ita.Configuration.AddInMemoryCollection(new CryptographyStringSecretOptions
         {
             Base64StringSecretKey = "MTIzNDU2Nzg5MTIzNDU2Nzg5MTIzNDU2Nzg5MTIzNDU=",
         });
 
-        uta.AddLexicomCryptography(c =>
+        ita.AddLexicomCryptography(c =>
         {
             c.AddStringSecretOptions();
         });
 
         string originalPlainText = "my plain text";
 
-        var cryptographyService = uta.Get<ICryptographyService>();
+        var cryptographyService = ita.Make<ICryptographyService>();
 
         string encryptedbase64 = await cryptographyService.EncryptAsync(originalPlainText);
 

@@ -3,7 +3,7 @@ using Lexicom.UnitTesting.DependencyInjection.Extensions;
 using Lexicom.UnitTesting.DependencyInjection.UnitTests.Constructs.Services;
 using NSubstitute;
 
-namespace Lexicom.UnitTesting.DependencyInjection.UnitTests.UnitTestAssistantTests.ConfigurationTests;
+namespace Lexicom.UnitTesting.DependencyInjection.UnitTests.TestAssistantTests.ConfigurationTests;
 
 public class IsAutomaticallyMockingTests
 {
@@ -11,15 +11,15 @@ public class IsAutomaticallyMockingTests
     public void Successfully_Make_When_Not_Automatically_Mocking_But_Dependency_Is_Mocked()
     {
         //arrange
-        using var ta = new UnitTestAssistant(new UnitTestAssistantConfiguration
+        using var uta = new UnitTestAssistant(new TestAssistantConfiguration
         {
             IsAutomaticallyMocking = false,
         });
 
-        ta.Mock<IServiceDependencyIntReturnMethod>();
+        uta.Mock<IServiceDependencyIntReturnMethod>();
 
         //act
-        var uot = ta.Make<ServiceWithDependency>();
+        var uot = uta.Make<ServiceWithDependency>();
 
         //assert
         Assert.NotNull(uot);
@@ -33,7 +33,7 @@ public class IsAutomaticallyMockingTests
     public void Successfully_Make_When_Not_Automatically_Mocking_But_All_Dependency_Is_Manually_Provided()
     {
         //arrange
-        using var ta = new UnitTestAssistant(new UnitTestAssistantConfiguration
+        using var uta = new UnitTestAssistant(new TestAssistantConfiguration
         {
             IsAutomaticallyMocking = false,
         });
@@ -41,7 +41,7 @@ public class IsAutomaticallyMockingTests
         var mockableService = new ServiceDependencyIntReturnMethod();
 
         //act
-        var uot = ta.Make<ServiceWithDependency>(mockableService);
+        var uot = uta.Make<ServiceWithDependency>(mockableService);
 
         //assert
         Assert.NotNull(uot);
@@ -55,19 +55,19 @@ public class IsAutomaticallyMockingTests
     public void Successfully_Make_When_Not_Automatically_Mocking_But_All_Dependencies_Are_Mocked_Or_Manually_Provided()
     {
         //arrange
-        using var ta = new UnitTestAssistant(new UnitTestAssistantConfiguration
+        using var uta = new UnitTestAssistant(new TestAssistantConfiguration
         {
             IsAutomaticallyMocking = false,
         });
 
-        ta.Mock<IServiceDependencyVoidReturnMethod>();
-        ta.Mock<IServiceDependencyIntReturnMethod>();
+        uta.Mock<IServiceDependencyVoidReturnMethod>();
+        uta.Mock<IServiceDependencyIntReturnMethod>();
 
         var mockServiceDependencyStringReturnMethod = Substitute.For<IServiceDependencyStringReturnMethod>();
         var mockServiceDependencyReferenceTypeReturnMethod = Substitute.For<IServiceDependencyReferenceTypeReturnMethod>();
 
         //act
-        var uot = ta.Make<ServiceWithInterfaceDependencies>(mockServiceDependencyStringReturnMethod, mockServiceDependencyReferenceTypeReturnMethod);
+        var uot = uta.Make<ServiceWithInterfaceDependencies>(mockServiceDependencyStringReturnMethod, mockServiceDependencyReferenceTypeReturnMethod);
 
         //assert
         Assert.NotNull(uot);
@@ -87,7 +87,7 @@ public class IsAutomaticallyMockingTests
     public void Fail_Make_When_Not_Automatically_Mocking_And_Dependency_Is_Not_Mocked_Or_Manually_Provided()
     {
         //arrange
-        using var ta = new UnitTestAssistant(new UnitTestAssistantConfiguration
+        using var uta = new UnitTestAssistant(new TestAssistantConfiguration
         {
             IsAutomaticallyMocking = false,
         });
@@ -96,7 +96,7 @@ public class IsAutomaticallyMockingTests
         Assert.Throws<PullNotMockedException>(() =>
         {
             //act
-            var uot = ta.Make<ServiceWithDependency>();
+            var uot = uta.Make<ServiceWithDependency>();
         });
     }
 }

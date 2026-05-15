@@ -1,6 +1,6 @@
-﻿using Lexicom.UnitTesting;
+﻿using Lexicom.UnitTesting.DependencyInjection;
 using Lexicom.Validation.Amenities.Extensions;
-using Lexicom.Validation.Amenities.UnitTests.ModelsForTests.RuleSets;
+using Lexicom.Validation.Amenities.UnitTests.Constructs.RuleSets;
 using Lexicom.Validation.Extensions;
 
 namespace Lexicom.Validation.Amenities.UnitTests.PropertyValidators;
@@ -10,16 +10,16 @@ public class GreaterThanUnitTests
     [Fact]
     public async Task Message_Is_Expected()
     {
-        var uta = new UnitTestAttendant();
+        var ita = new IntegrationTestAssistant();
 
-        uta.AddLexicomValidation(options =>
+        ita.AddLexicomValidation(options =>
         {
             options.AddAmenities();
             options.AddRuleSets<AssemblyScanMarker>();
             options.AddValidators<AssemblyScanMarker>();
         });
 
-        var validator = uta.Get<IRuleSetValidator<GreaterThanRuleSet, string?>>();
+        var validator = ita.Make<IRuleSetValidator<GreaterThanRuleSet, string?>>();
 
         await validator.ValidateAsync("4", TestContext.Current.CancellationToken);
 

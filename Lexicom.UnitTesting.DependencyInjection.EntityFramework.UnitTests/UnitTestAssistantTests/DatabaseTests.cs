@@ -27,19 +27,19 @@ public class DatabaseTests
     public async Task Successfully_Arrange_Database_For_Read_Test()
     {
         //arrange
-        using var ta = new UnitTestAssistant<PeopleDbContext>();
+        using var uta = new UnitTestAssistant<PeopleDbContext>();
 
         var bob = GetNewBob();
         var alice = GetNewAlice();
         var alex = GetNewAlex();
 
-        ta.Database.People.Add(bob);
-        ta.Database.People.Add(alice);
-        ta.Database.People.Add(alex);
+        uta.Database.People.Add(bob);
+        uta.Database.People.Add(alice);
+        uta.Database.People.Add(alex);
 
-        await ta.Database.SaveChangesAsync();
+        await uta.Database.SaveChangesAsync();
 
-        var uot = ta.Make<PeopleService>();
+        var uot = uta.Make<PeopleService>();
 
         //act
         int countOfPeopleWithAgesGreaterThanOrEqualTo30 = await uot.CountOfPeopleWithAgesGreaterThanOrEqualTo30Async();
@@ -52,15 +52,15 @@ public class DatabaseTests
     public async Task Successfully_Arrange_Database_For_Write_Test()
     {
         //arrange
-        using var ta = new UnitTestAssistant<PeopleDbContext>();
+        using var uta = new UnitTestAssistant<PeopleDbContext>();
 
-        var uot = ta.Make<PeopleService>();
+        var uot = uta.Make<PeopleService>();
 
         //act
         await uot.AddPeople();
 
         //assert
-        int count = await ta.Database.People.CountAsync();
+        int count = await uta.Database.People.CountAsync();
 
         Assert.Equal(3, count);
     }
@@ -69,25 +69,25 @@ public class DatabaseTests
     public async Task Successfully_Arrange_Database_For_Read_And_Write_Test()
     {
         //arrange
-        using var ta = new UnitTestAssistant<PeopleDbContext>();
+        using var uta = new UnitTestAssistant<PeopleDbContext>();
 
         var bob = GetNewBob();
         var alice = GetNewAlice();
         var alex = GetNewAlex();
 
-        ta.Database.People.Add(bob);
-        ta.Database.People.Add(alice);
-        ta.Database.People.Add(alex);
+        uta.Database.People.Add(bob);
+        uta.Database.People.Add(alice);
+        uta.Database.People.Add(alex);
 
-        await ta.Database.SaveChangesAsync();
+        await uta.Database.SaveChangesAsync();
 
-        var uot = ta.Make<PeopleService>();
+        var uot = uta.Make<PeopleService>();
 
         //act
         int originalCount = await uot.GetCountOfPeopleThenRemoveThemAllAsync();
 
         //assert
-        int newCount = await ta.Database.People.CountAsync();
+        int newCount = await uta.Database.People.CountAsync();
 
         Assert.Equal(3, originalCount);
         Assert.Equal(0, newCount);
@@ -97,9 +97,9 @@ public class DatabaseTests
     public async Task Successfully_Arrange_Multiple_Databases()
     {
         //arrange
-        using var ta = new UnitTestAssistant();
+        using var uta = new UnitTestAssistant();
 
-        var colorsDb = ta.Database<ColorsDbContext>();
+        var colorsDb = uta.Database<ColorsDbContext>();
 
         var red = new Color
         {
@@ -129,7 +129,7 @@ public class DatabaseTests
 
         await colorsDb.SaveChangesAsync();
 
-        var peopleDb = ta.Database<PeopleDbContext>();
+        var peopleDb = uta.Database<PeopleDbContext>();
 
         var bobAndAliceHome = new Home
         {
@@ -159,7 +159,7 @@ public class DatabaseTests
 
         await peopleDb.SaveChangesAsync();
 
-        var uot = ta.Make<ServiceWithMultipleDbContexts>();
+        var uot = uta.Make<ServiceWithMultipleDbContexts>();
 
         //act
         await uot.RemoveEntityFirstFromDatabasesAsync();
@@ -178,10 +178,10 @@ public class DatabaseTests
     public void Automatically_Inject_Database_Dependencies()
     {
         //arrange
-        using var ta = new UnitTestAssistant();
+        using var uta = new UnitTestAssistant();
 
         //act
-        var uot = ta.Make<ServiceWithMultipleDbContexts>();
+        var uot = uta.Make<ServiceWithMultipleDbContexts>();
 
         //assert
         Assert.NotNull(uot._colorsDbContextFactory);
@@ -195,13 +195,13 @@ public class DatabaseTests
     //public void Fail_To_Inject_Database_Dependency_With_Too_Many_Constructors()
     //{
     //    //arrange
-    //    using var ta = new TestAssistant();
+    //    using var uta = new TestAssistant();
 
     //    //assert
     //    Assert.Throws<DbContextTooManyConstructorsException>(() =>
     //    {
     //        //act
-    //        var uot = ta.Make<ServiceWithDatabaseUsingMultipleConstructors>();
+    //        var uot = uta.Make<ServiceWithDatabaseUsingMultipleConstructors>();
     //    });
     //}
 
@@ -209,13 +209,13 @@ public class DatabaseTests
     //public void Fail_To_Pull_Database_With_Too_Many_Constructors()
     //{
     //    //arrange
-    //    using var ta = new TestAssistant();
+    //    using var uta = new TestAssistant();
 
     //    //assert
     //    Assert.Throws<DbContextTooManyConstructorsException>(() =>
     //    {
     //        //act
-    //        var db = ta.Database<DbContextWithMultipleConstructors>();
+    //        var db = uta.Database<DbContextWithMultipleConstructors>();
     //    });
     //}
 
@@ -226,7 +226,7 @@ public class DatabaseTests
     //    Assert.Throws<DbContextTooManyConstructorsException>(() =>
     //    {
     //        //arrange - act
-    //        using var ta = new TestAssistant<DbContextWithMultipleConstructors>();
+    //        using var uta = new TestAssistant<DbContextWithMultipleConstructors>();
     //    });
     //}
 
@@ -234,13 +234,13 @@ public class DatabaseTests
     //public void Fail_To_Inject_Database_Dependency_With_Too_Many_Constructor_Parameters()
     //{
     //    //arrange
-    //    using var ta = new TestAssistant();
+    //    using var uta = new TestAssistant();
 
     //    //assert
     //    Assert.Throws<DbContextTooManyConstructorParametersException>(() =>
     //    {
     //        //act
-    //        var uot = ta.Make<ServiceWithDatabaseUsingMultipleConstructorParameters>();
+    //        var uot = uta.Make<ServiceWithDatabaseUsingMultipleConstructorParameters>();
     //    });
     //}
 
@@ -248,13 +248,13 @@ public class DatabaseTests
     //public void Fail_To_Pull_Database_With_Too_Many_Constructor_Parameters()
     //{
     //    //arrange
-    //    using var ta = new TestAssistant();
+    //    using var uta = new TestAssistant();
 
     //    //assert
     //    Assert.Throws<DbContextTooManyConstructorParametersException>(() =>
     //    {
     //        //act
-    //        var db = ta.Database<DbContextWithMultipleConstructorParameters>();
+    //        var db = uta.Database<DbContextWithMultipleConstructorParameters>();
     //    });
     //}
 
@@ -265,7 +265,7 @@ public class DatabaseTests
     //    Assert.Throws<DbContextTooManyConstructorParametersException>(() =>
     //    {
     //        //arrange - act
-    //        using var ta = new TestAssistant<DbContextWithMultipleConstructorParameters>();
+    //        using var uta = new TestAssistant<DbContextWithMultipleConstructorParameters>();
     //    });
     //}
 }
