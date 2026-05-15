@@ -1,6 +1,6 @@
 ﻿using Lexicom.Testing.DependencyInjection;
 
-namespace Lexicom.DependencyInjection.Primitives.For.UnitTesting.Extensions;
+namespace Lexicom.DependencyInjection.Primitives.For.Testing.Extensions;
 
 public static class IntegrationTestAssistantExtensions
 {

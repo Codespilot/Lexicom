@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 
 namespace Lexicom.EntityFramework.Identity.UnitTesting;
-public class MockDefaultHttpContextAccessor : IHttpContextAccessor
+public class TestHttpContextAccessor : IHttpContextAccessor
 {
     /// <exception cref="ArgumentNullException"/>
-    public MockDefaultHttpContextAccessor(IServiceProvider serviceProvider)
+    public TestHttpContextAccessor(IServiceProvider serviceProvider)
     {
         ArgumentNullException.ThrowIfNull(serviceProvider);
 

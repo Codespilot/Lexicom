@@ -68,7 +68,7 @@
     <Project Path="Lexicom.DependencyInjection.Primitives.For.Blazor.WebAssembly/Lexicom.DependencyInjection.Primitives.For.Blazor.WebAssembly.csproj" />
     <Project Path="Lexicom.DependencyInjection.Primitives.For.ConsoleApp/Lexicom.DependencyInjection.Primitives.For.ConsoleApp.csproj" />
     <Project Path="Lexicom.DependencyInjection.Primitives.For.Maui.Blazor.Hybrid/Lexicom.DependencyInjection.Primitives.For.Maui.Blazor.Hybrid.csproj" />
-    <Project Path="Lexicom.DependencyInjection.Primitives.For.UnitTesting/Lexicom.DependencyInjection.Primitives.For.UnitTesting.csproj" />
+    <Project Path="Lexicom.DependencyInjection.Primitives.For.Testing/Lexicom.DependencyInjection.Primitives.For.Testing.csproj" />
     <Project Path="Lexicom.DependencyInjection.Primitives.For.Wpf/Lexicom.DependencyInjection.Primitives.For.Wpf.csproj" />
     <Project Path="Lexicom.DependencyInjection.Primitives/Lexicom.DependencyInjection.Primitives.csproj" />
   </Folder>
@@ -80,7 +80,7 @@
   <Folder Name="/EntityFramework.Identity/">
     <Project Path="Lexicom.EntityFramework.Identity.For.AspNetCore.Controllers/Lexicom.EntityFramework.Identity.For.AspNetCore.Controllers.csproj" />
     <Project Path="Lexicom.EntityFramework.Identity.For.ConsoleApp/Lexicom.EntityFramework.Identity.For.ConsoleApp.csproj" />
-    <Project Path="Lexicom.EntityFramework.Identity.For.UnitTesting/Lexicom.EntityFramework.Identity.For.UnitTesting.csproj" />
+    <Project Path="Lexicom.EntityFramework.Identity.For.Testing/Lexicom.EntityFramework.Identity.For.Testing.csproj" />
     <Project Path="Lexicom.EntityFramework.Identity.For.Wpf/Lexicom.EntityFramework.Identity.For.Wpf.csproj" />
     <Project Path="Lexicom.EntityFramework.Identity/Lexicom.EntityFramework.Identity.csproj" />
   </Folder>

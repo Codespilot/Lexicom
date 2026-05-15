@@ -1,6 +1,6 @@
-﻿using Lexicom.DependencyInjection.Primitives.For.UnitTesting.Exceptions;
+﻿using Lexicom.DependencyInjection.Primitives.For.Testing.Exceptions;
 
-namespace Lexicom.DependencyInjection.Primitives.For.UnitTesting.Extensions;
+namespace Lexicom.DependencyInjection.Primitives.For.Testing.Extensions;
 public static class GuidProviderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

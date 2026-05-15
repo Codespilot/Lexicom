@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Lexicom.EntityFramework.Identity.For.UnitTesting.Extensions;
+namespace Lexicom.EntityFramework.Identity.For.Testing.Extensions;
 
 public static class IntegrationTestAssistantExtensions
 {
@@ -88,7 +88,7 @@ public static class IntegrationTestAssistantExtensions
     {
         integrationTestAssistant.TryAddSingleton<IHttpContextAccessor>(sp =>
         {
-            return new MockDefaultHttpContextAccessor(sp);
+            return new TestHttpContextAccessor(sp);
         });
 
         integrationTestAssistant.AddAuthentication();
