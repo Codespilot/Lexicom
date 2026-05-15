@@ -1,10 +1,10 @@
 using Lexicom.Cryptography.Extensions;
 using Lexicom.Cryptography.Options;
 using Lexicom.DependencyInjection.Amenities.Extensions;
-using Lexicom.UnitTesting.DependencyInjection;
+using Lexicom.Testing.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace Lexicom.Cryptography.UnitTests;
+namespace Lexicom.Cryptography.UnitTests.Tests;
 
 public class CryptographyStringSecretOptionsValidatorTests
 {
@@ -15,6 +15,7 @@ public class CryptographyStringSecretOptionsValidatorTests
     [InlineData("MTIzNDU2Nzg5MTIzNDU2Nzg=")]
     public void SecretKey_String_Size_Throws_When_Not_Correct_Size(string base64StringSecretKey)
     {
+        //arrange
         var ita = new IntegrationTestAssistant();
 
         ita.Configuration.AddInMemoryCollection(new CryptographyStringSecretOptions
@@ -27,8 +28,10 @@ public class CryptographyStringSecretOptionsValidatorTests
             c.AddStringSecretOptions();
         });
 
+        //act
         var cryptographyStringSecretOptions = ita.Make<IOptions<CryptographyStringSecretOptions>>();
 
+        //assert
         var exception = Assert.Throws<OptionsValidationException>(() =>
         {
             _ = cryptographyStringSecretOptions.Value.Base64StringSecretKey;
@@ -40,6 +43,7 @@ public class CryptographyStringSecretOptionsValidatorTests
     [InlineData("MTIzNDU2Nzg5MTIzNDU2Nw==")]
     public void SecretKey_String_Size_Does_Not_Throw_When_Correct_Size(string base64StringSecretKey)
     {
+        //arrange
         var ita = new IntegrationTestAssistant();
 
         ita.Configuration.AddInMemoryCollection(new CryptographyStringSecretOptions
@@ -52,10 +56,10 @@ public class CryptographyStringSecretOptionsValidatorTests
             c.AddStringSecretOptions();
         });
 
+        //act
         var cryptographyStringSecretOptions = ita.Make<IOptions<CryptographyStringSecretOptions>>();
 
-        _ = cryptographyStringSecretOptions.Value.Base64StringSecretKey;
-
-        Assert.True(true);
+        //assert
+        Assert.Equal(base64StringSecretKey, cryptographyStringSecretOptions.Value.Base64StringSecretKey);
     }
 }

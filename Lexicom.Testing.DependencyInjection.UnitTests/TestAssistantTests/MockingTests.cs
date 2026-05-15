@@ -1,7 +1,7 @@
-﻿using Lexicom.UnitTesting.DependencyInjection.UnitTests.Constructs.Services;
+﻿using Lexicom.Testing.DependencyInjection.UnitTests.Constructs.Services;
 using NSubstitute;
 
-namespace Lexicom.UnitTesting.DependencyInjection.UnitTests.TestAssistantTests;
+namespace Lexicom.Testing.DependencyInjection.UnitTests.TestAssistantTests;
 
 public class MockingTests
 {

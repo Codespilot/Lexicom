@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.8" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Lexicom.Testing.DependencyInjection\Lexicom.Testing.DependencyInjection.csproj" />
+  </ItemGroup>
+
 </Project>

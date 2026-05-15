@@ -1,7 +1,7 @@
-﻿using Lexicom.UnitTesting.DependencyInjection.UnitTests.Constructs.Models;
-using Lexicom.UnitTesting.DependencyInjection.UnitTests.Constructs.Services;
+﻿using Lexicom.Testing.DependencyInjection.UnitTests.Constructs.Models;
+using Lexicom.Testing.DependencyInjection.UnitTests.Constructs.Services;
 
-namespace Lexicom.UnitTesting.DependencyInjection.UnitTests.TestAssistantTests.ConfigurationTests;
+namespace Lexicom.Testing.DependencyInjection.UnitTests.TestAssistantTests.ConfigurationTests;
 
 public class DefaultMockLifetimeTests
 {
@@ -29,10 +29,10 @@ public class DefaultMockLifetimeTests
         var uot1 = uta.Make<ServiceWithReferenceTypeModelDependency>();
         var uot2 = uta.Make<ServiceWithReferenceTypeModelDependency>();
 
-        //assert
         Guid uot1ModelId = uot1.ReferenceTypeModel.Id;
         Guid uot2ModelId = uot2.ReferenceTypeModel.Id;
 
+        //assert
         Assert.Equal(1, factoryCallCount);
         Assert.Equal(uot1ModelId, uot2ModelId);
     }
@@ -61,10 +61,10 @@ public class DefaultMockLifetimeTests
         var uot1 = uta.Make<ServiceWithReferenceTypeModelDependency>();
         var uot2 = uta.Make<ServiceWithReferenceTypeModelDependency>();
 
-        //assert
         Guid uot1ModelId = uot1.ReferenceTypeModel.Id;
         Guid uot2ModelId = uot2.ReferenceTypeModel.Id;
 
+        //assert
         Assert.Equal(2, factoryCallCount);
         Assert.NotEqual(uot1ModelId, uot2ModelId);
     }
@@ -95,10 +95,10 @@ public class DefaultMockLifetimeTests
         var uot1 = uta.Make<ServiceWithReferenceTypeModelDependency>();
         var uot2 = uta.Make<ServiceWithReferenceTypeModelDependency>();
 
-        //assert
         Guid uot1ModelId = uot1.ReferenceTypeModel.Id;
         Guid uot2ModelId = uot2.ReferenceTypeModel.Id;
 
+        //assert
         Assert.Equal(expectedFactoryCallCount, factoryCallCount);
         if (isEqual)
         {

@@ -1,7 +1,7 @@
-﻿using Lexicom.UnitTesting.DependencyInjection.EntityFramework.UnitTests.Constructs.Entities;
+﻿using Lexicom.Testing.DependencyInjection.EntityFramework.UnitTests.Constructs.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Lexicom.UnitTesting.DependencyInjection.EntityFramework.UnitTests.Constructs.Databases;
+namespace Lexicom.Testing.DependencyInjection.EntityFramework.UnitTests.Constructs.Databases;
 
 public class PeopleDbContext : DbContext
 {

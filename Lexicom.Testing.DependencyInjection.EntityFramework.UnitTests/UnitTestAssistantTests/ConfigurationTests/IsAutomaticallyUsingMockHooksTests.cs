@@ -1,9 +1,9 @@
-﻿using Lexicom.UnitTesting.DependencyInjection.EntityFramework.UnitTests.Constructs.Databases;
-using Lexicom.UnitTesting.DependencyInjection.EntityFramework.UnitTests.Constructs.Services;
-using Lexicom.UnitTesting.DependencyInjection.Extensions;
+﻿using Lexicom.Testing.DependencyInjection.EntityFramework.UnitTests.Constructs.Databases;
+using Lexicom.Testing.DependencyInjection.EntityFramework.UnitTests.Constructs.Services;
+using Lexicom.Testing.DependencyInjection.Extensions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Lexicom.UnitTesting.DependencyInjection.EntityFramework.UnitTests.UnitTestAssistantTests.ConfigurationTests;
+namespace Lexicom.Testing.DependencyInjection.EntityFramework.UnitTests.UnitTestAssistantTests.ConfigurationTests;
 
 public class IsAutomaticallyUsingMockHooksTests
 {

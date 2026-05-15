@@ -1,8 +1,8 @@
-﻿using Lexicom.UnitTesting.DependencyInjection.EntityFramework.UnitTests.Constructs.Databases;
-using Lexicom.UnitTesting.DependencyInjection.EntityFramework.UnitTests.Constructs.Entities;
+﻿using Lexicom.Testing.DependencyInjection.EntityFramework.UnitTests.Constructs.Databases;
+using Lexicom.Testing.DependencyInjection.EntityFramework.UnitTests.Constructs.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Lexicom.UnitTesting.DependencyInjection.EntityFramework.UnitTests.Constructs.Services;
+namespace Lexicom.Testing.DependencyInjection.EntityFramework.UnitTests.Constructs.Services;
 
 public class PeopleService
 {

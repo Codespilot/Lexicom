@@ -1,6 +1,6 @@
-﻿using Lexicom.UnitTesting.DependencyInjection.UnitTests.Constructs.Models;
+﻿using Lexicom.Testing.DependencyInjection.UnitTests.Constructs.Models;
 
-namespace Lexicom.UnitTesting.DependencyInjection.UnitTests.Constructs.Services;
+namespace Lexicom.Testing.DependencyInjection.UnitTests.Constructs.Services;
 
 public class ServiceWithReferenceTypeModelDependency
 {

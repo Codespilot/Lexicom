@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Lexicom.UnitTesting.DependencyInjection.EntityFramework;
+namespace Lexicom.Testing.DependencyInjection.EntityFramework;
 
 public class SqliteInMemoryTestDbContextFactory
 {

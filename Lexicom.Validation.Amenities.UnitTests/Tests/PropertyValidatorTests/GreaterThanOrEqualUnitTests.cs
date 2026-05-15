@@ -1,15 +1,17 @@
-﻿using Lexicom.UnitTesting.DependencyInjection;
+﻿using Lexicom.Testing.DependencyInjection;
 using Lexicom.Validation.Amenities.Extensions;
+using Lexicom.Validation.Amenities.UnitTests.Constructs;
 using Lexicom.Validation.Amenities.UnitTests.Constructs.RuleSets;
 using Lexicom.Validation.Extensions;
 
-namespace Lexicom.Validation.Amenities.UnitTests.PropertyValidators;
+namespace Lexicom.Validation.Amenities.UnitTests.Tests.PropertyValidatorTests;
 
 public class GreaterThanOrEqualUnitTests
 {
     [Fact]
     public async Task Has_Error_Message()
     {
+        //arrange
         var ita = new IntegrationTestAssistant();
 
         ita.AddLexicomValidation(options =>
@@ -19,10 +21,12 @@ public class GreaterThanOrEqualUnitTests
             options.AddValidators<AssemblyScanMarker>();
         });
 
+        //act
         var validator = ita.Make<IRuleSetValidator<NumberStringRuleSet, string?>>();
 
         await validator.ValidateAsync("abc", TestContext.Current.CancellationToken);
 
+        //assert
         Assert.Single(validator.ValidationErrors);
         Assert.Equal("Must contain only digits.", validator.ValidationErrors.First());
     }
@@ -32,6 +36,7 @@ public class GreaterThanOrEqualUnitTests
     [InlineData("2")]
     public async Task Has_Error_Message_Greater_Than(string value)
     {
+        //arrange
         var ita = new IntegrationTestAssistant();
 
         ita.AddLexicomValidation(options =>
@@ -41,10 +46,12 @@ public class GreaterThanOrEqualUnitTests
             options.AddValidators<AssemblyScanMarker>();
         });
 
+        //act
         var validator = ita.Make<IRuleSetValidator<NumberStringRuleSet, string?>>();
 
         await validator.ValidateAsync(value, TestContext.Current.CancellationToken);
 
+        //assert
         Assert.Single(validator.ValidationErrors);
         Assert.Equal("Must be greater than or equal to 3.", validator.ValidationErrors.First());
     }
@@ -55,6 +62,7 @@ public class GreaterThanOrEqualUnitTests
     [InlineData("1000")]
     public async Task Has_No_Error_Message(string value)
     {
+        //arrange
         var ita = new IntegrationTestAssistant();
 
         ita.AddLexicomValidation(options =>
@@ -64,10 +72,12 @@ public class GreaterThanOrEqualUnitTests
             options.AddValidators<AssemblyScanMarker>();
         });
 
+        //act
         var validator = ita.Make<IRuleSetValidator<NumberStringRuleSet, string?>>();
 
         await validator.ValidateAsync(value, TestContext.Current.CancellationToken);
 
+        //assert
         Assert.Empty(validator.ValidationErrors);
     }
 }

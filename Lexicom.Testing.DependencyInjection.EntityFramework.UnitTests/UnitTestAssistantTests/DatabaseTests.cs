@@ -1,9 +1,9 @@
-﻿using Lexicom.UnitTesting.DependencyInjection.EntityFramework.UnitTests.Constructs.Databases;
-using Lexicom.UnitTesting.DependencyInjection.EntityFramework.UnitTests.Constructs.Entities;
-using Lexicom.UnitTesting.DependencyInjection.EntityFramework.UnitTests.Constructs.Services;
+﻿using Lexicom.Testing.DependencyInjection.EntityFramework.UnitTests.Constructs.Databases;
+using Lexicom.Testing.DependencyInjection.EntityFramework.UnitTests.Constructs.Entities;
+using Lexicom.Testing.DependencyInjection.EntityFramework.UnitTests.Constructs.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace Lexicom.UnitTesting.DependencyInjection.EntityFramework.UnitTests.UnitTestAssistantTests;
+namespace Lexicom.Testing.DependencyInjection.EntityFramework.UnitTests.UnitTestAssistantTests;
 
 public class DatabaseTests
 {
@@ -37,11 +37,11 @@ public class DatabaseTests
         uta.Database.People.Add(alice);
         uta.Database.People.Add(alex);
 
-        await uta.Database.SaveChangesAsync();
-
-        var uot = uta.Make<PeopleService>();
+        await uta.Database.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         //act
+        var uot = uta.Make<PeopleService>();
+
         int countOfPeopleWithAgesGreaterThanOrEqualTo30 = await uot.CountOfPeopleWithAgesGreaterThanOrEqualTo30Async();
 
         //assert
@@ -54,14 +54,14 @@ public class DatabaseTests
         //arrange
         using var uta = new UnitTestAssistant<PeopleDbContext>();
 
+        //act
         var uot = uta.Make<PeopleService>();
 
-        //act
         await uot.AddPeople();
 
-        //assert
-        int count = await uta.Database.People.CountAsync();
+        int count = await uta.Database.People.CountAsync(TestContext.Current.CancellationToken);
 
+        //assert
         Assert.Equal(3, count);
     }
 
@@ -86,9 +86,9 @@ public class DatabaseTests
         //act
         int originalCount = await uot.GetCountOfPeopleThenRemoveThemAllAsync();
 
-        //assert
-        int newCount = await uta.Database.People.CountAsync();
+        int newCount = await uta.Database.People.CountAsync(TestContext.Current.CancellationToken);
 
+        //assert
         Assert.Equal(3, originalCount);
         Assert.Equal(0, newCount);
     }
@@ -127,7 +127,7 @@ public class DatabaseTests
         colorsDb.Colors.Add(yellow);
         colorsDb.Colors.Add(green);
 
-        await colorsDb.SaveChangesAsync();
+        await colorsDb.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         var peopleDb = uta.Database<PeopleDbContext>();
 
@@ -157,18 +157,18 @@ public class DatabaseTests
         peopleDb.People.Add(alice);
         peopleDb.People.Add(alex);
 
-        await peopleDb.SaveChangesAsync();
+        await peopleDb.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         var uot = uta.Make<ServiceWithMultipleDbContexts>();
 
         //act
         await uot.RemoveEntityFirstFromDatabasesAsync();
 
-        //assert
-        int colorsCount = await colorsDb.Colors.CountAsync();
-        int peopleCount = await peopleDb.People.CountAsync();
-        int homesCount = await peopleDb.Homes.CountAsync();
+        int colorsCount = await colorsDb.Colors.CountAsync(TestContext.Current.CancellationToken);
+        int peopleCount = await peopleDb.People.CountAsync(TestContext.Current.CancellationToken);
+        int homesCount = await peopleDb.Homes.CountAsync(TestContext.Current.CancellationToken);
 
+        //assert
         Assert.Equal(3, colorsCount);
         Assert.Equal(2, peopleCount);
         Assert.Equal(1, homesCount);
@@ -190,82 +190,4 @@ public class DatabaseTests
         Assert.True(uot._colorsDbContextFactory is SqliteInMemoryTestDbContextFactory<ColorsDbContext>);
         Assert.True(uot._peopleDbContextFactory is SqliteInMemoryTestDbContextFactory<PeopleDbContext>);
     }
-
-    //[Fact]
-    //public void Fail_To_Inject_Database_Dependency_With_Too_Many_Constructors()
-    //{
-    //    //arrange
-    //    using var uta = new TestAssistant();
-
-    //    //assert
-    //    Assert.Throws<DbContextTooManyConstructorsException>(() =>
-    //    {
-    //        //act
-    //        var uot = uta.Make<ServiceWithDatabaseUsingMultipleConstructors>();
-    //    });
-    //}
-
-    //[Fact]
-    //public void Fail_To_Pull_Database_With_Too_Many_Constructors()
-    //{
-    //    //arrange
-    //    using var uta = new TestAssistant();
-
-    //    //assert
-    //    Assert.Throws<DbContextTooManyConstructorsException>(() =>
-    //    {
-    //        //act
-    //        var db = uta.Database<DbContextWithMultipleConstructors>();
-    //    });
-    //}
-
-    //[Fact]
-    //public void Fail_To_Create_TestAssistant_With_Too_Many_Constructors()
-    //{
-    //    //assert
-    //    Assert.Throws<DbContextTooManyConstructorsException>(() =>
-    //    {
-    //        //arrange - act
-    //        using var uta = new TestAssistant<DbContextWithMultipleConstructors>();
-    //    });
-    //}
-
-    //[Fact]
-    //public void Fail_To_Inject_Database_Dependency_With_Too_Many_Constructor_Parameters()
-    //{
-    //    //arrange
-    //    using var uta = new TestAssistant();
-
-    //    //assert
-    //    Assert.Throws<DbContextTooManyConstructorParametersException>(() =>
-    //    {
-    //        //act
-    //        var uot = uta.Make<ServiceWithDatabaseUsingMultipleConstructorParameters>();
-    //    });
-    //}
-
-    //[Fact]
-    //public void Fail_To_Pull_Database_With_Too_Many_Constructor_Parameters()
-    //{
-    //    //arrange
-    //    using var uta = new TestAssistant();
-
-    //    //assert
-    //    Assert.Throws<DbContextTooManyConstructorParametersException>(() =>
-    //    {
-    //        //act
-    //        var db = uta.Database<DbContextWithMultipleConstructorParameters>();
-    //    });
-    //}
-
-    //[Fact]
-    //public void Fail_To_Create_TestAssistant_With_Too_Many_Constructor_Parameters()
-    //{
-    //    //assert
-    //    Assert.Throws<DbContextTooManyConstructorParametersException>(() =>
-    //    {
-    //        //arrange - act
-    //        using var uta = new TestAssistant<DbContextWithMultipleConstructorParameters>();
-    //    });
-    //}
 }

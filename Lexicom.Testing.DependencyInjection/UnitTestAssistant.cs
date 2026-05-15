@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace Lexicom.UnitTesting.DependencyInjection;
+﻿namespace Lexicom.Testing.DependencyInjection;
 
 public class UnitTestAssistant : TestAssistant
 {

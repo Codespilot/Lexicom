@@ -1,10 +1,11 @@
-﻿using Lexicom.UnitTesting.DependencyInjection;
+﻿using Lexicom.Testing.DependencyInjection;
 using Lexicom.Validation.Extensions;
+using Lexicom.Validation.UnitTests.Constructs;
 using Lexicom.Validation.UnitTests.Constructs.RuleSets;
 using Lexicom.Validation.UnitTests.Constructs.Transformers;
 using System.Diagnostics;
 
-namespace Lexicom.Validation.UnitTests;
+namespace Lexicom.Validation.UnitTests.Tests;
 
 public class TransformationTests
 {
@@ -16,6 +17,7 @@ public class TransformationTests
     [InlineData("3", null)]
     public async Task Transform_From_String_To_Integer(string input, string? expectedErrorMessage)
     {
+        //arrange
         var ita = new IntegrationTestAssistant();
 
         ita.AddLexicomValidation(options =>
@@ -25,6 +27,7 @@ public class TransformationTests
             options.AddTransformers<AssemblyScanMarker>();
         });
 
+        //act
         var validator = ita.Make<IRuleSetValidator<String123abcRuleSet, string?, TransformerForIntegerGreaterThan1RuleSet, int>>();
 
         for (int i = 0; i < 3; i++)
@@ -46,6 +49,7 @@ public class TransformationTests
                 throw new UnreachableException("The index i should not be anything other than 0, 1 or 2.");
             }
 
+            //assert
             if (expectedErrorMessage is not null)
             {
                 Assert.Single(validator.ValidationErrors);
@@ -66,6 +70,7 @@ public class TransformationTests
     [InlineData("3", null)]
     public async Task Transform_From_String_To_Integer_With_Mutliple_RuleSetValidators(string input, string? expectedErrorMessage)
     {
+        //arrange
         var ita = new IntegrationTestAssistant();
 
         ita.AddLexicomValidation(options =>
@@ -75,6 +80,7 @@ public class TransformationTests
             options.AddTransformers<AssemblyScanMarker>();
         });
 
+        //act
         var validator = ita.Make<IRuleSetValidator<String123abcRuleSet, string?, TransformerForIntegerGreaterThan1RuleSetAndString123abcRuleSet, int>>();
 
         for (int i = 0; i < 3; i++)
@@ -96,6 +102,7 @@ public class TransformationTests
                 throw new UnreachableException("The index i should not be anything other than 0, 1 or 2.");
             }
 
+            //assert
             if (expectedErrorMessage is not null)
             {
                 Assert.Single(validator.ValidationErrors);

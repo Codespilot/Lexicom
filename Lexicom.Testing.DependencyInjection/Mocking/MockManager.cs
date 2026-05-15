@@ -1,11 +1,11 @@
-﻿using Lexicom.UnitTesting.DependencyInjection.Exceptions;
-using Lexicom.UnitTesting.DependencyInjection.Utility;
+﻿using Lexicom.Testing.DependencyInjection.Exceptions;
+using Lexicom.Testing.DependencyInjection.Utility;
 using NSubstitute;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
-namespace Lexicom.UnitTesting.DependencyInjection.Mocking;
+namespace Lexicom.Testing.DependencyInjection.Mocking;
 
 public class MockManager : IDisposable, IReadOnlyDictionary<Type, MockContainer>
 {

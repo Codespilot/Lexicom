@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Lexicom.Mvvm;
+﻿namespace Lexicom.Mvvm;
 
 public interface IAsyncRecipient<TMessage> where TMessage : AsyncMessage
 {

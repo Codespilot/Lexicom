@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Lexicom.UnitTesting.DependencyInjection.Utility;
+namespace Lexicom.Testing.DependencyInjection.Utility;
 
 internal static class TypeUtilities
 {

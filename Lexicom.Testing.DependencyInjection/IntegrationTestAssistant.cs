@@ -1,11 +1,11 @@
-﻿using Lexicom.UnitTesting.DependencyInjection.Exceptions;
+﻿using Lexicom.Testing.DependencyInjection.Exceptions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Collections;
 using System.Reflection;
 
-namespace Lexicom.UnitTesting.DependencyInjection;
+namespace Lexicom.Testing.DependencyInjection;
 
 public class IntegrationTestAssistant : TestAssistant, IServiceCollection
 {
@@ -64,6 +64,7 @@ public class IntegrationTestAssistant : TestAssistant, IServiceCollection
 
             if (serviceDescriptor is null)
             {
+                Provider = null;
                 _services.Add(new ServiceDescriptor(serviceType, serviceType, ServiceLifetime.Singleton));
             }
         }
@@ -76,6 +77,7 @@ public class IntegrationTestAssistant : TestAssistant, IServiceCollection
         ServiceDescriptor? existingServiceDescriptor = _services.FirstOrDefault(sd => sd.ServiceType == parameterType);
         if (existingServiceDescriptor is null)
         {
+            Provider = null;
             _services.Add(new ServiceDescriptor(parameterType, sp =>
             {
                 return PullAndEnhanceInstance(parameterType);

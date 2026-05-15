@@ -1,9 +1,9 @@
-﻿using Lexicom.UnitTesting.DependencyInjection.Exceptions;
-using Lexicom.UnitTesting.DependencyInjection.Extensions;
-using Lexicom.UnitTesting.DependencyInjection.UnitTests.Constructs.Models;
-using Lexicom.UnitTesting.DependencyInjection.UnitTests.Constructs.Services;
+﻿using Lexicom.Testing.DependencyInjection.Exceptions;
+using Lexicom.Testing.DependencyInjection.Extensions;
+using Lexicom.Testing.DependencyInjection.UnitTests.Constructs.Models;
+using Lexicom.Testing.DependencyInjection.UnitTests.Constructs.Services;
 
-namespace Lexicom.UnitTesting.DependencyInjection.UnitTests.TestAssistantTests;
+namespace Lexicom.Testing.DependencyInjection.UnitTests.TestAssistantTests;
 
 public class MakeTests
 {
@@ -105,6 +105,9 @@ public class MakeTests
         //act
         var uot = uta.Make<ServiceWithMixedDependencies>(intValueType, referenceTypeModel, valueTypeModel);
 
+        int mockableServiceNumber = uot._serviceDependencyIntReturnMethod.GetValueTypeIntMethod();
+        int asyncMockableServiceNumber = await uot._serviceDependencyIntReturnMethod.GetValueTypeIntMethodAsync();
+
         //assert
         Assert.NotNull(uot);
         Assert.NotNull(uot._serviceDependencyVoidReturnMethod);
@@ -119,9 +122,6 @@ public class MakeTests
         Assert.True(uot._serviceDependencyVoidReturnMethod.IsSubstitute());
         Assert.True(uot._serviceDependencyStringReturnMethod.IsSubstitute());
         Assert.True(uot._serviceDependencyReferenceTypeReturnMethod.IsSubstitute());
-
-        int mockableServiceNumber = uot._serviceDependencyIntReturnMethod.GetValueTypeIntMethod();
-        int asyncMockableServiceNumber = await uot._serviceDependencyIntReturnMethod.GetValueTypeIntMethodAsync();
 
         Assert.Equal(ServiceDependencyIntReturnMethod.NUMBER, mockableServiceNumber);
         Assert.Equal(ServiceDependencyIntReturnMethod.NUMBER, asyncMockableServiceNumber);

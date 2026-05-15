@@ -1,7 +1,7 @@
-﻿using Lexicom.UnitTesting.DependencyInjection.EntityFramework.Extensions;
+﻿using Lexicom.Testing.DependencyInjection.EntityFramework.Extensions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Lexicom.UnitTesting.DependencyInjection;
+namespace Lexicom.Testing.DependencyInjection;
 
 public static class UnitTestAssistantExtensions
 {

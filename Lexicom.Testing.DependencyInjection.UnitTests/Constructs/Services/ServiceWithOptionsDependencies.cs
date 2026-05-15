@@ -1,7 +1,7 @@
-﻿using Lexicom.UnitTesting.DependencyInjection.UnitTests.Constructs.Models;
+﻿using Lexicom.Testing.DependencyInjection.UnitTests.Constructs.Models;
 using Microsoft.Extensions.Options;
 
-namespace Lexicom.UnitTesting.DependencyInjection.UnitTests.Constructs.Services;
+namespace Lexicom.Testing.DependencyInjection.UnitTests.Constructs.Services;
 
 public class ServiceWithOptionsDependencies
 {

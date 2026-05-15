@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Lexicom.UnitTesting.DependencyInjection;
+namespace Lexicom.Testing.DependencyInjection;
 
 public class UnitTestAssistant<TDbContext> : UnitTestAssistant where TDbContext : DbContext
 {

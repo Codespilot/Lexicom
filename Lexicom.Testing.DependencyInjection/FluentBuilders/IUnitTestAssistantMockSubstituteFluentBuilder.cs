@@ -1,4 +1,4 @@
-﻿namespace Lexicom.UnitTesting.DependencyInjection;
+﻿namespace Lexicom.Testing.DependencyInjection;
 
 public interface IUnitTestAssistantMockSubstituteFluentBuilder<T> where T : class
 {

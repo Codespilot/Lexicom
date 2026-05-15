@@ -1,4 +1,4 @@
-namespace Lexicom.Maths.UnitTests;
+namespace Lexicom.Maths.UnitTests.Tests;
 public class MathxTests
 {
     [Theory]
@@ -44,8 +44,10 @@ public class MathxTests
     [InlineData(9, 15, 999999999999999)]
     public void CreateNumberOfOnlyDigitRepeatedNTimes_CreatesIntegerOfCorrectValue(int digit, int n, long expected)
     {
+        //act
         long result = Mathx.CreateNumberOfOnlyDigitRepeatedNTimes(digit, n);
 
+        //assert
         Assert.Equal(expected, result);
     }
 
@@ -56,8 +58,10 @@ public class MathxTests
     [InlineData(int.MaxValue)]
     public void CreateNumberOfOnlyDigitRepeatedNTimes_Throws_ArgumentOutOfRangeException_When_Digit_Is_Out_Of_Range(int digit)
     {
+        //assert
         var exception = Assert.Throws<ArgumentOutOfRangeException>(() =>
         {
+            //act
             Mathx.CreateNumberOfOnlyDigitRepeatedNTimes(digit, 5);
         });
 
@@ -73,8 +77,10 @@ public class MathxTests
     [InlineData(int.MaxValue)]
     public void CreateNumberOfOnlyDigitRepeatedNTimes_Throws_ArgumentOutOfRangeException_When_n_Is_Out_Of_Range(int n)
     {
+        //assert
         var exception = Assert.Throws<ArgumentOutOfRangeException>(() =>
         {
+            //act
             Mathx.CreateNumberOfOnlyDigitRepeatedNTimes(5, n);
         });
 

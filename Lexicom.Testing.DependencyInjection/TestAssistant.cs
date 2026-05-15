@@ -1,14 +1,14 @@
-﻿using Lexicom.UnitTesting.DependencyInjection.Exceptions;
-using Lexicom.UnitTesting.DependencyInjection.Extensions;
-using Lexicom.UnitTesting.DependencyInjection.Mocking;
-using Lexicom.UnitTesting.DependencyInjection.Utility;
+﻿using Lexicom.Testing.DependencyInjection.Exceptions;
+using Lexicom.Testing.DependencyInjection.Extensions;
+using Lexicom.Testing.DependencyInjection.Mocking;
+using Lexicom.Testing.DependencyInjection.Utility;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
-namespace Lexicom.UnitTesting.DependencyInjection;
+namespace Lexicom.Testing.DependencyInjection;
 
 public abstract class TestAssistant : IDisposable
 {

@@ -1,9 +1,10 @@
-﻿using Lexicom.UnitTesting.DependencyInjection;
+﻿using Lexicom.Testing.DependencyInjection;
 using Lexicom.Validation.Amenities.Extensions;
+using Lexicom.Validation.Amenities.UnitTests.Constructs;
 using Lexicom.Validation.Amenities.UnitTests.Constructs.RuleSets;
 using Lexicom.Validation.Extensions;
 
-namespace Lexicom.Validation.Amenities.UnitTests.PropertyValidators;
+namespace Lexicom.Validation.Amenities.UnitTests.Tests.PropertyValidatorTests;
 
 public class NotAllDigitsPropertyValidatorUnitTests
 {
@@ -12,6 +13,7 @@ public class NotAllDigitsPropertyValidatorUnitTests
     [InlineData("123")]
     public async Task Message_Is_Expected(string input)
     {
+        //arrage
         var ita = new IntegrationTestAssistant();
 
         ita.AddLexicomValidation(options =>
@@ -21,17 +23,23 @@ public class NotAllDigitsPropertyValidatorUnitTests
             options.AddValidators<AssemblyScanMarker>();
         });
 
+        //act
         var validator = ita.Make<IRuleSetValidator<NotAllDigitsRuleSet, string?>>();
 
         await validator.ValidateAsync(input, TestContext.Current.CancellationToken);
-
-        Assert.False(validator.IsValid);
-        Assert.Equal("Must not contain only digits.", validator.ValidationErrors.First());
+        bool asyncIsValid = validator.IsValid;
+        string asyncMessage = validator.ValidationErrors.First();
 
         validator.Validate(input);
+        bool syncIsValid = validator.IsValid;
+        string syncMessage = validator.ValidationErrors.First();
 
-        Assert.False(validator.IsValid);
-        Assert.Equal("Must not contain only digits.", validator.ValidationErrors.First());
+        //assert
+        Assert.False(asyncIsValid);
+        Assert.Equal("Must not contain only digits.", asyncMessage);
+
+        Assert.False(syncIsValid);
+        Assert.Equal("Must not contain only digits.", syncMessage);
     }
 
     [Theory]
@@ -45,6 +53,7 @@ public class NotAllDigitsPropertyValidatorUnitTests
     [InlineData("1 2 3")]
     public async Task Message_Is_Not_Expected(string? input)
     {
+        //arrange
         var ita = new IntegrationTestAssistant();
 
         ita.AddLexicomValidation(options =>
@@ -54,16 +63,22 @@ public class NotAllDigitsPropertyValidatorUnitTests
             options.AddValidators<AssemblyScanMarker>();
         });
 
+        //act
         var validator = ita.Make<IRuleSetValidator<NotAllDigitsRuleSet, string?>>();
 
         await validator.ValidateAsync(input, TestContext.Current.CancellationToken);
-
-        Assert.True(validator.IsValid);
-        Assert.Empty(validator.ValidationErrors);
+        bool asyncIsValid = validator.IsValid;
+        string[] asyncMessages = validator.ValidationErrors.ToArray();
 
         validator.Validate(input);
+        bool syncIsValid = validator.IsValid;
+        string[] syncMessages = validator.ValidationErrors.ToArray();
 
-        Assert.True(validator.IsValid);
-        Assert.Empty(validator.ValidationErrors);
+        //assert
+        Assert.True(asyncIsValid);
+        Assert.Empty(asyncMessages);
+
+        Assert.True(syncIsValid);
+        Assert.Empty(syncMessages);
     }
 }

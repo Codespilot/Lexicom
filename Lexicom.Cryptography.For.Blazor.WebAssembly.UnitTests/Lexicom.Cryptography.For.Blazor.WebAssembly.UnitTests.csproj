@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Lexicom.Cryptography.For.Blazor.WebAssembly\Lexicom.Cryptography.For.Blazor.WebAssembly.csproj" />
+    <ProjectReference Include="..\Lexicom.Testing.DependencyInjection\Lexicom.Testing.DependencyInjection.csproj" />
   </ItemGroup>
 
 </Project>

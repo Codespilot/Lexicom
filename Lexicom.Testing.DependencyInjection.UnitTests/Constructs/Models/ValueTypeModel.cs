@@ -1,4 +1,4 @@
-﻿namespace Lexicom.UnitTesting.DependencyInjection.UnitTests.Constructs.Models;
+﻿namespace Lexicom.Testing.DependencyInjection.UnitTests.Constructs.Models;
 
 public struct ValueTypeModel
 {

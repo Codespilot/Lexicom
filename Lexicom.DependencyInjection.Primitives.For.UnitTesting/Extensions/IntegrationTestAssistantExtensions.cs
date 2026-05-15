@@ -1,4 +1,4 @@
-﻿using Lexicom.UnitTesting.DependencyInjection;
+﻿using Lexicom.Testing.DependencyInjection;
 
 namespace Lexicom.DependencyInjection.Primitives.For.UnitTesting.Extensions;
 

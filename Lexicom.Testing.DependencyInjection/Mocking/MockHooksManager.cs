@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 
-namespace Lexicom.UnitTesting.DependencyInjection.Mocking;
+namespace Lexicom.Testing.DependencyInjection.Mocking;
 
 public class MockHooksManager
 {
@@ -26,7 +26,7 @@ public class MockHooksManager
             {
                 CheckedMockDbContextFactoryDelegateHook = true;
 
-                Type? hookType = Type.GetType("Lexicom.UnitTesting.DependencyInjection.EntityFramework.Mocking.MockHook, Lexicom.UnitTesting.DependencyInjection.EntityFramework");
+                Type? hookType = Type.GetType("Lexicom.Testing.DependencyInjection.EntityFramework.Mocking.MockHook, Lexicom.Testing.DependencyInjection.EntityFramework");
                 if (hookType is not null)
                 {
                     const string DELEGATE_PROPERTY_NAME = "TryMockDbContextFactoryDelegate";

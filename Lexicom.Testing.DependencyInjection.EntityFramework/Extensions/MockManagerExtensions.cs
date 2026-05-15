@@ -1,7 +1,7 @@
-﻿using Lexicom.UnitTesting.DependencyInjection.Mocking;
+﻿using Lexicom.Testing.DependencyInjection.Mocking;
 using Microsoft.EntityFrameworkCore;
 
-namespace Lexicom.UnitTesting.DependencyInjection.EntityFramework.Extensions;
+namespace Lexicom.Testing.DependencyInjection.EntityFramework.Extensions;
 
 public static class MockManagerExtensions
 {

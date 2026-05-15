@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Lexicom.UnitTesting.DependencyInjection.EntityFramework.UnitTests.Constructs.Entities;
+namespace Lexicom.Testing.DependencyInjection.EntityFramework.UnitTests.Constructs.Entities;
 
 public class Person : IEntityTypeConfiguration<Person>
 {

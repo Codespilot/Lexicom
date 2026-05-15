@@ -1,7 +1,7 @@
 ﻿using Lexicom.DependencyInjection.Amenities.Extensions;
 using Lexicom.EntityFramework.Identity.Extensions;
 using Lexicom.EntityFramework.Identity.UnitTesting;
-using Lexicom.UnitTesting.DependencyInjection;
+using Lexicom.Testing.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

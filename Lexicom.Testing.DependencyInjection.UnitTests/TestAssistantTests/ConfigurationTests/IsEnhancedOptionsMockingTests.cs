@@ -1,8 +1,8 @@
-﻿using Lexicom.UnitTesting.DependencyInjection.Extensions;
-using Lexicom.UnitTesting.DependencyInjection.UnitTests.Constructs.Models;
-using Lexicom.UnitTesting.DependencyInjection.UnitTests.Constructs.Services;
+﻿using Lexicom.Testing.DependencyInjection.Extensions;
+using Lexicom.Testing.DependencyInjection.UnitTests.Constructs.Models;
+using Lexicom.Testing.DependencyInjection.UnitTests.Constructs.Services;
 
-namespace Lexicom.UnitTesting.DependencyInjection.UnitTests.TestAssistantTests.ConfigurationTests;
+namespace Lexicom.Testing.DependencyInjection.UnitTests.TestAssistantTests.ConfigurationTests;
 
 public class IsEnhancedOptionsMockingTests
 {

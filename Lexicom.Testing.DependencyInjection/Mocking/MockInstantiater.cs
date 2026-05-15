@@ -1,4 +1,4 @@
-﻿namespace Lexicom.UnitTesting.DependencyInjection.Mocking;
+﻿namespace Lexicom.Testing.DependencyInjection.Mocking;
 
 public class MockInstantiater : IDisposable
 {

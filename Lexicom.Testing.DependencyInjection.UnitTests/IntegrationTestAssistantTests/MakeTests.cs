@@ -1,10 +1,12 @@
-﻿using Lexicom.UnitTesting.DependencyInjection.Exceptions;
-using Lexicom.UnitTesting.DependencyInjection.Extensions;
-using Lexicom.UnitTesting.DependencyInjection.UnitTests.Constructs.Models;
-using Lexicom.UnitTesting.DependencyInjection.UnitTests.Constructs.Services;
+﻿using Lexicom.Testing.DependencyInjection.Exceptions;
+using Lexicom.Testing.DependencyInjection.Extensions;
+using Lexicom.Testing.DependencyInjection.UnitTests.Constructs.Models;
+using Lexicom.Testing.DependencyInjection.UnitTests.Constructs.Services;
 using Microsoft.Extensions.DependencyInjection;
+using NSubstitute;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Lexicom.UnitTesting.DependencyInjection.UnitTests.IntegrationTestAssistantTests;
+namespace Lexicom.Testing.DependencyInjection.UnitTests.IntegrationTestAssistantTests;
 
 public class MakeTests
 {
@@ -26,6 +28,9 @@ public class MakeTests
         //act
         var uot = ita.Make<ServiceWithMixedDependencies>(intValueType, referenceTypeModel, valueTypeModel);
 
+        int mockableServiceNumber = uot._serviceDependencyIntReturnMethod.GetValueTypeIntMethod();
+        int asyncMockableServiceNumber = await uot._serviceDependencyIntReturnMethod.GetValueTypeIntMethodAsync();
+
         //assert
         Assert.NotNull(uot);
         Assert.NotNull(uot._serviceDependencyVoidReturnMethod);
@@ -40,9 +45,6 @@ public class MakeTests
         Assert.True(uot._serviceDependencyVoidReturnMethod.IsSubstitute());
         Assert.True(uot._serviceDependencyStringReturnMethod.IsSubstitute());
         Assert.True(uot._serviceDependencyReferenceTypeReturnMethod.IsSubstitute());
-
-        int mockableServiceNumber = uot._serviceDependencyIntReturnMethod.GetValueTypeIntMethod();
-        int asyncMockableServiceNumber = await uot._serviceDependencyIntReturnMethod.GetValueTypeIntMethodAsync();
 
         Assert.Equal(ServiceDependencyIntReturnMethod.NUMBER, mockableServiceNumber);
         Assert.Equal(ServiceDependencyIntReturnMethod.NUMBER, asyncMockableServiceNumber);
@@ -63,5 +65,40 @@ public class MakeTests
             //act
             var uot = ita.Make<IServiceDependencyVoidReturnMethod>();
         });
+    }
+
+    [Fact]
+    public void Correctly_Make_Multiple_Dependencies_Such_That_A_Singleton_Is_Shared()
+    {
+        //arrange
+        var ita = new IntegrationTestAssistant();
+
+        string expectedString = string.Empty;
+        int expectedNumber = 55;
+
+        ita.Mock<IServiceDependencyStringReturnMethod>(MockLifetime.Transient).So(d =>
+        {
+            expectedString += "a";
+
+            d.GetStringMethod().Returns(expectedString);
+        });
+        ita.Mock<IServiceDependencyIntReturnMethod>().So(d =>
+        {
+            d.GetValueTypeIntMethod().Returns(expectedNumber);
+        });
+
+        //act
+        var uot1 = ita.Make<ServiceWithDependencies>();
+        var uot2 = ita.Make<AnotherServiceWithDependencies>();
+
+        (int number1, string str1) = uot1.GetValues();
+        (int number2, string str2) = uot2.GetValues();
+
+        //assert
+        Assert.Equal(expectedNumber, number1);
+        Assert.Equal("a", str1);
+
+        Assert.Equal(expectedNumber, number2);
+        Assert.Equal("aa", str2);
     }
 }

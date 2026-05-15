@@ -1,7 +1,7 @@
 ﻿using NSubstitute.Core;
 using NSubstitute.Exceptions;
 
-namespace Lexicom.UnitTesting.DependencyInjection.Extensions;
+namespace Lexicom.Testing.DependencyInjection.Extensions;
 
 public static class ObjectExtensions
 {

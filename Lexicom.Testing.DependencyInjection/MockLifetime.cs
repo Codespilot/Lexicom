@@ -1,4 +1,4 @@
-﻿namespace Lexicom.UnitTesting.DependencyInjection;
+﻿namespace Lexicom.Testing.DependencyInjection;
 
 /// <summary>
 /// This lifetime does not necessarily refer to the instances of the mock, ie if you mock a dependency with an instance directly, and set the lifetime to transient, it will just always use that provided instance, the difference is that it will always call the MockInstantiater every time where as if the lifetime is singleton the MockInstantiater is only ever called once the first time the mock is pulled.

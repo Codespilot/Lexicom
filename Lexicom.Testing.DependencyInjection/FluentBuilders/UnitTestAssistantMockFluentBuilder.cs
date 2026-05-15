@@ -1,6 +1,6 @@
-﻿using Lexicom.UnitTesting.DependencyInjection.Mocking;
+﻿using Lexicom.Testing.DependencyInjection.Mocking;
 
-namespace Lexicom.UnitTesting.DependencyInjection;
+namespace Lexicom.Testing.DependencyInjection;
 
 public class UnitTestAssistantMockFluentBuilder
 {
