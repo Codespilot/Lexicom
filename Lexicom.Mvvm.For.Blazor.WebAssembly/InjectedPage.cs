@@ -14,7 +14,7 @@ public abstract class InjectedPage<TViewModel> : ComponentBase, IMvvmComponent<T
     [Inject]
     public TViewModel ViewModel
     {
-        get => field!; //we just have to trust that the Inject attribute will be before this is ever used
+        get => field!; //we just have to trust that the Inject attribute will be set before this is ever used
         set
         {
             _componentBehavior.DisposeViewModel();
@@ -33,6 +33,11 @@ public abstract class InjectedPage<TViewModel> : ComponentBase, IMvvmComponent<T
     public virtual async Task InvokeStateChangeAsync()
     {
         await InvokeAsync(StateHasChanged);
+    }
+
+    public virtual Task HandleExceptionAsync(Exception exception)
+    {
+        return DispatchExceptionAsync(exception);
     }
 
     protected override async Task OnInitializedAsync()

@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Windows.Input;
 
 namespace Lexicom.Mvvm.For.Blazor.WebAssembly;
+
 public class ComponentBehavior<TViewModel> where TViewModel : INotifyPropertyChanged
 {
     private readonly IMvvmComponent<TViewModel> _mvvmComponent;
@@ -110,45 +111,33 @@ public class ComponentBehavior<TViewModel> where TViewModel : INotifyPropertyCha
 
     private void UnSubscribeToCollectionChanged()
     {
-        if (_mvvmComponent is not null && _mvvmComponent.ViewModel is not null && NotifyCollectionChangedProperties is not null)
+        foreach (PropertyInfo notifyCollectionChangedProperty in NotifyCollectionChangedProperties)
         {
-            foreach (PropertyInfo notifyCollectionChangedProperty in NotifyCollectionChangedProperties)
-            {
-                if (notifyCollectionChangedProperty is not null)
-                {
-                    object? value = notifyCollectionChangedProperty.GetValue(_mvvmComponent.ViewModel);
+            object? value = notifyCollectionChangedProperty.GetValue(_mvvmComponent.ViewModel);
 
-                    if (value is not null and INotifyCollectionChanged notifyCollectionChanged)
-                    {
-                        notifyCollectionChanged.CollectionChanged -= OnCollectionChanged;
-                    }
-                }
+            if (value is not null and INotifyCollectionChanged notifyCollectionChanged)
+            {
+                notifyCollectionChanged.CollectionChanged -= OnCollectionChanged;
             }
         }
     }
 
     private void SubscribeToCollectionChanged()
     {
-        if (_mvvmComponent is not null && _mvvmComponent.ViewModel is not null && NotifyCollectionChangedProperties is not null)
+        foreach (PropertyInfo notifyCollectionChangedProperty in NotifyCollectionChangedProperties)
         {
-            foreach (PropertyInfo notifyCollectionChangedProperty in NotifyCollectionChangedProperties)
-            {
-                if (notifyCollectionChangedProperty is not null)
-                {
-                    object? value = notifyCollectionChangedProperty.GetValue(_mvvmComponent.ViewModel);
+            object? value = notifyCollectionChangedProperty.GetValue(_mvvmComponent.ViewModel);
 
-                    if (value is not null and INotifyCollectionChanged notifyCollectionChanged)
-                    {
-                        notifyCollectionChanged.CollectionChanged += OnCollectionChanged;
-                    }
-                }
+            if (value is not null and INotifyCollectionChanged notifyCollectionChanged)
+            {
+                notifyCollectionChanged.CollectionChanged += OnCollectionChanged;
             }
         }
     }
 
     private async void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (_mvvmComponent is not null)
+        try
         {
             if (_mvvmComponent.ViewModel is not null)
             {
@@ -158,13 +147,21 @@ public class ComponentBehavior<TViewModel> where TViewModel : INotifyPropertyCha
 
             await _mvvmComponent.InvokeStateChangeAsync();
         }
+        catch (Exception exception)
+        {
+            await _mvvmComponent.HandleExceptionAsync(exception);
+        }
     }
 
     private async void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        if (_mvvmComponent is not null)
+        try
         {
             await _mvvmComponent.InvokeStateChangeAsync();
+        }
+        catch (Exception exception)
+        {
+            await _mvvmComponent.HandleExceptionAsync(exception);
         }
     }
 }

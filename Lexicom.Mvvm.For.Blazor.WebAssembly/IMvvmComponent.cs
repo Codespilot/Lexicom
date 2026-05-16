@@ -5,4 +5,5 @@ public interface IMvvmComponent<TViewModel> where TViewModel : INotifyPropertyCh
 {
     TViewModel ViewModel { get; }
     Task InvokeStateChangeAsync();
+    Task HandleExceptionAsync(Exception exception);
 }
