@@ -55,9 +55,9 @@
     <Project Path="Lexicom.Cryptography.For.Blazor.WebAssembly/Lexicom.Cryptography.For.Blazor.WebAssembly.csproj" />
     <Project Path="Lexicom.Cryptography.For.ConsoleApp/Lexicom.Cryptography.For.ConsoleApp.csproj" />
     <Project Path="Lexicom.Cryptography.For.Maui.Blazor.Hybrid/Lexicom.Cryptography.For.Maui.Blazor.Hybrid.csproj" />
+    <Project Path="Lexicom.Cryptography.For.Testing/Lexicom.Cryptography.For.Testing.csproj" />
     <Project Path="Lexicom.Cryptography.For.Wpf/Lexicom.Cryptography.For.Wpf.csproj" />
     <Project Path="Lexicom.Cryptography/Lexicom.Cryptography.csproj" />
-    <Project Path="Lexicom.Cryptopraphy.For.Testing/Lexicom.Cryptopraphy.For.Testing.csproj" Id="b99552d9-2380-4dec-9e7d-1df536621033" />
   </Folder>
   <Folder Name="/Cryptography/UnitTests/">
     <Project Path="Lexicom.Cryptography.For.Blazor.WebAssembly.UnitTests/Lexicom.Cryptography.For.Blazor.WebAssembly.UnitTests.csproj" />
