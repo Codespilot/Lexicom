@@ -31,7 +31,7 @@ public class LexicomServiceProviderFactory : IServiceProviderFactory<LexicomServ
     {
         if (Services is null)
         {
-            throw new UnreachableException($"The service collection was null but that should never happen since '{nameof(CreateBuilder)}' will always get called first");
+            throw new UnreachableException($"The service collection was null but that should never happen since '{nameof(CreateBuilder)}' will always get called first.");
         }
 
         IReadOnlyList<IBeforeServiceProviderBuildService> beforeServiceProviderBuildServices = Services.ResolveBeforeServiceProviderBuildServices();

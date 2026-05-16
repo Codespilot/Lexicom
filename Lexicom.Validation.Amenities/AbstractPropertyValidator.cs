@@ -14,6 +14,6 @@ public abstract class AbstractPropertyValidator<T, TProperty> : PropertyValidato
             return localizedMessageTemplate;
         }
 
-        return DefaultMessageTemplate ?? throw new NullReferenceException($"{nameof(DefaultMessageTemplate)} was null");
+        return DefaultMessageTemplate ?? throw new NullReferenceException($"{nameof(DefaultMessageTemplate)} was null.");
     }
 }

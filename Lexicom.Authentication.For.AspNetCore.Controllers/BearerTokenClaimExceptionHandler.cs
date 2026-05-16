@@ -30,7 +30,7 @@ public class BearerTokenClaimExceptionHandler : IExceptionHandler
         }
         else if (exception is ClaimNotValidException claimNotValidException)
         {
-            _logger.LogError(exception, "The '{claimSourceName}:{claim}' claim was not valid, probably not a valid Guid type", claimNotValidException.ClaimSourceName, claimNotValidException.Claim);
+            _logger.LogError(exception, "The '{claimSourceName}:{claim}' claim was not valid, probably not a valid Guid type.", claimNotValidException.ClaimSourceName, claimNotValidException.Claim);
 
             return new ExceptionHandledResult(HttpStatusCode.Unauthorized);
         }

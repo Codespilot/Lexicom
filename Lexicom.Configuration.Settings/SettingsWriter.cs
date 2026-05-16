@@ -395,7 +395,7 @@ public class SettingsWriter : ISettingsWriter
                 _settings[configProperty.SettingKey] = configProperty.Value;
             }
 
-            _logger.LogInformation("Saving the settings for the configuraion '{configurationTypeName}'.", configurationTypeName);
+            _logger.LogInformation("Saving the settings for the configuration '{configurationTypeName}'.", configurationTypeName);
 
             _settings.Save();
         }

@@ -25,7 +25,7 @@ public static class IdentityBuilderExtensions
         Type? identityUserType = FindGenericBaseType(userType, typeof(IdentityUser<>));
         if (identityUserType is null)
         {
-            throw new InvalidOperationException("AddEntityFrameworkStores can only be called with a user that derives from IdentityUser&lt;TKey&gt;.");
+            throw new InvalidOperationException("AddEntityFrameworkStores can only be called with a user that derives from IdentityUser<TKey>.");
         }
 
         Type keyType = identityUserType.GenericTypeArguments[0];
@@ -35,7 +35,7 @@ public static class IdentityBuilderExtensions
             Type? identityRoleType = FindGenericBaseType(roleType, typeof(IdentityRole<>));
             if (identityRoleType is null)
             {
-                throw new InvalidOperationException("AddEntityFrameworkStores can only be called with a role that derives from IdentityRole&lt;TKey&gt;.");
+                throw new InvalidOperationException("AddEntityFrameworkStores can only be called with a role that derives from IdentityRole<TKey>.");
             }
 
             Type userStoreType;

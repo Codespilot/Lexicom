@@ -34,6 +34,6 @@ public abstract class AbstractComparisonPropertyValidator<T, TProperty> : Abstra
             return localizedMessageTemplate;
         }
 
-        return DefaultMessageTemplate ?? throw new NullReferenceException($"{nameof(DefaultMessageTemplate)} was null");
+        return DefaultMessageTemplate ?? throw new NullReferenceException($"{nameof(DefaultMessageTemplate)} was null.");
     }
 }

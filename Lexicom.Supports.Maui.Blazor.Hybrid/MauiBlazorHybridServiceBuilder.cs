@@ -20,5 +20,5 @@ public class MauiBlazorHybridServiceBuilder : IDependantMauiBlazorHybridServiceB
     //}
 
     // public MauiAppBuilder MauiAppBuilder { get; }
-    public IServiceCollection Services => throw new NotSupportedException("maui is not yet supported in dot net 10.");//MauiAppBuilder.Services;
+    public IServiceCollection Services => throw new NotSupportedException("Maui is not yet supported in dot net 10.");//MauiAppBuilder.Services;
 }

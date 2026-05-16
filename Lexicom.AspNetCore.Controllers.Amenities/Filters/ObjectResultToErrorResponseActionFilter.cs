@@ -44,8 +44,8 @@ public class ObjectResultToErrorResponseActionFilter : IAsyncActionFilter
             {
                 result.Value = ControllerErrorResponse.UnexpectedError;
 
-                //we dont want this else to ever be used so I log critical to hopefully expose this being used
-                _logger.LogCritical("A non OkObjectResult ObjectResult.Value of the type '{objectResultValueType}' was returned from an action but only the types '{manualResultType}' or '{errorResponseType}' is allowed", result.Value?.GetType(), typeof(Dictionary<string, IEnumerable<string>>), typeof(ControllerErrorResponse));
+                //we dont want this to ever be used so I log critical to hopefully expose that
+                _logger.LogCritical("A non OkObjectResult ObjectResult.Value of the type '{objectResultValueType}' was returned from an action but only the types '{manualResultType}' or '{errorResponseType}' are allowed.", result.Value?.GetType(), typeof(Dictionary<string, IEnumerable<string>>), typeof(ControllerErrorResponse));
             }
         }
     }
