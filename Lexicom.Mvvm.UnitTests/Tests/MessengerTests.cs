@@ -209,4 +209,48 @@ public class MessengerTests
         Assert.Equal(1, secondReceivedNotificationTrayCount);
         Assert.Equal(1, secondReceivedNotificationDialogCount);
     }
+
+    [Fact]
+    public async Task Temp()
+    {
+        //arrange
+        var ita = new IntegrationTestAssistant();
+
+        ita.Lexicom(l =>
+        {
+            l.AddMvvm(mvvm =>
+            {
+                mvvm.AddViewModel<StatusBarViewModel>();
+            });
+        });
+
+        //act
+        var vm = ita.Make<StatusBarViewModel>();
+        var messenger = ita.Make<IMessenger>();
+
+        await vm.LoadAsync();
+
+        int initalAsyncCount = vm.AsyncRecievedCount;
+        int ititalSyncCount = vm.SyncRecievedCount;
+
+        await messenger.SendAsync(new StatusMessage(), TestContext.Current.CancellationToken);
+
+        int AsyncAsyncCount = vm.AsyncRecievedCount;
+        int AsyncSyncCount = vm.SyncRecievedCount;
+
+        messenger.Send(new StatusMessage());
+
+        int SyncAsyncCount = vm.AsyncRecievedCount;
+        int SyncSyncCount = vm.SyncRecievedCount;
+
+        //assert
+        Assert.Equal(0, initalAsyncCount);
+        Assert.Equal(0, ititalSyncCount);
+
+        Assert.Equal(1, AsyncAsyncCount);
+        Assert.Equal(1, AsyncSyncCount);
+
+        Assert.Equal(1, SyncAsyncCount);
+        Assert.Equal(2, SyncSyncCount);
+    }
 }

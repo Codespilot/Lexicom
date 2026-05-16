@@ -6,10 +6,12 @@ public partial class MainViewModel : DisposableObservableObject
 {
     public MainViewModel(
         HeaderViewModel headerViewModel,
-        NotificationTrayViewModel notificationTrayViewModel)
+        NotificationTrayViewModel notificationTrayViewModel,
+        StatusBarViewModel statusBarViewModel)
     {
         HeaderViewModel = headerViewModel;
         NotificationTrayViewModel = notificationTrayViewModel;
+        StatusBarViewModel = statusBarViewModel;
     }
 
     [ObservableProperty]
@@ -18,17 +20,22 @@ public partial class MainViewModel : DisposableObservableObject
     [ObservableProperty]
     public partial NotificationTrayViewModel NotificationTrayViewModel { get; set; }
 
+    [ObservableProperty]
+    public partial StatusBarViewModel StatusBarViewModel { get; set; }
+
     public override void Dispose()
     {
         base.Dispose();
 
         HeaderViewModel?.Dispose();
         NotificationTrayViewModel?.Dispose();
+        StatusBarViewModel?.Dispose();
     }
 
     public async Task LoadAsync()
     {
         await HeaderViewModel.LoadAsync();
         await NotificationTrayViewModel.LoadAsync();
+        await StatusBarViewModel.LoadAsync();
     }
 }
