@@ -53,7 +53,6 @@ public abstract class LexicomDataProtectorTokenProvider<TUser> : IUserTwoFactorT
 
     public virtual async Task<bool> ValidateAsync(string purpose, string token, UserManager<TUser> manager, TUser user)
     {
-        _ = 1;
         try
         {
             var stream = new MemoryStream(Protector.Unprotect(Convert.FromBase64String(token)));

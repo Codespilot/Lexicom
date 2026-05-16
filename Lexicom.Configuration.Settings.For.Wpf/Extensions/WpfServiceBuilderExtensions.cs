@@ -11,9 +11,11 @@ public static class WpfServiceBuilderExtensions
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(settings);
 
-        builder.Configuration.AddSettings(new WpfApplicationSettingsProvider(settings));
+        var provider = new WpfApplicationSettingsProvider(settings);
 
-        builder.Services.AddLexicomWpfConfigurationSettings(new WpfApplicationSettingsProvider(settings));
+        builder.Configuration.AddSettings(provider);
+
+        builder.Services.AddLexicomWpfConfigurationSettings(provider);
 
         return builder;
     }

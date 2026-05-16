@@ -24,7 +24,7 @@ public static class ClaimsPrincipalExtensions
         ArgumentNullException.ThrowIfNull(claimsPrincipal);
 
         return claimsPrincipal
-            .GetPermissions()
+            .GetRoles()
             .Any(r => r == roleName);
     }
 

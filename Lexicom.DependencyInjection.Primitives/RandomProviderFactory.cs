@@ -13,11 +13,11 @@ public class RandomProviderFactory : IRandomProviderFactory
 
     public IRandomProvider Create()
     {
-        return ActivatorUtilities.CreateInstance<IRandomProvider>(_serviceProvider);
+        return ActivatorUtilities.CreateInstance<RandomProvider>(_serviceProvider);
     }
 
     public IRandomProvider Create(int seed)
     {
-        return ActivatorUtilities.CreateInstance<IRandomProvider>(_serviceProvider, seed);
+        return ActivatorUtilities.CreateInstance<RandomProvider>(_serviceProvider, seed);
     }
 }

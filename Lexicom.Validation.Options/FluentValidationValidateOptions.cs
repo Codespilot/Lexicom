@@ -24,7 +24,7 @@ public class FluentValidationValidateOptions<TOptions> : IValidateOptions<TOptio
     /// <exception cref="ArgumentNullException"/>
     public ValidateOptionsResult Validate(string? name, TOptions options)
     {
-        if (_name is not null && _name != name)
+        if (_name != name)
         {
             return ValidateOptionsResult.Skip;
         }

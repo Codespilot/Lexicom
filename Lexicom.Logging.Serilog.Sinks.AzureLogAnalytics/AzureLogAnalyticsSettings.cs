@@ -16,7 +16,7 @@ public sealed class AzureLogAnalyticsSettings
     public int BatchSize
     {
         get;
-        set => field = value is >= Constants.BUFFER_SIZE_MINIMUM and <= Constants.BUFFER_SIZE_MAXIMUM ? value : Constants.BUFFER_SIZE_DEFAULT;
+        set => field = value is >= Constants.BATCH_SIZE_MINIMUM and <= Constants.BATCH_SIZE_MAXIMUM ? value : Constants.BATCH_SIZE_DEFAULT;
     } = Constants.BATCH_SIZE_DEFAULT;
 
     public bool IsFlattenedProperties { get; set; }

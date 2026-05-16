@@ -15,12 +15,12 @@
 
     <Authors>Alex Stroot</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Derives the Lexicom.Cryptography package to provide an implementation specific for a Blazor web assembly application project.</Description>
+    <Description>Derives the Lexicom.Cryptography package to provide an implementation specific for a Maui Blazor hybrid application project.</Description>
     <Copyright>2026</Copyright>
-    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Cryptography.For.Wpf</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Cryptography.For.Maui.Blazor.Hybrid</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
-    <PackageTags>blazor;dependencyinjection;webassembly</PackageTags>
+    <PackageTags>maui;blazor;dependencyinjection</PackageTags>
 
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
