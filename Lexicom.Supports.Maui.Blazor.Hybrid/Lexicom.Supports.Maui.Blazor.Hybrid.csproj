@@ -16,7 +16,7 @@
     <Authors>Alex Stroot</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>The base package for all Lexicom...For.Maui.Blazor.Hybrid packages. Relies on and enforces the target framework to be android, ios, and maccatalyst.</Description>
-    <Copyright>2024</Copyright>
+    <Copyright>2026</Copyright>
     <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Supports.Maui.Blazor.Hybrid</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>

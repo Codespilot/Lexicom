@@ -11,8 +11,8 @@
 
     <Authors>Alex Stroot</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Simplifies the setup necessary to unit test dependency injection based classes with implemented dependencies.</Description>
-    <Copyright>2024</Copyright>
+    <Description>Simplifies the setup necessary to test dependency injection based classes with implemented dependencies.</Description>
+    <Copyright>2026</Copyright>
     <PackageProjectUrl>https://github.com/AlexLexicon/Lexicom/tree/master/Lexicom.Testing.DependencyInjection</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AlexLexicon/Lexicom</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
