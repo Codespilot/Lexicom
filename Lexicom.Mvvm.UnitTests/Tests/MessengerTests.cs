@@ -27,6 +27,7 @@ public class MessengerTests
                 mvvm.AddViewModel<NotificationDialogViewModel>();
                 mvvm.AddViewModel<NotificationTrayViewModel>();
                 mvvm.AddViewModel<ProfileViewModel>();
+                mvvm.AddViewModel<StatusBarViewModel>();
             });
         });
 
@@ -78,6 +79,7 @@ public class MessengerTests
                 mvvm.AddViewModel<NotificationDialogViewModel>();
                 mvvm.AddViewModel<NotificationTrayViewModel>();
                 mvvm.AddViewModel<ProfileViewModel>();
+                mvvm.AddViewModel<StatusBarViewModel>();
             });
         });
 
@@ -131,6 +133,7 @@ public class MessengerTests
                 mvvm.AddViewModel<NotificationDialogViewModel>();
                 mvvm.AddViewModel<NotificationTrayViewModel>();
                 mvvm.AddViewModel<ProfileViewModel>();
+                mvvm.AddViewModel<StatusBarViewModel>();
             });
         });
 
