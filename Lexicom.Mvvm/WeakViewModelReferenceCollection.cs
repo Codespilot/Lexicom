@@ -9,12 +9,14 @@ public interface IWeakViewModelReferenceCollection
 }
 public class WeakViewModelReferenceCollection<TViewModelImplementation> : IWeakViewModelReferenceCollection where TViewModelImplementation : class
 {
-    private readonly List<WeakReference<TViewModelImplementation>> _weakViewModelRefrences;
-
     public WeakViewModelReferenceCollection()
     {
-        _weakViewModelRefrences = [];
+        WeakViewModelRefrences = [];
+        MutateLock = new Lock();
     }
+
+    private List<WeakReference<TViewModelImplementation>> WeakViewModelRefrences { get; }
+    private Lock MutateLock { get; }
 
     public void Add(object viewModel)
     {
@@ -35,18 +37,24 @@ public class WeakViewModelReferenceCollection<TViewModelImplementation> : IWeakV
     {
         ArgumentNullException.ThrowIfNull(viewModel);
 
-        _weakViewModelRefrences.Add(new WeakReference<TViewModelImplementation>(viewModel));
+        lock (MutateLock)
+        {
+            WeakViewModelRefrences.Add(new WeakReference<TViewModelImplementation>(viewModel));
+        }
     }
 
     public IReadOnlyList<TViewModelImplementation> GetRemainingViewModels()
     {
         var viewModels = new List<TViewModelImplementation>();
 
-        foreach (var weakViewModelRefrence in _weakViewModelRefrences)
+        lock (MutateLock)
         {
-            if (weakViewModelRefrence.TryGetTarget(out var viewModel))
+            foreach (var weakViewModelRefrence in WeakViewModelRefrences)
             {
-                viewModels.Add(viewModel);
+                if (weakViewModelRefrence.TryGetTarget(out var viewModel))
+                {
+                    viewModels.Add(viewModel);
+                }
             }
         }
 

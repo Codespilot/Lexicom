@@ -45,9 +45,11 @@ public class ViewModelFactory : IViewModelFactory
         _messengers = messengers;
 
         ViewModelTypeToSingletonInstance = [];
+        InitializeViewModelLock = new Lock();
     }
 
     private Dictionary<Type, object> ViewModelTypeToSingletonInstance { get; }
+    private Lock InitializeViewModelLock { get; }
 
     public virtual TViewModel Create<TViewModel>() where TViewModel : notnull
     {
@@ -153,95 +155,99 @@ public class ViewModelFactory : IViewModelFactory
 
     protected virtual TViewModel InitializeViewModel<TViewModel>(bool isWithModels, Func<Type, TViewModel> activateImplementationTypeDelegate) where TViewModel : notnull
     {
-        Type viewModelType = typeof(TViewModel);
-        Type implementationType = GetViewModelImplementationType<TViewModel>();
-        ServiceLifetime serviceLifetime = GetViewModelServiceLifetime<TViewModel>();
-
-        TViewModel? viewModel = default;
-        if (serviceLifetime is ServiceLifetime.Singleton && ViewModelTypeToSingletonInstance.TryGetValue(viewModelType, out object? instance))
+        //protect multi thread acess for singletons
+        lock (InitializeViewModelLock)
         {
-            viewModel = (TViewModel)instance;
+            Type viewModelType = typeof(TViewModel);
+            Type implementationType = GetViewModelImplementationType<TViewModel>();
+            ServiceLifetime serviceLifetime = GetViewModelServiceLifetime<TViewModel>();
 
-            if (isWithModels)
+            TViewModel? viewModel = default;
+            if (serviceLifetime is ServiceLifetime.Singleton && ViewModelTypeToSingletonInstance.TryGetValue(viewModelType, out object? instance))
             {
-                throw new SingletonViewModelAlreadyExistsException(viewModelType);
-            }
-        }
+                viewModel = (TViewModel)instance;
 
-        if (viewModel is null)
-        {
-            IWeakViewModelReferenceCollection? weakViewModelReferenceCollection;
-            try
-            {
-                weakViewModelReferenceCollection = (IWeakViewModelReferenceCollection?)StaticGetWeakViewModelReferenceCollectionMethodInfo
-                    .MakeGenericMethod(implementationType)
-                    .Invoke(null, [_serviceProvider]);
-            }
-            catch (TargetInvocationException e) when (e.InnerException is ViewModelNotRegisteredException viewModelNotRegisteredException)
-            {
-                //unwrap the TargetInvocationException into the actual ViewModelNotRegisteredException.
-                throw viewModelNotRegisteredException;
-            }
-
-            if (weakViewModelReferenceCollection is null)
-            {
-                throw new ViewModelNotRegisteredException(implementationType, innerException: null);
-            }
-
-            try
-            {
-                viewModel = activateImplementationTypeDelegate.Invoke(implementationType);
-            }
-            catch (InvalidOperationException e)
-            {
-                if (!string.IsNullOrWhiteSpace(e.Message) && e.Message.StartsWith("Unable to resolve service for type "))
+                if (isWithModels)
                 {
-                    int start = e.Message.IndexOf('\'') + 1;
-                    int end = e.Message.IndexOf('\'', start);
-                    string unresolvedTypeName = e.Message[start..end];
+                    throw new SingletonViewModelAlreadyExistsException(viewModelType);
+                }
+            }
 
-                    Type? unresolvedType = Type.GetType(unresolvedTypeName);
+            if (viewModel is null)
+            {
+                IWeakViewModelReferenceCollection? weakViewModelReferenceCollection;
+                try
+                {
+                    weakViewModelReferenceCollection = (IWeakViewModelReferenceCollection?)StaticGetWeakViewModelReferenceCollectionMethodInfo
+                        .MakeGenericMethod(implementationType)
+                        .Invoke(null, [_serviceProvider]);
+                }
+                catch (TargetInvocationException e) when (e.InnerException is ViewModelNotRegisteredException viewModelNotRegisteredException)
+                {
+                    //unwrap the TargetInvocationException into the actual ViewModelNotRegisteredException.
+                    throw viewModelNotRegisteredException;
+                }
 
-                    if (unresolvedType is null)
+                if (weakViewModelReferenceCollection is null)
+                {
+                    throw new ViewModelNotRegisteredException(implementationType, innerException: null);
+                }
+
+                try
+                {
+                    viewModel = activateImplementationTypeDelegate.Invoke(implementationType);
+                }
+                catch (InvalidOperationException e)
+                {
+                    if (!string.IsNullOrWhiteSpace(e.Message) && e.Message.StartsWith("Unable to resolve service for type "))
                     {
-                        unresolvedType = AppDomain.CurrentDomain
-                            .GetAssemblies()
-                            .Select(a => a.GetType(unresolvedTypeName))
-                            .FirstOrDefault(t => t is not null);
+                        int start = e.Message.IndexOf('\'') + 1;
+                        int end = e.Message.IndexOf('\'', start);
+                        string unresolvedTypeName = e.Message[start..end];
+
+                        Type? unresolvedType = Type.GetType(unresolvedTypeName);
+
+                        if (unresolvedType is null)
+                        {
+                            unresolvedType = AppDomain.CurrentDomain
+                                .GetAssemblies()
+                                .Select(a => a.GetType(unresolvedTypeName))
+                                .FirstOrDefault(t => t is not null);
+                        }
+
+                        if (unresolvedType is not null && typeof(ObservableObject).IsAssignableFrom(unresolvedType))
+                        {
+                            throw new ViewModelNotRegisteredException(unresolvedType, e);
+                        }
                     }
 
-                    if (unresolvedType is not null && typeof(ObservableObject).IsAssignableFrom(unresolvedType))
+                    throw;
+                }
+
+                weakViewModelReferenceCollection.Add(viewModel);
+
+                if (serviceLifetime is ServiceLifetime.Singleton)
+                {
+                    if (ViewModelTypeToSingletonInstance.ContainsKey(viewModelType))
                     {
-                        throw new ViewModelNotRegisteredException(unresolvedType, e);
+                        //if the type is a singleton then we should have been able to access the instance above thus this should not be possible.
+                        throw new UnreachableException($"The view model '{viewModelType?.FullName ?? "null"}' has already been created.");
+                    }
+
+                    ViewModelTypeToSingletonInstance.Add(viewModelType, viewModel);
+                }
+
+                foreach (IMessenger? messenger in _messengers)
+                {
+                    if (messenger is not null)
+                    {
+                        messenger?.RegisterAll(viewModel);
+                        messenger?.AsyncRegisterAll(viewModel);
                     }
                 }
-
-                throw;
             }
 
-            weakViewModelReferenceCollection.Add(viewModel);
-
-            if (serviceLifetime is ServiceLifetime.Singleton)
-            {
-                if (ViewModelTypeToSingletonInstance.ContainsKey(viewModelType))
-                {
-                    //if the type is a singleton then we should have been able to access the instance above thus this should not be possible.
-                    throw new UnreachableException($"The view model '{viewModelType?.FullName ?? "null"}' has already been created.");
-                }
-
-                ViewModelTypeToSingletonInstance.Add(viewModelType, viewModel);
-            }
-
-            foreach (IMessenger? messenger in _messengers)
-            {
-                if (messenger is not null)
-                {
-                    messenger?.RegisterAll(viewModel);
-                    messenger?.AsyncRegisterAll(viewModel);
-                }
-            }
+            return viewModel;
         }
-
-        return viewModel;
     }
 }
