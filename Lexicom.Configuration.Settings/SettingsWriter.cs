@@ -395,7 +395,10 @@ public class SettingsWriter : ISettingsWriter
                 _settings[configProperty.SettingKey] = configProperty.Value;
             }
 
-            _logger.LogInformation("Saving the settings for the configuration '{configurationTypeName}'.", configurationTypeName);
+            if (_logger.IsEnabled(LogLevel.Information))
+            {
+                _logger.LogInformation("Saving the settings for the configuration '{configurationTypeName}'.", configurationTypeName);
+            }
 
             _settings.Save();
         }
@@ -417,7 +420,10 @@ public class SettingsWriter : ISettingsWriter
             logValue = value?.ToString() ?? "null";
         }
 
-        _logger.LogInformation("Saving the setting '{key}:{logValue}'.", key, logValue);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Saving the setting '{key}:{logValue}'.", key, logValue);
+        }
 
         _settings.Save();
     }

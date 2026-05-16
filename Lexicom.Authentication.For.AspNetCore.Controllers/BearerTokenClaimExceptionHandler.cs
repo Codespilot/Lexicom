@@ -24,13 +24,19 @@ public class BearerTokenClaimExceptionHandler : IExceptionHandler
 
         if (exception is ClaimDoesNotExistException claimDoesNotExistException)
         {
-            _logger.LogError(exception, "The '{claimSourceName}:{claim}' claim was not included in the bearer token.", claimDoesNotExistException.ClaimSourceName, claimDoesNotExistException.Claim);
+            if (_logger.IsEnabled(LogLevel.Error))
+            {
+                _logger.LogError(exception, "The '{claimSourceName}:{claim}' claim was not included in the bearer token.", claimDoesNotExistException.ClaimSourceName, claimDoesNotExistException.Claim);
+            }
 
             return new ExceptionHandledResult(HttpStatusCode.Unauthorized);
         }
         else if (exception is ClaimNotValidException claimNotValidException)
         {
-            _logger.LogError(exception, "The '{claimSourceName}:{claim}' claim was not valid, probably not a valid Guid type.", claimNotValidException.ClaimSourceName, claimNotValidException.Claim);
+            if (_logger.IsEnabled(LogLevel.Error))
+            {
+                _logger.LogError(exception, "The '{claimSourceName}:{claim}' claim was not valid, probably not a valid Guid type.", claimNotValidException.ClaimSourceName, claimNotValidException.Claim);
+            }
 
             return new ExceptionHandledResult(HttpStatusCode.Unauthorized);
         }

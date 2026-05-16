@@ -78,13 +78,19 @@ public class SmtpEmailMailClient : ISmtpEmailClient, ISmtpEmailHandler
             SmtpClient smtpClient;
             if (port is not null)
             {
-                _logger.LogInformation("Creating a new SmtpClient for the host '{host}:{port}'.", smtpEmailClientConfiguration.Host, port);
+                if (_logger.IsEnabled(LogLevel.Information))
+                {
+                    _logger.LogInformation("Creating a new SmtpClient for the host '{host}:{port}'.", smtpEmailClientConfiguration.Host, port);
+                }
 
                 smtpClient = new SmtpClient(smtpEmailClientConfiguration.Host, port.Value);
             }
             else
             {
-                _logger.LogInformation("Creating a new SmtpClient for the host '{host}'.", smtpEmailClientConfiguration.Host);
+                if (_logger.IsEnabled(LogLevel.Information))
+                {
+                    _logger.LogInformation("Creating a new SmtpClient for the host '{host}'.", smtpEmailClientConfiguration.Host);
+                }
 
                 smtpClient = new SmtpClient(smtpEmailClientConfiguration.Host);
             }
@@ -101,11 +107,17 @@ public class SmtpEmailMailClient : ISmtpEmailClient, ISmtpEmailHandler
 
                 smtpClient.Credentials = new NetworkCredential(smtpEmailClientConfiguration.NetworkCredentialsUsername, smtpEmailClientConfiguration.NetworkCredentialsPassword);
 
-                _logger.LogInformation("SmtpClient.SendMailAsync initiated.");
+                if (_logger.IsEnabled(LogLevel.Information))
+                {
+                    _logger.LogInformation("SmtpClient.SendMailAsync initiated.");
+                }
 
                 await smtpClient.SendMailAsync(mailMessage);
 
-                _logger.LogInformation("SmtpClient.SendMailAsync succeeded.");
+                if (_logger.IsEnabled(LogLevel.Information))
+                {
+                    _logger.LogInformation("SmtpClient.SendMailAsync succeeded.");
+                }
             }
         }
         catch (Exception e) when (e is FormatException or ArgumentNullException)
