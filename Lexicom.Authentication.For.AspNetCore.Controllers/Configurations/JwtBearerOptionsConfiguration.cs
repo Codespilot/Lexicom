@@ -37,7 +37,7 @@ public class JwtBearerOptionsConfiguration : IConfigureNamedOptions<JwtBearerOpt
         JwtOptions accessTokenOptions = _jwtOptions.Get(JwtOptions.ACCESS_TOKEN_SECTION);
         JwtOptionsValidator.ThrowIfNull(accessTokenOptions.SymmetricSecurityKey);
 
-        byte[] symmetricSecurityKeyBytes = Encoding.ASCII.GetBytes(accessTokenOptions.SymmetricSecurityKey);
+        byte[] symmetricSecurityKeyBytes = Encoding.UTF8.GetBytes(accessTokenOptions.SymmetricSecurityKey);
 
         var symmetricSecurityKey = new SymmetricSecurityKey(symmetricSecurityKeyBytes);
 

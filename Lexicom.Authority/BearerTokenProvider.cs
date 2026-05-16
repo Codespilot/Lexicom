@@ -24,7 +24,7 @@ public abstract class BearerTokenProvider
         claimsList.Insert(0, jtiClaim);
         claims = claimsList;
 
-        byte[] symmetricSecurityKeyBytes = Encoding.ASCII.GetBytes(jwtOptions.SymmetricSecurityKey);
+        byte[] symmetricSecurityKeyBytes = Encoding.UTF8.GetBytes(jwtOptions.SymmetricSecurityKey);
 
         var subject = new ClaimsIdentity(claims);
         DateTimeOffset expiresDateTimeOffset = DateTimeOffset.UtcNow.Add(expiresTimeSpan);
@@ -52,7 +52,7 @@ public abstract class BearerTokenProvider
 
         var tokenHandler = new JsonWebTokenHandler();
 
-        byte[] symmetricSecurityKeyBytes = Encoding.ASCII.GetBytes(jwtOptions.SymmetricSecurityKey);
+        byte[] symmetricSecurityKeyBytes = Encoding.UTF8.GetBytes(jwtOptions.SymmetricSecurityKey);
 
         var symmetricSecurityKey = new SymmetricSecurityKey(symmetricSecurityKeyBytes);
 
