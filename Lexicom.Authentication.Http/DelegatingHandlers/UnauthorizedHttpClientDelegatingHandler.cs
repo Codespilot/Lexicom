@@ -4,14 +4,14 @@ using System.Net;
 namespace Lexicom.Authentication.Http.DelegatingHandlers;
 public class UnauthorizedHttpClientDelegatingHandler : DelegatingHandler
 {
-    private readonly IHttpClientUnathorizedListener _httpClientUnathorizedService;
+    private readonly IHttpClientUnauthorizedListener _httpClientUnauthorizedListener;
 
     /// <exception cref="ArgumentNullException"/>
-    public UnauthorizedHttpClientDelegatingHandler(IHttpClientUnathorizedListener httpClientUnathorizedService)
+    public UnauthorizedHttpClientDelegatingHandler(IHttpClientUnauthorizedListener httpClientUnauthorizedListener)
     {
-        ArgumentNullException.ThrowIfNull(httpClientUnathorizedService);
+        ArgumentNullException.ThrowIfNull(httpClientUnauthorizedListener);
 
-        _httpClientUnathorizedService = httpClientUnathorizedService;
+        _httpClientUnauthorizedListener = httpClientUnauthorizedListener;
     }
 
     /// <exception cref="ArgumentNullException"/>
@@ -24,7 +24,7 @@ public class UnauthorizedHttpClientDelegatingHandler : DelegatingHandler
 
         if (response.StatusCode is HttpStatusCode.Unauthorized)
         {
-            await _httpClientUnathorizedService.UnathorizedAsync();
+            await _httpClientUnauthorizedListener.UnauthorizedAsync();
 
             throw new UnauthorizedException(request.Method, response.RequestMessage?.RequestUri?.ToString(), response.StatusCode);
         }

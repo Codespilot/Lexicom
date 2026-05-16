@@ -14,7 +14,7 @@ public class AuthenticationHttpClientBuilder(IHttpClientBuilder httpClientBuilde
 
     public void AuthorizeWithAccessToken() => IncludeAccessTokenHttpClientDelegatingHandler = true;
     public void AutomaticallyRefreshAccessToken() => IncludeRefreshTokenHttpClientDelegatingHandler = true;
-    public void ForwardUnathorizedRequests() => IncludeUnauthorizedHttpClientDelegatingHandler = true;
+    public void ForwardUnauthorizedRequests() => IncludeUnauthorizedHttpClientDelegatingHandler = true;
 
     public void Build()
     {
