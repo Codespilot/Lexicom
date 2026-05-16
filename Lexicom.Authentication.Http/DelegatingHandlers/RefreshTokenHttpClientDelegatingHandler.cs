@@ -20,7 +20,11 @@ public class RefreshTokenHttpClientDelegatingHandler : DelegatingHandler
         _httpClientAccessTokenProvider = httpClientAccessTokenProvider;
         _httpClientRefreshTokenProvider = httpClientRefreshTokenProvider;
         _httpClientRefreshService = httpClientRefreshService;
+
+        RefreshSemaphore = new SemaphoreSlim(1, 1);
     }
+
+    protected SemaphoreSlim RefreshSemaphore { get; }
 
     /// <exception cref="ArgumentNullException"/>
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -39,13 +43,28 @@ public class RefreshTokenHttpClientDelegatingHandler : DelegatingHandler
             return response;
         }
 
-        var getAccessTokenTask = _httpClientAccessTokenProvider.GetAccessTokenAsync();
-        var getRefreshTokenAsync = _httpClientRefreshTokenProvider.GetRefreshTokenAsync();
+        //if the access token has changed by the time we acquire the lock then another 
+        //concurrent request already performed the refresh and we must not refresh again
+        string? accessTokenBeforeRefresh = await _httpClientAccessTokenProvider.GetAccessTokenAsync();
 
-        string? accessToken = await getAccessTokenTask;
-        string? refreshToken = await getRefreshTokenAsync;
+        await RefreshSemaphore.WaitAsync(cancellationToken);
+        try
+        {
+            string? currentAccessToken = await _httpClientAccessTokenProvider.GetAccessTokenAsync();
 
-        await _httpClientRefreshService.RefreshAuthenticationAsync(accessToken, refreshToken);
+            if (currentAccessToken == accessTokenBeforeRefresh)
+            {
+                string? refreshToken = await _httpClientRefreshTokenProvider.GetRefreshTokenAsync();
+
+                await _httpClientRefreshService.RefreshAuthenticationAsync(currentAccessToken, refreshToken);
+            }
+        }
+        finally
+        {
+            RefreshSemaphore.Release();
+        }
+
+        response.Dispose();
 
         return await SendAsync(request, isRefreshed: true, cancellationToken);
     }
