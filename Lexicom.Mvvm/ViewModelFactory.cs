@@ -225,7 +225,7 @@ public class ViewModelFactory : IViewModelFactory
             {
                 if (ViewModelTypeToSingletonInstance.ContainsKey(viewModelType))
                 {
-                    //if the type is a singleton than we should have been able to access the instance above thus this should not be possible.
+                    //if the type is a singleton then we should have been able to access the instance above thus this should not be possible.
                     throw new UnreachableException($"The view model '{viewModelType?.FullName ?? "null"}' has already been created.");
                 }
 

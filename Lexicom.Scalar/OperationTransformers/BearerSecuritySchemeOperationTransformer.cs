@@ -26,7 +26,7 @@ public class BearerSecuritySchemeOperationTransformer : IOpenApiOperationTransfo
         bool isAuthorized = hasControllerAuthorize;
         if (isAuthorized)
         {
-            //if it has a controller level authorization than we need to make sure this endpoint is not allow anonymous
+            //if it has a controller level authorization then we need to make sure this endpoint does not allow anonymous
 
             bool isAllowAnonymous = context.Description.ActionDescriptor.EndpointMetadata
                 .OfType<IAllowAnonymous>()
@@ -36,7 +36,7 @@ public class BearerSecuritySchemeOperationTransformer : IOpenApiOperationTransfo
         }
         else
         {
-            //if it does not have controller level authorization than we need to check if this endpoint is authorized
+            //if it does not have controller level authorization then we need to check if this endpoint is authorized
 
             isAuthorized = context.Description.ActionDescriptor.EndpointMetadata
                 .OfType<IAuthorizeData>()

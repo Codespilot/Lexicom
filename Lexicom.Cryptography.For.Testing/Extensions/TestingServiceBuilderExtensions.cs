@@ -1,8 +1,7 @@
-﻿using Lexicom.Cryptography;
-using Lexicom.Cryptography.Extensions;
+﻿using Lexicom.Cryptography.Extensions;
 using Lexicom.Supports.Testing;
 
-namespace Lexicom.Cryptopraphy.For.Testing.Extensions;
+namespace Lexicom.Cryptography.For.Testing.Extensions;
 
 public static class TestingServiceBuilderExtensions
 {

@@ -6,7 +6,7 @@
  * the reason we need these interfaces is that
  * usually the view models do not reference
  * windows namespaces directly so these can be used
- * without needed a windows specific version of dot net
+ * without needing a windows specific version of dot net
  */
 public interface IDispatcher
 {
