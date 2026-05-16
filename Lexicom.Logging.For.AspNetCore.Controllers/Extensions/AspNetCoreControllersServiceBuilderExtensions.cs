@@ -1,7 +1,7 @@
 ﻿using Lexicom.Supports.AspNetCore.Controllers;
 using Serilog;
 
-namespace Lexicom.Smtp.AspNetCore.Controllers.Extensions;
+namespace Lexicom.Logging.For.AspNetCore.Controllers.Extensions;
 public static class AspNetCoreControllersServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

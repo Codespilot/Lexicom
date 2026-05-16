@@ -5,7 +5,7 @@ namespace Lexicom.Configuration.AzureKeyVault.Wpf.Extensions;
 public static class WpfServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static IWpfServiceBuilder AddValidation(this IWpfServiceBuilder builder)
+    public static IWpfServiceBuilder AddAzureKeyVault(this IWpfServiceBuilder builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
 

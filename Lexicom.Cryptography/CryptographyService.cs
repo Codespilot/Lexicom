@@ -133,7 +133,7 @@ public class CryptographyService : ICryptographyService
 
     public string? EncryptOrNull(string? plainText)
     {
-        byte[] secretKey = _cryptographySecretProvider.GetSecretAsync().Result;
+        byte[] secretKey = _cryptographySecretProvider.GetSecret();
 
         return StringEncryptor.Encrypt(_aesProvider, secretKey, plainText);
     }
@@ -177,7 +177,7 @@ public class CryptographyService : ICryptographyService
 
     public string? DecryptOrNull(string? encryptedBase64)
     {
-        byte[] secretKey = _cryptographySecretProvider.GetSecretAsync().Result;
+        byte[] secretKey = _cryptographySecretProvider.GetSecret();
 
         return StringDecryptor.Decrypt(_aesProvider, encryptedBase64, secretKey);
     }

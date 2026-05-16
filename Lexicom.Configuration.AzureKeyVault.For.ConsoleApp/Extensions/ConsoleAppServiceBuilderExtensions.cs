@@ -5,7 +5,7 @@ namespace Lexicom.Configuration.AzureKeyVault.ConsoleApp.Extensions;
 public static class ConsoleAppServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static IConsoleAppServiceBuilder AddValidation(this IConsoleAppServiceBuilder builder)
+    public static IConsoleAppServiceBuilder AddAzureKeyVault(this IConsoleAppServiceBuilder builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
 

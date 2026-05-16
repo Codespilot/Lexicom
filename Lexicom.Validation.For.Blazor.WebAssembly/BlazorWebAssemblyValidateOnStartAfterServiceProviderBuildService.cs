@@ -28,7 +28,12 @@ public class BlazorWebAssemblyValidateOnStartAfterServiceProviderBuildService : 
 
             if (options is not null)
             {
-                validateOptions.Validate(name, options.Value);
+                ValidateOptionsResult result = validateOptions.Validate(name, options.Value);
+
+                if (result.Failed)
+                {
+                    throw new OptionsValidationException(name, typeof(TOptions), result.Failures);
+                }
             }
         }
     }

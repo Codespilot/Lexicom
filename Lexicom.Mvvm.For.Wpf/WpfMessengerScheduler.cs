@@ -1,4 +1,5 @@
-﻿using System.Windows.Threading;
+﻿using System.Windows;
+using System.Windows.Threading;
 
 namespace Lexicom.Mvvm.For.Wpf;
 
@@ -16,7 +17,7 @@ public class WpfMessengerScheduler : IMessengerScheduler
             dispatcherPriority = DispatcherPriority.Normal;
         }
 
-        Dispatcher.CurrentDispatcher.BeginInvoke(dispatcherPriority, dispatchedDelegate);
+        Application.Current.Dispatcher.BeginInvoke(dispatcherPriority, dispatchedDelegate);
 
         return Task.CompletedTask;
     }
