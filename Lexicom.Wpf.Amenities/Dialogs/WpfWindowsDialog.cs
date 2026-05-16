@@ -35,7 +35,7 @@ public class WpfWindowsDialog : IWindowsDialog
 
         var settings = new SaveFileSettings();
 
-        //the following tries to seperate the file path and name
+        //the following tries to separate the file path and name
         //into the fileName, directory and extension variables
         string[] pathSegments = filePathAndName.Split('\\');
 

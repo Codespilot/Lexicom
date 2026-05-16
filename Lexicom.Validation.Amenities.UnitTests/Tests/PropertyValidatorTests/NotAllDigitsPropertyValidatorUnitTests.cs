@@ -15,7 +15,7 @@ public class NotAllDigitsPropertyValidatorUnitTests
     [InlineData("123")]
     public async Task Message_Is_Expected(string input)
     {
-        //arrage
+        //arrange
         var ita = new IntegrationTestAssistant();
 
         ita.Lexicom(l =>

@@ -10,7 +10,7 @@ public class ControllerErrorResponse : ErrorResponse
             if (field is null)
             {
                 field = new ControllerErrorResponse();
-                field.AddError("Operation Failed", "An unexpected error occured.");
+                field.AddError("Operation Failed", "An unexpected error occurred.");
                 field.AddCode(CODE_UNEXPECTED);
             }
 

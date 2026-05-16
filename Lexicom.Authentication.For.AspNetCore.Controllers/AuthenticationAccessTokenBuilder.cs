@@ -58,8 +58,8 @@ public class AuthenticationAccessTokenBuilder : IAuthenticationAccessTokenBuilde
 
         //This exception handler will catch the 
         //'ClaimDoesNotExistException' or 'ClaimNotValidException' exceptions
-        //which can potentially occur if a jwt claims are changed but its still valid
-        //it will return an 401 unathorized in this case
+        //which can potentially occur if a jwt's claims are changed but it's still valid
+        //it will return a 401 unauthorized in this case
         Services.AddSingleton<IExceptionHandler, BearerTokenClaimExceptionHandler>();
 
         AuthenticationBuilder builder;

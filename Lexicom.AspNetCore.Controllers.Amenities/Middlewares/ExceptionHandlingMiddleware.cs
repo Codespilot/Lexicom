@@ -92,11 +92,11 @@ public class ExceptionHandlingMiddleware : IMiddleware
 
                     if (exception is UnreachableException)
                     {
-                        _logger.LogCritical(exception, "An unexpected unreachable exception occured.");
+                        _logger.LogCritical(exception, "An unexpected unreachable exception occurred.");
                     }
                     else
                     {
-                        _logger.LogError(exception, "An unexpected exception occured.");
+                        _logger.LogError(exception, "An unexpected exception occurred.");
                     }
                 }
 
