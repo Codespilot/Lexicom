@@ -10,14 +10,19 @@ public class ComponentBehavior<TViewModel> where TViewModel : INotifyPropertyCha
 {
     private readonly IMvvmComponent<TViewModel> _mvvmComponent;
 
+    /// <exception cref="ArgumentNullException"/>
     public ComponentBehavior(IMvvmComponent<TViewModel> mvvmComponent)
     {
+        ArgumentNullException.ThrowIfNull(mvvmComponent);
+
         _mvvmComponent = mvvmComponent;
+
+        NotifyCollectionChangedProperties = [];
     }
 
     private PropertyInfo? LoadedCommand { get; set; }
     private PropertyInfo? RenderedCommand { get; set; }
-    private List<PropertyInfo> NotifyCollectionChangedProperties { get; } = [];
+    private List<PropertyInfo> NotifyCollectionChangedProperties { get; }
 
     public async Task InitializeAsync()
     {
@@ -105,43 +110,61 @@ public class ComponentBehavior<TViewModel> where TViewModel : INotifyPropertyCha
 
     private void UnSubscribeToCollectionChanged()
     {
-        foreach (PropertyInfo notifyCollectionChangedProperty in NotifyCollectionChangedProperties)
+        if (_mvvmComponent is not null && _mvvmComponent.ViewModel is not null && NotifyCollectionChangedProperties is not null)
         {
-            object? value = notifyCollectionChangedProperty.GetValue(_mvvmComponent.ViewModel);
-
-            if (value is not null and INotifyCollectionChanged notifyCollectionChanged)
+            foreach (PropertyInfo notifyCollectionChangedProperty in NotifyCollectionChangedProperties)
             {
-                notifyCollectionChanged.CollectionChanged -= OnCollectionChanged;
+                if (notifyCollectionChangedProperty is not null)
+                {
+                    object? value = notifyCollectionChangedProperty.GetValue(_mvvmComponent.ViewModel);
+
+                    if (value is not null and INotifyCollectionChanged notifyCollectionChanged)
+                    {
+                        notifyCollectionChanged.CollectionChanged -= OnCollectionChanged;
+                    }
+                }
             }
         }
     }
 
     private void SubscribeToCollectionChanged()
     {
-        foreach (PropertyInfo notifyCollectionChangedProperty in NotifyCollectionChangedProperties)
+        if (_mvvmComponent is not null && _mvvmComponent.ViewModel is not null && NotifyCollectionChangedProperties is not null)
         {
-            object? value = notifyCollectionChangedProperty.GetValue(_mvvmComponent.ViewModel);
-
-            if (value is not null and INotifyCollectionChanged notifyCollectionChanged)
+            foreach (PropertyInfo notifyCollectionChangedProperty in NotifyCollectionChangedProperties)
             {
-                notifyCollectionChanged.CollectionChanged += OnCollectionChanged;
+                if (notifyCollectionChangedProperty is not null)
+                {
+                    object? value = notifyCollectionChangedProperty.GetValue(_mvvmComponent.ViewModel);
+
+                    if (value is not null and INotifyCollectionChanged notifyCollectionChanged)
+                    {
+                        notifyCollectionChanged.CollectionChanged += OnCollectionChanged;
+                    }
+                }
             }
         }
     }
 
     private async void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (_mvvmComponent.ViewModel is not null)
+        if (_mvvmComponent is not null)
         {
-            UnSubscribeToCollectionChanged();
-            SubscribeToCollectionChanged();
-        }
+            if (_mvvmComponent.ViewModel is not null)
+            {
+                UnSubscribeToCollectionChanged();
+                SubscribeToCollectionChanged();
+            }
 
-        await _mvvmComponent.InvokeStateChangeAsync();
+            await _mvvmComponent.InvokeStateChangeAsync();
+        }
     }
 
     private async void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        await _mvvmComponent.InvokeStateChangeAsync();
+        if (_mvvmComponent is not null)
+        {
+            await _mvvmComponent.InvokeStateChangeAsync();
+        }
     }
 }
