@@ -9,17 +9,17 @@ public class RefreshTokenHttpClientDelegatingHandler : DelegatingHandler
 
     /// <exception cref="ArgumentNullException"/>
     public RefreshTokenHttpClientDelegatingHandler(
-        IHttpClientAccessTokenProvider accessTokenHttpClientProvider,
-        IHttpClientRefreshTokenProvider refreshTokenHttpClientProvider,
-        IHttpClientAccessTokenRefresher refreshService)
+        IHttpClientAccessTokenProvider httpClientAccessTokenProvider,
+        IHttpClientRefreshTokenProvider httpClientRefreshTokenProvider,
+        IHttpClientAccessTokenRefresher httpClientRefreshService)
     {
-        ArgumentNullException.ThrowIfNull(accessTokenHttpClientProvider);
-        ArgumentNullException.ThrowIfNull(refreshTokenHttpClientProvider);
-        ArgumentNullException.ThrowIfNull(refreshService);
+        ArgumentNullException.ThrowIfNull(httpClientAccessTokenProvider);
+        ArgumentNullException.ThrowIfNull(httpClientRefreshTokenProvider);
+        ArgumentNullException.ThrowIfNull(httpClientRefreshService);
 
-        _httpClientAccessTokenProvider = accessTokenHttpClientProvider;
-        _httpClientRefreshTokenProvider = refreshTokenHttpClientProvider;
-        _httpClientRefreshService = refreshService;
+        _httpClientAccessTokenProvider = httpClientAccessTokenProvider;
+        _httpClientRefreshTokenProvider = httpClientRefreshTokenProvider;
+        _httpClientRefreshService = httpClientRefreshService;
     }
 
     /// <exception cref="ArgumentNullException"/>
