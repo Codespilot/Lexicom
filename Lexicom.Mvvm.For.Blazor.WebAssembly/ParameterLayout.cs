@@ -35,6 +35,11 @@ public abstract class ParameterLayout<TViewModel> : LayoutComponentBase, IMvvmCo
         await InvokeAsync(StateHasChanged);
     }
 
+    public async Task HandleExceptionAsync(Exception exception)
+    {
+        await DispatchExceptionAsync(exception);
+    }
+
     protected override async Task OnInitializedAsync()
     {
         await _componentBehavior.InitializeAsync();
