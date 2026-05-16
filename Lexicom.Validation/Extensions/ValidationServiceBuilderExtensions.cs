@@ -126,7 +126,7 @@ public static class ValidationServiceBuilderExtensions
 
         Type[] concreteTypes = typeof(TAssemblyScanMarker).Assembly.DefinedTypes.ToArray();
 
-        var results = new List<AddTrasnformersResult>();
+        var results = new List<AddTransformersResult>();
         foreach (Type concreteType in concreteTypes)
         {
             if (!concreteType.IsAbstract && TypeOrBaseTypeIsAbstractTransformer(concreteType, out Type? abstractTransformerGenericArgumentPropertyType, out Type? abstractTransformerGenericArgumentInPropertyType, out Type? abstractTransformerGenericArgumentValidatorType))
@@ -147,7 +147,7 @@ public static class ValidationServiceBuilderExtensions
                         }
                     }
 
-                    results.Add(new AddTrasnformersResult
+                    results.Add(new AddTransformersResult
                     {
                         ConcreteType = concreteType,
                         InterfaceTypes = transformerInterfaces,
@@ -158,7 +158,7 @@ public static class ValidationServiceBuilderExtensions
 
         if (results.Count is not 0)
         {
-            foreach (AddTrasnformersResult result in results)
+            foreach (AddTransformersResult result in results)
             {
                 //add the AbstractTransformer type
                 builder.Services.Add(new ServiceDescriptor(result.ConcreteType, result.ConcreteType, serviceLifetime));
@@ -283,7 +283,7 @@ public static class ValidationServiceBuilderExtensions
         public required List<Type> InterfaceTypes { get; init; }
     }
 
-    private class AddTrasnformersResult
+    private class AddTransformersResult
     {
         public required Type ConcreteType { get; init; }
         public required List<Type> InterfaceTypes { get; init; }
