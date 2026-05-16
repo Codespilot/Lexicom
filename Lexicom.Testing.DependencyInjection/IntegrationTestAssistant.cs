@@ -55,7 +55,7 @@ public class IntegrationTestAssistant : TestAssistant, IIntegrationTestAssistant
         {
             if (serviceDescriptor is null)
             {
-                throw new MakeTypeIsNoRegisteredException(serviceType);
+                throw new MakeTypeIsNotRegisteredException(serviceType);
             }
 
             if (serviceDescriptor.ImplementationType is null)

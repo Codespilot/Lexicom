@@ -29,7 +29,7 @@ public class SmtpEmailMailClient : ISmtpEmailClient, ISmtpEmailHandler
     /// <exception cref="EmailAddressNotValidException"/>
     /// <exception cref="SmtpNetworkCredentialsNotValidException"/>
     /// <exception cref="MailMessageNotValidException"/>
-    /// <exception cref="EmailHostUnKnownException"/>
+    /// <exception cref="EmailHostUnknownException"/>
     /// <exception cref="EmailHostConnectionException"/>
     /// <exception cref="EmailHostNotSpecifiedException"/>
     public async Task SendEmailAsync(string toEmailAddress, string subject, string body)
@@ -118,7 +118,7 @@ public class SmtpEmailMailClient : ISmtpEmailClient, ISmtpEmailHandler
             {
                 if (socketException.Message == "No such host is known.")
                 {
-                    throw new EmailHostUnKnownException(e);
+                    throw new EmailHostUnknownException(e);
                 }
                 else if (socketException.Message == "A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.")
                 {

@@ -59,7 +59,7 @@ public class MakeTests
         var ita = new IntegrationTestAssistant();
 
         //assert
-        Assert.Throws<MakeTypeIsNoRegisteredException>(() =>
+        Assert.Throws<MakeTypeIsNotRegisteredException>(() =>
         {
             //act
             var uot = ita.Make<IServiceDependencyVoidReturnMethod>();
