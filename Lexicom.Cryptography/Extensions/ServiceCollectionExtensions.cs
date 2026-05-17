@@ -10,6 +10,7 @@ public static class ServiceCollectionExtensions
 
         services.AddSingleton<ICryptographyService, CryptographyService>();
         services.AddSingleton<IAesProvider, AesProvider>();
+        services.AddSingleton<ICiphertextAuthenticator, CiphertextAuthenticator>();
 
         configure?.Invoke(new CryptographyServiceBuilder(services));
 

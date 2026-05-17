@@ -8,7 +8,7 @@ public static class StringEncryptor
     /// <exception cref="ArgumentNullException"/>
     /// <exception cref="SecretKeyEmptyException"/>
     /// <exception cref="SecretKeySizeException"/>
-    public static string? Encrypt(IAesProvider aesProvider, byte[] secretKey, string? plainText)
+    public static string? Encrypt(IAesProvider aesProvider, ICiphertextAuthenticator ciphertextAuthenticator, byte[] secretKey, string? plainText)
     {
         ArgumentNullException.ThrowIfNull(aesProvider);
         ArgumentNullException.ThrowIfNull(secretKey);
@@ -45,18 +45,26 @@ public static class StringEncryptor
         byte[] iv = aes.IV;
         byte[] encryptedBytes = memoryStream.ToArray();
 
-        byte[] ivAndEncryptedBytesComposite = new byte[iv.Length + encryptedBytes.Length];
+        byte[] ivAndEncryptedBytes = new byte[iv.Length + encryptedBytes.Length];
 
-        Buffer.BlockCopy(iv, 0, ivAndEncryptedBytesComposite, 0, iv.Length);
-        Buffer.BlockCopy(encryptedBytes, 0, ivAndEncryptedBytesComposite, iv.Length, encryptedBytes.Length);
+        Buffer.BlockCopy(iv, 0, ivAndEncryptedBytes, 0, iv.Length);
+        Buffer.BlockCopy(encryptedBytes, 0, ivAndEncryptedBytes, iv.Length, encryptedBytes.Length);
 
-        return Convert.ToBase64String(ivAndEncryptedBytesComposite);
+        //authenticate the iv and ciphertext with an HMAC tag (encrypt-then-MAC) so tampering can be detected when decrypting
+        byte[] authenticationTag = ciphertextAuthenticator.ComputeAuthenticationTag(secretKey, ivAndEncryptedBytes);
+
+        byte[] composite = new byte[ivAndEncryptedBytes.Length + authenticationTag.Length];
+
+        Buffer.BlockCopy(ivAndEncryptedBytes, 0, composite, 0, ivAndEncryptedBytes.Length);
+        Buffer.BlockCopy(authenticationTag, 0, composite, ivAndEncryptedBytes.Length, authenticationTag.Length);
+
+        return Convert.ToBase64String(composite);
     }
 
     /// <exception cref="ArgumentNullException"/>
     /// <exception cref="SecretKeyEmptyException"/>
     /// <exception cref="SecretKeySizeException"/>
-    public static async Task<string?> EncryptAsync(IAesProvider aesProvider, byte[] secretKey, string? plainText)
+    public static async Task<string?> EncryptAsync(IAesProvider aesProvider, ICiphertextAuthenticator ciphertextAuthenticator, byte[] secretKey, string? plainText)
     {
         ArgumentNullException.ThrowIfNull(aesProvider);
         ArgumentNullException.ThrowIfNull(secretKey);
@@ -93,11 +101,19 @@ public static class StringEncryptor
         byte[] iv = aes.IV;
         byte[] encryptedBytes = memoryStream.ToArray();
 
-        byte[] ivAndEncryptedBytesComposite = new byte[iv.Length + encryptedBytes.Length];
+        byte[] ivAndEncryptedBytes = new byte[iv.Length + encryptedBytes.Length];
 
-        Buffer.BlockCopy(iv, 0, ivAndEncryptedBytesComposite, 0, iv.Length);
-        Buffer.BlockCopy(encryptedBytes, 0, ivAndEncryptedBytesComposite, iv.Length, encryptedBytes.Length);
+        Buffer.BlockCopy(iv, 0, ivAndEncryptedBytes, 0, iv.Length);
+        Buffer.BlockCopy(encryptedBytes, 0, ivAndEncryptedBytes, iv.Length, encryptedBytes.Length);
 
-        return Convert.ToBase64String(ivAndEncryptedBytesComposite);
+        //authenticate the iv and ciphertext with an HMAC tag (encrypt-then-MAC) so tampering can be detected when decrypting
+        byte[] authenticationTag = ciphertextAuthenticator.ComputeAuthenticationTag(secretKey, ivAndEncryptedBytes);
+
+        byte[] composite = new byte[ivAndEncryptedBytes.Length + authenticationTag.Length];
+
+        Buffer.BlockCopy(ivAndEncryptedBytes, 0, composite, 0, ivAndEncryptedBytes.Length);
+        Buffer.BlockCopy(authenticationTag, 0, composite, ivAndEncryptedBytes.Length, authenticationTag.Length);
+
+        return Convert.ToBase64String(composite);
     }
 }
