@@ -128,11 +128,11 @@ public class SmtpEmailMailClient : ISmtpEmailClient, ISmtpEmailHandler
         {
             if (e.InnerException is SocketException socketException)
             {
-                if (socketException.Message == "No such host is known.")
+                if (socketException.SocketErrorCode is SocketError.HostNotFound)
                 {
                     throw new EmailHostUnknownException(e);
                 }
-                else if (socketException.Message == "A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.")
+                else if (socketException.SocketErrorCode is SocketError.TimedOut)
                 {
                     throw new EmailHostConnectionException(e);
                 }
