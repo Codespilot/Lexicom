@@ -18,7 +18,7 @@ public class MessengerTests
         //arrange
         var ita = new IntegrationTestAssistant();
 
-        ita.Lexicom(l =>
+        ita.TestLexicom(l =>
         {
             l.AddMvvm(mvvm =>
             {
@@ -70,7 +70,7 @@ public class MessengerTests
         //arrange
         var ita = new IntegrationTestAssistant();
 
-        ita.Lexicom(l =>
+        ita.TestLexicom(l =>
         {
             l.AddMvvm(mvvm =>
             {
@@ -124,7 +124,7 @@ public class MessengerTests
         //arrange
         var ita = new IntegrationTestAssistant();
 
-        ita.Lexicom(l =>
+        ita.TestLexicom(l =>
         {
             l.AddMvvm(mvvm =>
             {
@@ -170,7 +170,7 @@ public class MessengerTests
         //arrange
         var ita = new IntegrationTestAssistant();
 
-        ita.Lexicom(l =>
+        ita.TestLexicom(l =>
         {
             l.AddMvvm(mvvm =>
             {
@@ -219,7 +219,7 @@ public class MessengerTests
         //arrange
         var ita = new IntegrationTestAssistant();
 
-        ita.Lexicom(l =>
+        ita.TestLexicom(l =>
         {
             l.AddMvvm(mvvm =>
             {

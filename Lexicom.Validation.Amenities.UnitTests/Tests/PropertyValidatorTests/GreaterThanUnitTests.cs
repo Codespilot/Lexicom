@@ -16,7 +16,7 @@ public class GreaterThanUnitTests
         //arrange
         var ita = new IntegrationTestAssistant();
 
-        ita.Lexicom(l =>
+        ita.TestLexicom(l =>
         {
             l.AddValidation(v =>
             {

@@ -6,7 +6,7 @@ namespace Lexicom.EntityFramework.Identity.Stores;
 //this is a copy of the regular 'UserOnlyStore' from Microsoft: https://source.dot.net/#Microsoft.AspNetCore.Identity.EntityFrameworkCore/UserOnlyStore.cs
 //but uses the IDbContextFactory in order to allow the async methods to be used in parallel
 //this does break with the original design philosophy microsoft intended this type of implementation to use
-//however the ability to query the user store in parrelle is more important then supporting some features
+//however the ability to query the user store in parallel is more important then supporting some features
 /// <exception cref="ArgumentNullException"/>
 public class AsyncUserOnlyStore<TUser>(IDbContextFactory<DbContext> contextFactory, IdentityErrorDescriber? describer = null) : AsyncUserOnlyStore<TUser, DbContext, string>(contextFactory, describer) where TUser : IdentityUser<string>, new()
 {

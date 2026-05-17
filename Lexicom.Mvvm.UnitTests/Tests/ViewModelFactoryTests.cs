@@ -15,7 +15,7 @@ public class ViewModelFactoryTests
         //arrange
         var ita = new IntegrationTestAssistant();
 
-        ita.Lexicom(l =>
+        ita.TestLexicom(l =>
         {
             l.AddMvvm();
         });
@@ -35,7 +35,7 @@ public class ViewModelFactoryTests
     {
         var ita = new IntegrationTestAssistant();
 
-        ita.Lexicom(l =>
+        ita.TestLexicom(l =>
         {
             l.AddMvvm(mvvm =>
             {

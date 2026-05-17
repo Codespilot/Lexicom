@@ -5,5 +5,5 @@ public class SecretBitSize
     public required IReadOnlySet<int> AllowedSizes { get; init; }
 
     private bool? _isValid;
-    public bool IsValid => _isValid ??= AllowedSizes.Any(s => s == Value);
+    public bool IsValid => _isValid ??= AllowedSizes.Contains(Value);
 }

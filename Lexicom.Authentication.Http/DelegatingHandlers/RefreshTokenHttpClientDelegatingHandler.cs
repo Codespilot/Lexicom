@@ -1,30 +1,18 @@
-﻿using System.Net;
+﻿using Lexicom.Authentication.Http.Services;
+using System.Net;
 
 namespace Lexicom.Authentication.Http.DelegatingHandlers;
 public class RefreshTokenHttpClientDelegatingHandler : DelegatingHandler
 {
-    private readonly IHttpClientAccessTokenProvider _httpClientAccessTokenProvider;
-    private readonly IHttpClientRefreshTokenProvider _httpClientRefreshTokenProvider;
-    private readonly IHttpClientAccessTokenRefresher _httpClientRefreshService;
+    private readonly IRefreshTokenService _refreshTokenService;
 
     /// <exception cref="ArgumentNullException"/>
-    public RefreshTokenHttpClientDelegatingHandler(
-        IHttpClientAccessTokenProvider httpClientAccessTokenProvider,
-        IHttpClientRefreshTokenProvider httpClientRefreshTokenProvider,
-        IHttpClientAccessTokenRefresher httpClientRefreshService)
+    public RefreshTokenHttpClientDelegatingHandler(IRefreshTokenService refreshTokenService)
     {
-        ArgumentNullException.ThrowIfNull(httpClientAccessTokenProvider);
-        ArgumentNullException.ThrowIfNull(httpClientRefreshTokenProvider);
-        ArgumentNullException.ThrowIfNull(httpClientRefreshService);
+        ArgumentNullException.ThrowIfNull(refreshTokenService);
 
-        _httpClientAccessTokenProvider = httpClientAccessTokenProvider;
-        _httpClientRefreshTokenProvider = httpClientRefreshTokenProvider;
-        _httpClientRefreshService = httpClientRefreshService;
-
-        RefreshSemaphore = new SemaphoreSlim(1, 1);
+        _refreshTokenService = refreshTokenService;
     }
-
-    protected SemaphoreSlim RefreshSemaphore { get; }
 
     /// <exception cref="ArgumentNullException"/>
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -43,26 +31,7 @@ public class RefreshTokenHttpClientDelegatingHandler : DelegatingHandler
             return response;
         }
 
-        //if the access token has changed by the time we acquire the lock then another 
-        //concurrent request already performed the refresh and we must not refresh again
-        string? accessTokenBeforeRefresh = await _httpClientAccessTokenProvider.GetAccessTokenAsync();
-
-        await RefreshSemaphore.WaitAsync(cancellationToken);
-        try
-        {
-            string? currentAccessToken = await _httpClientAccessTokenProvider.GetAccessTokenAsync();
-
-            if (currentAccessToken == accessTokenBeforeRefresh)
-            {
-                string? refreshToken = await _httpClientRefreshTokenProvider.GetRefreshTokenAsync();
-
-                await _httpClientRefreshService.RefreshAuthenticationAsync(currentAccessToken, refreshToken);
-            }
-        }
-        finally
-        {
-            RefreshSemaphore.Release();
-        }
+        await _refreshTokenService.RefreshTokenAsync(cancellationToken);
 
         response.Dispose();
 

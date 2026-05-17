@@ -73,23 +73,25 @@ public static class IdentityBuilderExtensions
         }
         else
         {   //no Roles
-            Type userStoreType;
+            Type userOnlyStoreType;
             var identityContext = FindGenericBaseType(contextType, typeof(IdentityUserContext<,,,,>));
             if (identityContext == null)
             {
                 //if its a custom DbContext, we can only add the default POCOs
-                userStoreType = typeof(UserOnlyStore<,,>).MakeGenericType(userType, contextType, keyType);
+                userOnlyStoreType = typeof(AsyncUserOnlyStore<,,>).MakeGenericType(userType, contextType, keyType);
             }
             else
             {
-                userStoreType = typeof(UserOnlyStore<,,,,,>).MakeGenericType(userType, contextType,
+                userOnlyStoreType = typeof(AsyncUserOnlyStore<,,,,,>).MakeGenericType(
+                    userType, 
+                    contextType,
                     identityContext.GenericTypeArguments[1],
                     identityContext.GenericTypeArguments[2],
                     identityContext.GenericTypeArguments[3],
                     identityContext.GenericTypeArguments[4]);
             }
 
-            services.TryAddScoped(typeof(IUserStore<>).MakeGenericType(userType), userStoreType);
+            services.TryAddScoped(typeof(IUserStore<>).MakeGenericType(userType), userOnlyStoreType);
         }
     }
 

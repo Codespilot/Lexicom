@@ -19,7 +19,7 @@ public static class ServiceCollectionExtensions
 
         var operationProvider = new TuiOperationsProvider(operationTypes);
 
-        services.AddSingleton<IAtlasOperationsProvider>(operationProvider);
+        services.AddSingleton<ITuiOperationsProvider>(operationProvider);
 
         foreach (Type operationType in operationProvider.OperationTypes)
         {

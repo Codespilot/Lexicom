@@ -10,10 +10,10 @@ public interface ITuiConsoleApp
 }
 public class TuiConsoleApp : ITuiConsoleApp
 {
-    private readonly IAtlasOperationsProvider _operationsProvider;
+    private readonly ITuiOperationsProvider _operationsProvider;
 
     /// <exception cref="ArgumentNullException"/>
-    public TuiConsoleApp(IAtlasOperationsProvider operationsProvider)
+    public TuiConsoleApp(ITuiOperationsProvider operationsProvider)
     {
         ArgumentNullException.ThrowIfNull(operationsProvider);
 

@@ -6,6 +6,7 @@ namespace Lexicom.Cryptography.For.Blazor.WebAssembly.Extensions;
 
 public static class ServiceCollectionExtensions
 {
+    /// <exception cref="ArgumentNullException"/>
     public static void AddLexicomCryptographyForBlazor(this IServiceCollection services, Action<ICryptographyServiceBuilder>? configure = null)
     {
         ArgumentNullException.ThrowIfNull(services);

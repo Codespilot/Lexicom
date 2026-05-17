@@ -22,7 +22,7 @@ public class TransformationTests
         //arrange
         var ita = new IntegrationTestAssistant();
 
-        ita.Lexicom(l =>
+        ita.TestLexicom(l =>
         {
             l.AddValidation(v =>
             {
@@ -78,7 +78,7 @@ public class TransformationTests
         //arrange
         var ita = new IntegrationTestAssistant();
 
-        ita.Lexicom(l =>
+        ita.TestLexicom(l =>
         {
             l.AddValidation(v =>
             {

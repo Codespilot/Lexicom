@@ -22,7 +22,7 @@ public class CryptographyServiceTests
             Base64StringSecretKey = "MTIzNDU2Nzg5MTIzNDU2Nzg5MTIzNDU2Nzg5MTIzNDU=",
         });
 
-        ita.Lexicom(l =>
+        ita.TestLexicom(l =>
         {
             l.AddCryptography(c =>
             {
@@ -68,7 +68,7 @@ public class CryptographyServiceTests
             Base64StringSecretKey = "MTIzNDU2Nzg5MTIzNDU2Nzg5MTIzNDU2Nzg5MTIzNDU=",
         });
 
-        ita.Lexicom(l =>
+        ita.TestLexicom(l =>
         {
             l.AddCryptography(c =>
             {

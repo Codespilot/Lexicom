@@ -7,7 +7,7 @@ namespace Lexicom.EntityFramework.Identity.Stores;
 //this is a copy of the regular 'RoleStore' from Microsoft: https://source.dot.net/#Microsoft.AspNetCore.Identity.EntityFrameworkCore/RoleStore.cs
 //but uses the IDbContextFactory in order to allow the async methods to be used in parallel
 //this does break with the original design philosophy microsoft intended this type of implementation to use
-//however the ability to query the user store in parrelle is more important then supporting some features
+//however the ability to query the user store in parallel is more important then supporting some features
 /// <exception cref="ArgumentNullException"/>
 public class AsyncRoleStore<TRole>(IDbContextFactory<DbContext> contextFactory, IdentityErrorDescriber? describer = null) : AsyncRoleStore<TRole, DbContext, string>(contextFactory, describer) where TRole : IdentityRole<string>
 {
@@ -20,7 +20,7 @@ public class AsyncRoleStore<TRole, TContext>(IDbContextFactory<TContext> context
 public class AsyncRoleStore<TRole, TContext, TKey>(IDbContextFactory<TContext> contextFactory, IdentityErrorDescriber? describer = null) : AsyncRoleStore<TRole, TContext, TKey, IdentityUserRole<TKey>, IdentityRoleClaim<TKey>>(contextFactory, describer), IQueryableRoleStore<TRole>, IRoleClaimStore<TRole> where TRole : IdentityRole<TKey> where TKey : IEquatable<TKey> where TContext : DbContext
 {
 }
-public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQueryableRoleStore<TRole>, IRoleClaimStore<TRole>
+public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : RoleStoreBase<TRole, TKey, TUserRole, TRoleClaim>
     where TRole : IdentityRole<TKey>
     where TKey : IEquatable<TKey>
     where TContext : DbContext
@@ -30,22 +30,19 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
     protected readonly IDbContextFactory<TContext> _contextFactory;
 
     /// <exception cref="ArgumentNullException"/>
-    public AsyncRoleStore(IDbContextFactory<TContext> contextFactory, IdentityErrorDescriber? describer = null)
+    public AsyncRoleStore(IDbContextFactory<TContext> contextFactory, IdentityErrorDescriber? describer = null) : base(describer ?? new IdentityErrorDescriber())
     {
         ArgumentNullException.ThrowIfNull(contextFactory);
 
         _contextFactory = contextFactory;
 
-        ErrorDescriber = describer ?? new IdentityErrorDescriber();
         AutoSaveChanges = true;
     }
 
-    private bool IsDisposed { get; set; }
-    public IdentityErrorDescriber ErrorDescriber { get; set; }
     public bool AutoSaveChanges { get; set; }
 
     /// <exception cref="NotSupportedException"/>
-    public virtual IQueryable<TRole> Roles => throw new NotSupportedException($"'{nameof(AsyncRoleStore<>)}' does not support the '{nameof(Roles)}' queryable. Use the asynchronous query methods such as 'FindByNameAsync' instead.");
+    public override IQueryable<TRole> Roles => throw new NotSupportedException($"'{nameof(AsyncRoleStore<>)}' does not support the '{nameof(Roles)}' queryable. Use the asynchronous query methods such as 'FindByNameAsync' instead.");
 
     protected virtual async Task SaveChanges(TContext context, CancellationToken cancellationToken = default)
     {
@@ -58,7 +55,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
     /// <exception cref="OperationCanceledException"/>
     /// <exception cref="ObjectDisposedException"/>
     /// <exception cref="ArgumentNullException"/>
-    public virtual async Task<IdentityResult> CreateAsync(TRole role, CancellationToken cancellationToken = default)
+    public override async Task<IdentityResult> CreateAsync(TRole role, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -76,7 +73,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
     /// <exception cref="OperationCanceledException"/>
     /// <exception cref="ObjectDisposedException"/>
     /// <exception cref="ArgumentNullException"/>
-    public virtual async Task<IdentityResult> UpdateAsync(TRole role, CancellationToken cancellationToken = default)
+    public override async Task<IdentityResult> UpdateAsync(TRole role, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -103,7 +100,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
     /// <exception cref="OperationCanceledException"/>
     /// <exception cref="ObjectDisposedException"/>
     /// <exception cref="ArgumentNullException"/>
-    public virtual async Task<IdentityResult> DeleteAsync(TRole role, CancellationToken cancellationToken = default)
+    public override async Task<IdentityResult> DeleteAsync(TRole role, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -128,7 +125,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
     /// <exception cref="OperationCanceledException"/>
     /// <exception cref="ObjectDisposedException"/>
     /// <exception cref="ArgumentNullException"/>
-    public virtual Task<string> GetRoleIdAsync(TRole role, CancellationToken cancellationToken = default)
+    public override Task<string> GetRoleIdAsync(TRole role, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -140,7 +137,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
     /// <exception cref="OperationCanceledException"/>
     /// <exception cref="ObjectDisposedException"/>
     /// <exception cref="ArgumentNullException"/>
-    public virtual Task<string?> GetRoleNameAsync(TRole role, CancellationToken cancellationToken = default)
+    public override Task<string?> GetRoleNameAsync(TRole role, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -152,7 +149,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
     /// <exception cref="OperationCanceledException"/>
     /// <exception cref="ObjectDisposedException"/>
     /// <exception cref="ArgumentNullException"/>
-    public virtual Task SetRoleNameAsync(TRole role, string? roleName, CancellationToken cancellationToken = default)
+    public override Task SetRoleNameAsync(TRole role, string? roleName, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -163,7 +160,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
         return Task.CompletedTask;
     }
 
-    public virtual TKey? ConvertIdFromString(string id)
+    public override TKey? ConvertIdFromString(string? id)
     {
         if (id is null)
         {
@@ -173,7 +170,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
         return (TKey?)TypeDescriptor.GetConverter(typeof(TKey)).ConvertFromInvariantString(id);
     }
 
-    public virtual string? ConvertIdToString(TKey id)
+    public override string? ConvertIdToString(TKey id)
     {
         if (id.Equals(default))
         {
@@ -185,7 +182,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
 
     /// <exception cref="OperationCanceledException"/>
     /// <exception cref="ObjectDisposedException"/>
-    public virtual async Task<TRole?> FindByIdAsync(string id, CancellationToken cancellationToken = default)
+    public override async Task<TRole?> FindByIdAsync(string id, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -201,7 +198,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
 
     /// <exception cref="OperationCanceledException"/>
     /// <exception cref="ObjectDisposedException"/>
-    public virtual async Task<TRole?> FindByNameAsync(string normalizedName, CancellationToken cancellationToken = default)
+    public override async Task<TRole?> FindByNameAsync(string normalizedName, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -216,7 +213,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
     /// <exception cref="OperationCanceledException"/>
     /// <exception cref="ObjectDisposedException"/>
     /// <exception cref="ArgumentNullException"/>
-    public virtual Task<string?> GetNormalizedRoleNameAsync(TRole role, CancellationToken cancellationToken = default)
+    public override Task<string?> GetNormalizedRoleNameAsync(TRole role, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -228,7 +225,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
     /// <exception cref="OperationCanceledException"/>
     /// <exception cref="ObjectDisposedException"/>
     /// <exception cref="ArgumentNullException"/>
-    public virtual Task SetNormalizedRoleNameAsync(TRole role, string? normalizedName, CancellationToken cancellationToken = default)
+    public override Task SetNormalizedRoleNameAsync(TRole role, string? normalizedName, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -239,16 +236,9 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
         return Task.CompletedTask;
     }
 
-    protected void ThrowIfDisposed()
-    {
-        ObjectDisposedException.ThrowIf(IsDisposed, this);
-    }
-
-    public void Dispose() => IsDisposed = true;
-
     /// <exception cref="ObjectDisposedException"/>
     /// <exception cref="ArgumentNullException"/>
-    public virtual async Task<IList<Claim>> GetClaimsAsync(TRole role, CancellationToken cancellationToken = default)
+    public override async Task<IList<Claim>> GetClaimsAsync(TRole role, CancellationToken cancellationToken = default)
     {
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(role);
@@ -264,7 +254,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
 
     /// <exception cref="ObjectDisposedException"/>
     /// <exception cref="ArgumentNullException"/>
-    public virtual async Task AddClaimAsync(TRole role, Claim claim, CancellationToken cancellationToken = default)
+    public override async Task AddClaimAsync(TRole role, Claim claim, CancellationToken cancellationToken = default)
     {
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(role);
@@ -281,7 +271,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
 
     /// <exception cref="ObjectDisposedException"/>
     /// <exception cref="ArgumentNullException"/>
-    public virtual async Task RemoveClaimAsync(TRole role, Claim claim, CancellationToken cancellationToken = default)
+    public override async Task RemoveClaimAsync(TRole role, Claim claim, CancellationToken cancellationToken = default)
     {
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(role);
@@ -304,7 +294,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
         await SaveChanges(db, cancellationToken);
     }
 
-    protected virtual TRoleClaim CreateRoleClaim(TRole role, Claim claim)
+    protected override TRoleClaim CreateRoleClaim(TRole role, Claim claim)
     {
         return new TRoleClaim
         {

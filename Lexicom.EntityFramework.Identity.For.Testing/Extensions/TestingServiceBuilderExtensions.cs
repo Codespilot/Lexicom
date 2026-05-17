@@ -14,7 +14,7 @@ namespace Lexicom.EntityFramework.Identity.For.Testing.Extensions;
 public static class TestingServiceBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static void AddLexicomEntityFrameworkIdentityForTesting<TDbContext>(this ITestingServiceBuilder builder, IdentityOptions? identityOptions = null) where TDbContext : IdentityDbContext
+    public static ITestingServiceBuilder AddLexicomEntityFrameworkIdentity<TDbContext>(this ITestingServiceBuilder builder, IdentityOptions? identityOptions = null) where TDbContext : IdentityDbContext
     {
         ArgumentNullException.ThrowIfNull(builder);
 
@@ -23,9 +23,11 @@ public static class TestingServiceBuilderExtensions
         builder.Services.AddLexicomEntityFrameworkIdentity<TDbContext>();
 
         PostTestIdentityConfiguration(builder);
+
+        return builder;
     }
     /// <exception cref="ArgumentNullException"/>
-    public static void AddLexicomEntityFrameworkIdentityForTesting<TDbContext, TUser, TRole, TKey>(this ITestingServiceBuilder builder, IdentityOptions? identityOptions = null)
+    public static ITestingServiceBuilder AddLexicomEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey>(this ITestingServiceBuilder builder, IdentityOptions? identityOptions = null)
         where TDbContext : IdentityDbContext<TUser, TRole, TKey>
         where TUser : IdentityUser<TKey>
         where TRole : IdentityRole<TKey>
@@ -38,9 +40,11 @@ public static class TestingServiceBuilderExtensions
         builder.Services.AddLexicomEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey>();
 
         PostTestIdentityConfiguration(builder);
+
+        return builder;
     }
     /// <exception cref="ArgumentNullException"/>
-    public static void AddLexicomEntityFrameworkIdentityForTesting<TDbContext, TUser, TRole, TKey, TUserRole>(this ITestingServiceBuilder builder, IdentityOptions? identityOptions = null)
+    public static ITestingServiceBuilder AddLexicomEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey, TUserRole>(this ITestingServiceBuilder builder, IdentityOptions? identityOptions = null)
         where TDbContext : IdentityDbContext<TUser, TRole, TKey, IdentityUserClaim<TKey>, TUserRole, IdentityUserLogin<TKey>, IdentityRoleClaim<TKey>, IdentityUserToken<TKey>>
         where TUser : IdentityUser<TKey>
         where TRole : IdentityRole<TKey>
@@ -54,9 +58,11 @@ public static class TestingServiceBuilderExtensions
         builder.Services.AddLexicomEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey, TUserRole>();
 
         PostTestIdentityConfiguration(builder);
+
+        return builder;
     }
     /// <exception cref="ArgumentNullException"/>
-    public static void AddLexicomEntityFrameworkIdentityForTesting<TDbContext, TUser, TRole, TKey, TUserRole, TUserClaim, TUserLogin, TRoleClaim, TUserToken>(this ITestingServiceBuilder builder, IdentityOptions? identityOptions = null)
+    public static ITestingServiceBuilder AddLexicomEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey, TUserRole, TUserClaim, TUserLogin, TRoleClaim, TUserToken>(this ITestingServiceBuilder builder, IdentityOptions? identityOptions = null)
         where TDbContext : IdentityDbContext<TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken>
         where TUser : IdentityUser<TKey>
         where TRole : IdentityRole<TKey>
@@ -74,6 +80,8 @@ public static class TestingServiceBuilderExtensions
         builder.Services.AddLexicomEntityFrameworkIdentity<TDbContext, TUser, TRole, TKey, TUserRole, TUserClaim, TUserLogin, TRoleClaim, TUserToken>();
 
         PostTestIdentityConfiguration(builder);
+
+        return builder;
     }
 
     private static void PreTestIdentityConfiguration(ITestingServiceBuilder builder, IdentityOptions? identityOptions)

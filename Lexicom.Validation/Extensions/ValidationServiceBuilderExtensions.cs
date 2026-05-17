@@ -112,7 +112,10 @@ public static class ValidationServiceBuilderExtensions
 
             foreach (Type subInterface in subInterfaces)
             {
-                return InterfaceTypeIsIRuleSet(subInterface, abstractGenericType);
+                if (InterfaceTypeIsIRuleSet(subInterface, abstractGenericType))
+                {
+                    return true;
+                }
             }
 
             return false;
@@ -239,7 +242,10 @@ public static class ValidationServiceBuilderExtensions
 
             foreach (Type subInterface in subInterfaces)
             {
-                return InterfaceTypeIsIRuleSetTransformer(subInterface, abstractTransformerGenericArgumentPropertyType, abstractTransformerGenericArgumentInPropertyType, abstractTransformerGenericArgumentValidatorType);
+                if (InterfaceTypeIsIRuleSetTransformer(subInterface, abstractTransformerGenericArgumentPropertyType, abstractTransformerGenericArgumentInPropertyType, abstractTransformerGenericArgumentValidatorType))
+                {
+                    return true;
+                }
             }
 
             return false;

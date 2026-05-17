@@ -134,7 +134,7 @@ public class HttpQueryString : IList<HttpQueryParameter>
     public HttpQueryParameter this[int index]
     {
         get => _parameters[index];
-        set => Insert(index, value);
+        set => _parameters[index] = value;
     }
     /// <exception cref="ArgumentNullException"/>
     public HttpQueryParameter? this[string name] => GetParameters(name).FirstOrDefault();

@@ -5,7 +5,7 @@ namespace Lexicom.Supports.Testing.Extensions;
 public static class IntegrationTestAssistantExtensions
 {
     /// <exception cref="ArgumentNullException"/>
-    public static void Lexicom(this IntegrationTestAssistant integrationTestAssistant, Action<ITestingServiceBuilder>? configure)
+    public static void TestLexicom(this IntegrationTestAssistant integrationTestAssistant, Action<ITestingServiceBuilder>? configure)
     {
         ArgumentNullException.ThrowIfNull(integrationTestAssistant);
 

@@ -1,4 +1,5 @@
 ﻿using Lexicom.Authentication.Http.DelegatingHandlers;
+using Lexicom.Authentication.Http.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -24,21 +25,22 @@ public class AuthenticationHttpClientBuilder(IHttpClientBuilder httpClientBuilde
 
         if (IncludeUnauthorizedHttpClientDelegatingHandler)
         {
-            Builder.Services.TryAddSingleton<UnauthorizedHttpClientDelegatingHandler>();
+            Builder.Services.TryAddTransient<UnauthorizedHttpClientDelegatingHandler>();
 
             Builder.AddHttpMessageHandler<UnauthorizedHttpClientDelegatingHandler>();
         }
 
         if (IncludeRefreshTokenHttpClientDelegatingHandler)
         {
-            Builder.Services.TryAddSingleton<RefreshTokenHttpClientDelegatingHandler>();
+            Builder.Services.TryAddSingleton<IRefreshTokenService, RefreshTokenService>();
+            Builder.Services.TryAddTransient<RefreshTokenHttpClientDelegatingHandler>();
 
             Builder.AddHttpMessageHandler<RefreshTokenHttpClientDelegatingHandler>();
         }
 
         if (IncludeAccessTokenHttpClientDelegatingHandler)
         {
-            Builder.Services.TryAddSingleton<AccessTokenHttpClientDelegatingHandler>();
+            Builder.Services.TryAddTransient<AccessTokenHttpClientDelegatingHandler>();
 
             Builder.AddHttpMessageHandler<AccessTokenHttpClientDelegatingHandler>();
         }

@@ -16,7 +16,7 @@ public class MakeTests
         //arrange
         var ita = new IntegrationTestAssistant();
 
-        ita.Lexicom(l =>
+        ita.TestLexicom(l =>
         {
             l.AddMvvm(mvvm =>
             {
@@ -37,7 +37,7 @@ public class MakeTests
     {
         var ita = new IntegrationTestAssistant();
 
-        ita.Lexicom(l =>
+        ita.TestLexicom(l =>
         {
             l.AddMvvm(mvvm =>
             {

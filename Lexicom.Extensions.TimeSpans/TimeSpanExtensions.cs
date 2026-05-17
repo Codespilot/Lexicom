@@ -103,7 +103,7 @@ public static class TimeSpanExtensions
                 return $"a millisecond";
             }
 
-            return $"{totalMilliseconds} seconds";
+            return $"{totalMilliseconds} milliseconds";
         }
 
         if (settings.ShortestDurationDescription >= TimeSpanShortestStringDurationDescription.Microseconds ||

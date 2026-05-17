@@ -1,8 +1,8 @@
 ﻿using Lexicom.ConsoleApp.DependencyInjection;
 using Lexicom.DependencyInjection.Hosting;
-using Lexicom.Supports.ConsoleApp;
 
-namespace Lexicom.AspNetCore.Controllers.Extensions;
+namespace Lexicom.Supports.ConsoleApp.Extensions;
+
 public static class ConsoleApplicationBuilderExtensions
 {
     /// <exception cref="ArgumentNullException"/>

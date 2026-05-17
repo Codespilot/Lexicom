@@ -25,7 +25,7 @@ public class CryptographyStringSecretOptionsValidatorTests
             Base64StringSecretKey = base64StringSecretKey,
         });
 
-        ita.Lexicom(l =>
+        ita.TestLexicom(l =>
         {
             l.AddCryptography(c =>
             {
@@ -56,7 +56,7 @@ public class CryptographyStringSecretOptionsValidatorTests
             Base64StringSecretKey = base64StringSecretKey,
         });
 
-        ita.Lexicom(l =>
+        ita.TestLexicom(l =>
         {
             l.AddCryptography(c =>
             {

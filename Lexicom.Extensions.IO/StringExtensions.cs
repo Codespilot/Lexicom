@@ -24,6 +24,8 @@ public static class StringExtensions
             string newFilePathName = string.Format(fileName, $"({count++}){extension}");
 
             filePathName = Path.Combine(directoryPath, newFilePathName);
+
+            overflow++;
         }
 
         if (overflow >= OVERFLOW_MAX)

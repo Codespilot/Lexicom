@@ -11,13 +11,13 @@ public class WeakViewModelReferenceCollection<TViewModelImplementation> : IWeakV
 {
     public WeakViewModelReferenceCollection()
     {
-        WeakViewModelRefrences = [];
+        WeakViewModelReferences = [];
         MutateLock = new Lock();
 
         PruneThreshold = 8;
     }
 
-    private List<WeakReference<TViewModelImplementation>> WeakViewModelRefrences { get; }
+    private List<WeakReference<TViewModelImplementation>> WeakViewModelReferences { get; }
     private Lock MutateLock { get; }
     private int PruneThreshold { get; set; }
 
@@ -42,9 +42,9 @@ public class WeakViewModelReferenceCollection<TViewModelImplementation> : IWeakV
 
         lock (MutateLock)
         {
-            WeakViewModelRefrences.Add(new WeakReference<TViewModelImplementation>(viewModel));
+            WeakViewModelReferences.Add(new WeakReference<TViewModelImplementation>(viewModel));
 
-            if (WeakViewModelRefrences.Count >= PruneThreshold)
+            if (WeakViewModelReferences.Count >= PruneThreshold)
             {
                 PruneDeadReferences();
             }
@@ -66,19 +66,19 @@ public class WeakViewModelReferenceCollection<TViewModelImplementation> : IWeakV
         var viewModels = new List<TViewModelImplementation>();
 
         int writeIndex = 0;
-        for (int readIndex = 0; readIndex < WeakViewModelRefrences.Count; readIndex++)
+        for (int readIndex = 0; readIndex < WeakViewModelReferences.Count; readIndex++)
         {
-            WeakReference<TViewModelImplementation> weakViewModelRefrence = WeakViewModelRefrences[readIndex];
+            WeakReference<TViewModelImplementation> weakViewModelRefrence = WeakViewModelReferences[readIndex];
 
             if (weakViewModelRefrence.TryGetTarget(out TViewModelImplementation? viewModel))
             {
                 viewModels.Add(viewModel);
-                WeakViewModelRefrences[writeIndex] = weakViewModelRefrence;
+                WeakViewModelReferences[writeIndex] = weakViewModelRefrence;
                 writeIndex++;
             }
         }
 
-        WeakViewModelRefrences.RemoveRange(writeIndex, WeakViewModelRefrences.Count - writeIndex);
+        WeakViewModelReferences.RemoveRange(writeIndex, WeakViewModelReferences.Count - writeIndex);
 
         PruneThreshold = Math.Max(PruneThreshold, viewModels.Count * 2);
 
