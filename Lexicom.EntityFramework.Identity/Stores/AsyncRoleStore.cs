@@ -6,6 +6,8 @@ using System.Security.Claims;
 namespace Lexicom.EntityFramework.Identity.Stores;
 //this is a copy of the regular 'RoleStore' from Microsoft: https://source.dot.net/#Microsoft.AspNetCore.Identity.EntityFrameworkCore/RoleStore.cs
 //but uses the IDbContextFactory in order to allow the async methods to be used in parallel
+//this does break with the original design philosophy microsoft intended this type of implementation to use
+//however the ability to query the user store in parrelle is more important then supporting some features
 /// <exception cref="ArgumentNullException"/>
 public class AsyncRoleStore<TRole>(IDbContextFactory<DbContext> contextFactory, IdentityErrorDescriber? describer = null) : AsyncRoleStore<TRole, DbContext, string>(contextFactory, describer) where TRole : IdentityRole<string>
 {
@@ -25,29 +27,25 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
     where TUserRole : IdentityUserRole<TKey>, new()
     where TRoleClaim : IdentityRoleClaim<TKey>, new()
 {
-    private bool _disposed;
+    protected readonly IDbContextFactory<TContext> _contextFactory;
 
     /// <exception cref="ArgumentNullException"/>
     public AsyncRoleStore(IDbContextFactory<TContext> contextFactory, IdentityErrorDescriber? describer = null)
     {
         ArgumentNullException.ThrowIfNull(contextFactory);
 
-        ContextFactory = contextFactory;
+        _contextFactory = contextFactory;
+
         ErrorDescriber = describer ?? new IdentityErrorDescriber();
+        AutoSaveChanges = true;
     }
 
-    public virtual IDbContextFactory<TContext> ContextFactory { get; private set; }
+    private bool IsDisposed { get; set; }
     public IdentityErrorDescriber ErrorDescriber { get; set; }
-    public bool AutoSaveChanges { get; set; } = true;
-    public virtual IQueryable<TRole> Roles
-    {
-        get
-        {
-            using var db = ContextFactory.CreateDbContext();
+    public bool AutoSaveChanges { get; set; }
 
-            return db.Set<TRole>();
-        }
-    }
+    /// <exception cref="NotSupportedException"/>
+    public virtual IQueryable<TRole> Roles => throw new NotSupportedException($"'{nameof(AsyncRoleStore<>)}' does not support the '{nameof(Roles)}' queryable. Use the asynchronous query methods such as 'FindByNameAsync' instead.");
 
     protected virtual async Task SaveChanges(TContext context, CancellationToken cancellationToken = default)
     {
@@ -66,7 +64,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(role);
 
-        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await _contextFactory.CreateDbContextAsync(cancellationToken);
 
         await db.AddAsync(role, cancellationToken);
 
@@ -84,7 +82,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(role);
 
-        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await _contextFactory.CreateDbContextAsync(cancellationToken);
 
         db.Attach(role);
         role.ConcurrencyStamp = Guid.NewGuid().ToString();
@@ -111,7 +109,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(role);
 
-        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await _contextFactory.CreateDbContextAsync(cancellationToken);
 
         db.Remove(role);
 
@@ -194,7 +192,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
 
         var roleId = ConvertIdFromString(id);
 
-        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await _contextFactory.CreateDbContextAsync(cancellationToken);
 
         return await db
             .Set<TRole>()
@@ -208,7 +206,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
 
-        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await _contextFactory.CreateDbContextAsync(cancellationToken);
 
         return await db
             .Set<TRole>()
@@ -243,10 +241,10 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
 
     protected void ThrowIfDisposed()
     {
-        ObjectDisposedException.ThrowIf(_disposed, this);
+        ObjectDisposedException.ThrowIf(IsDisposed, this);
     }
 
-    public void Dispose() => _disposed = true;
+    public void Dispose() => IsDisposed = true;
 
     /// <exception cref="ObjectDisposedException"/>
     /// <exception cref="ArgumentNullException"/>
@@ -255,7 +253,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(role);
 
-        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await _contextFactory.CreateDbContextAsync(cancellationToken);
 
         return await db
             .Set<TRoleClaim>()
@@ -272,7 +270,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
         ArgumentNullException.ThrowIfNull(role);
         ArgumentNullException.ThrowIfNull(claim);
 
-        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await _contextFactory.CreateDbContextAsync(cancellationToken);
 
         await db
             .Set<TRoleClaim>()
@@ -289,7 +287,7 @@ public class AsyncRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> : IQue
         ArgumentNullException.ThrowIfNull(role);
         ArgumentNullException.ThrowIfNull(claim);
 
-        using var db = await ContextFactory.CreateDbContextAsync(cancellationToken);
+        using var db = await _contextFactory.CreateDbContextAsync(cancellationToken);
 
         List<TRoleClaim> claims = await db
             .Set<TRoleClaim>()
