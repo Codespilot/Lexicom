@@ -89,11 +89,11 @@ public static class StringEncryptor
 
         using ICryptoTransform encryptor = aes.CreateEncryptor(secretKey, aes.IV);
 
-        using var memoryStream = new MemoryStream();
+        await using var memoryStream = new MemoryStream();
 
-        using (var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
+        await using (var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
 
-        using (var streamWriter = new StreamWriter(cryptoStream))
+        await using (var streamWriter = new StreamWriter(cryptoStream))
         {
             await streamWriter.WriteAsync(plainText);
         }

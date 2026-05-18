@@ -131,9 +131,9 @@ public static class StringDecryptor
 
         string plainText;
 
-        using (var memoryStream = new MemoryStream(encryptedBytes))
+        await using (var memoryStream = new MemoryStream(encryptedBytes))
         {
-            using var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
+            await using var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
 
             using var streamWriter = new StreamReader(cryptoStream);
 

@@ -1,4 +1,5 @@
 ﻿using Lexicom.Authentication.Http.DelegatingHandlers;
+using Lexicom.Authentication.Http.Exceptions;
 using Lexicom.Authentication.Http.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -13,9 +14,37 @@ public class AuthenticationHttpClientBuilder(IHttpClientBuilder httpClientBuilde
     private bool IncludeRefreshTokenHttpClientDelegatingHandler { get; set; }
     private bool IncludeUnauthorizedHttpClientDelegatingHandler { get; set; }
 
-    public void AuthorizeWithAccessToken() => IncludeAccessTokenHttpClientDelegatingHandler = true;
-    public void AutomaticallyRefreshAccessToken() => IncludeRefreshTokenHttpClientDelegatingHandler = true;
-    public void ForwardUnauthorizedRequests() => IncludeUnauthorizedHttpClientDelegatingHandler = true;
+    public void AuthorizeWithAccessToken<TAccessTokenProvider>() where TAccessTokenProvider : class, IHttpClientAccessTokenProvider
+    {
+        IncludeAccessTokenHttpClientDelegatingHandler = true;
+
+        Builder.Services.TryAddTransient<AccessTokenHttpClientDelegatingHandler>();
+        Builder.Services.TryAddSingleton<IHttpClientAccessTokenProvider, TAccessTokenProvider>();
+    }
+
+    /// <exception cref="AuthorizedWithAccessTokenNotIncludedException"></exception>
+    public void AutomaticallyRefreshAccessToken<TRefreshTokenProvider, TAccessTokenRefresher>() where TRefreshTokenProvider : class, IHttpClientRefreshTokenProvider where TAccessTokenRefresher : class, IHttpClientAccessTokenRefresher
+    {
+        IncludeRefreshTokenHttpClientDelegatingHandler = true;
+
+        if (!IncludeAccessTokenHttpClientDelegatingHandler)
+        {
+            throw new AuthorizedWithAccessTokenNotIncludedException();
+        }
+
+        Builder.Services.TryAddTransient<RefreshTokenHttpClientDelegatingHandler>();
+        Builder.Services.TryAddSingleton<IRefreshTokenService, RefreshTokenService>();
+        Builder.Services.TryAddSingleton<IHttpClientRefreshTokenProvider, TRefreshTokenProvider>();
+        Builder.Services.TryAddSingleton<IHttpClientAccessTokenRefresher, TAccessTokenRefresher>();
+    }
+
+    public void ForwardUnauthorizedRequests<TUnauthorizedListener>() where TUnauthorizedListener : class, IHttpClientUnauthorizedListener
+    {
+        IncludeUnauthorizedHttpClientDelegatingHandler = true;
+
+        Builder.Services.TryAddTransient<UnauthorizedHttpClientDelegatingHandler>();
+        Builder.Services.TryAddSingleton<IHttpClientUnauthorizedListener, TUnauthorizedListener>();
+    }
 
     public void Build()
     {
@@ -25,23 +54,16 @@ public class AuthenticationHttpClientBuilder(IHttpClientBuilder httpClientBuilde
 
         if (IncludeUnauthorizedHttpClientDelegatingHandler)
         {
-            Builder.Services.TryAddTransient<UnauthorizedHttpClientDelegatingHandler>();
-
             Builder.AddHttpMessageHandler<UnauthorizedHttpClientDelegatingHandler>();
         }
 
         if (IncludeRefreshTokenHttpClientDelegatingHandler)
         {
-            Builder.Services.TryAddSingleton<IRefreshTokenService, RefreshTokenService>();
-            Builder.Services.TryAddTransient<RefreshTokenHttpClientDelegatingHandler>();
-
             Builder.AddHttpMessageHandler<RefreshTokenHttpClientDelegatingHandler>();
         }
 
         if (IncludeAccessTokenHttpClientDelegatingHandler)
         {
-            Builder.Services.TryAddTransient<AccessTokenHttpClientDelegatingHandler>();
-
             Builder.AddHttpMessageHandler<AccessTokenHttpClientDelegatingHandler>();
         }
     }

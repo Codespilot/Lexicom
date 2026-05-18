@@ -19,14 +19,17 @@ public class RefreshTokenHttpClientDelegatingHandler : DelegatingHandler
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        return await SendAsync(request, isRefreshed: false, cancellationToken);
-    }
+        //buffer the request content before the first send so the exact same request can be
+        //sent again after a token refresh; without this the first send consumes the content
+        //(especially for non seekable stream content) and the retry would send an empty body
+        if (request.Content is not null)
+        {
+            await request.Content.LoadIntoBufferAsync(cancellationToken);
+        }
 
-    private async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, bool isRefreshed, CancellationToken cancellationToken)
-    {
         HttpResponseMessage response = await base.SendAsync(request, cancellationToken);
 
-        if (response.StatusCode is not HttpStatusCode.Unauthorized || isRefreshed)
+        if (response.StatusCode is not HttpStatusCode.Unauthorized)
         {
             return response;
         }
@@ -35,6 +38,6 @@ public class RefreshTokenHttpClientDelegatingHandler : DelegatingHandler
 
         response.Dispose();
 
-        return await SendAsync(request, isRefreshed: true, cancellationToken);
+        return await base.SendAsync(request, cancellationToken);
     }
 }

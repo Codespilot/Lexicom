@@ -20,7 +20,10 @@ public class AccessTokenHttpClientDelegatingHandler : DelegatingHandler
 
         string? accessToken = await _httpClientAccessTokenProvider.GetAccessTokenAsync();
 
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+        if (accessToken is not null)
+        {
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+        }
 
         return await base.SendAsync(request, cancellationToken);
     }
