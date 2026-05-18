@@ -1,13 +1,17 @@
 ﻿using Lexicom.ConsoleApp.Amenities.Questions;
 using Lexicom.ConsoleApp.Amenities.ReadLines;
 using Lexicom.ConsoleApp.Amenities.ReadLines.Abstractions;
+using Lexicom.ConsoleApp.Amenities.ReadLines.Settings;
 using Newtonsoft.Json;
+using System.Globalization;
+using System.Runtime;
 
 namespace Lexicom.ConsoleApp.Amenities;
 
 public static class Consolex
 {
     public delegate bool TryParseDelegate<T>(string? input, out T result);
+    public delegate bool TryParseWithSettingsDelegate<T, TSettings>(string? input, TSettings settings, out T result) where TSettings : ReadLineSettings;
 
     /// <exception cref="ArgumentNullException"/>
     public static ReadLineSettings DefaultReadLineSettings
@@ -253,12 +257,27 @@ public static class Consolex
         return ReadLineParse(tryParseDelegate, description: null, inialInput);
     }
     /// <exception cref="ArgumentNullException"/>
+    public static T ReadLineParse<T, TSettings>(TryParseWithSettingsDelegate<T, TSettings> tryParseWithSettingsDelegate, T inialInput, TSettings settings) where TSettings : ReadLineSettings
+    {
+        ArgumentNullException.ThrowIfNull(tryParseWithSettingsDelegate);
+
+        return ReadLineParse(tryParseWithSettingsDelegate, description: null, inialInput, settings);
+    }
+    /// <exception cref="ArgumentNullException"/>
     public static T ReadLineParse<T>(TryParseDelegate<T> tryParseDelegate, ReadLineSettings settings)
     {
         ArgumentNullException.ThrowIfNull(tryParseDelegate);
         ArgumentNullException.ThrowIfNull(settings);
 
         return ReadLineParse(tryParseDelegate, description: null, settings);
+    }
+    /// <exception cref="ArgumentNullException"/>
+    public static T ReadLineParse<T, TSettings>(TryParseWithSettingsDelegate<T, TSettings> tryParseWithSettingsDelegate, TSettings settings) where TSettings : ReadLineSettings
+    {
+        ArgumentNullException.ThrowIfNull(tryParseWithSettingsDelegate);
+        ArgumentNullException.ThrowIfNull(settings);
+
+        return ReadLineParse(tryParseWithSettingsDelegate, description: null, settings);
     }
     /// <exception cref="ArgumentNullException"/>
     public static T ReadLineParse<T>(TryParseDelegate<T> tryParseDelegate, string? description, T initalInput)
@@ -272,9 +291,29 @@ public static class Consolex
         return ReadLineParse(tryParseDelegate, description, settings);
     }
     /// <exception cref="ArgumentNullException"/>
+    public static T ReadLineParse<T, TSettings>(TryParseWithSettingsDelegate<T, TSettings> tryParseWithSettingsDelegate, string? description, T initalInput, TSettings settings) where TSettings : ReadLineSettings
+    {
+        ArgumentNullException.ThrowIfNull(tryParseWithSettingsDelegate);
+
+        settings.InitalInput = initalInput?.ToString();
+
+        return ReadLineParse(tryParseWithSettingsDelegate, description, settings);
+    }
+    /// <exception cref="ArgumentNullException"/>
     public static T ReadLineParse<T>(TryParseDelegate<T> tryParseDelegate, string? description, ReadLineSettings settings)
     {
         ArgumentNullException.ThrowIfNull(tryParseDelegate);
+        ArgumentNullException.ThrowIfNull(settings);
+
+        return ReadLineParse((string? input, ReadLineSettings _, out T result) =>
+        {
+            return tryParseDelegate.Invoke(input, out result);
+        }, description, settings);
+    }
+    /// <exception cref="ArgumentNullException"/>
+    public static T ReadLineParse<T, TSettings>(TryParseWithSettingsDelegate<T, TSettings> tryParseWithSettingsDelegate, string? description, TSettings settings) where TSettings : ReadLineSettings
+    {
+        ArgumentNullException.ThrowIfNull(tryParseWithSettingsDelegate);
         ArgumentNullException.ThrowIfNull(settings);
 
         bool isInvalid = false;
@@ -288,7 +327,7 @@ public static class Consolex
 
             string strInput = ReadLine(description, settings);
 
-            if (tryParseDelegate.Invoke(strInput, out T result))
+            if (tryParseWithSettingsDelegate.Invoke(strInput, settings, out T result))
             {
                 return result;
             }
@@ -324,6 +363,14 @@ public static class Consolex
     public static Guid ReadLineGuid(ReadLineSettings settings) => ReadLineParse<Guid>(Guid.TryParse, settings);
     public static Guid ReadLineGuid(string? description, Guid initalInput) => ReadLineParse(Guid.TryParse, description, initalInput);
     public static Guid ReadLineGuid(string? description, ReadLineSettings settings) => ReadLineParse<Guid>(Guid.TryParse, description, settings);
+
+    public static DateTimeOffset ReadLineDateTimeOffset() => ReadLineParse<DateTimeOffset, DateTimeOffsetReadLineSettings>(DateTimeOffsetTryParse, new DateTimeOffsetReadLineSettings());
+    public static DateTimeOffset ReadLineDateTimeOffset(string? description) => ReadLineParse<DateTimeOffset, DateTimeOffsetReadLineSettings>(DateTimeOffsetTryParse, description, new DateTimeOffsetReadLineSettings());
+    public static DateTimeOffset ReadLineDateTimeOffset(DateTimeOffset initalInput) => ReadLineParse(DateTimeOffsetTryParse, initalInput, new DateTimeOffsetReadLineSettings());
+    public static DateTimeOffset ReadLineDateTimeOffset(DateTimeOffsetReadLineSettings settings) => ReadLineParse<DateTimeOffset, DateTimeOffsetReadLineSettings>(DateTimeOffsetTryParse, settings);
+    public static DateTimeOffset ReadLineDateTimeOffset(string? description, DateTimeOffset initalInput) => ReadLineParse(DateTimeOffsetTryParse, description, initalInput, new DateTimeOffsetReadLineSettings());
+    public static DateTimeOffset ReadLineDateTimeOffset(string? description, DateTimeOffsetReadLineSettings settings) => ReadLineParse<DateTimeOffset, DateTimeOffsetReadLineSettings>(DateTimeOffsetTryParse, description, settings);
+    private static bool DateTimeOffsetTryParse(string? input, DateTimeOffsetReadLineSettings settings, out DateTimeOffset result) => DateTimeOffset.TryParseExact(input, settings.Format, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out result);
 
     public static void WriteLine() => Console.WriteLine();
     public static void WriteLine(bool value, ConsoleColor? color = null) => WriteColoredLine(value, Console.WriteLine, color);

@@ -1,4 +1,4 @@
-﻿namespace Lexicom.ConsoleApp.Amenities;
+﻿namespace Lexicom.ConsoleApp.Amenities.ReadLines.Settings;
 public class ReadLineSettings
 {
     public ReadLineSettings()
