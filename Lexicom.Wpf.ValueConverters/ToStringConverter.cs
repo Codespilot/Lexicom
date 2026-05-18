@@ -16,7 +16,7 @@ public sealed class ToStringConverter : ValueConverterBase<string>
         string? result = value?.ToString();
 
         ToStrings toString = ToStrings.None;
-        if (HasParameter(CaseParameter, out ToStrings toStringParameter))
+        if (HasParameter(args, CaseParameter, out ToStrings toStringParameter))
         {
             toString = toStringParameter;
         }

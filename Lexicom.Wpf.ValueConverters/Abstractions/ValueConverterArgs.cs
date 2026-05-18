@@ -6,4 +6,5 @@ public class ValueConverterArgs
     public required object? RawParameter { get; init; }
     public required Type TargetType { get; init; }
     public required CultureInfo Culture { get; init; }
+    public required IReadOnlyList<ValueConverterParameter> Parameters { get; init; }
 }
